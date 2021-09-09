@@ -1,14 +1,14 @@
 {
-    "name": "OUC_LiuX's Blog",
-    "title": "OUC_LiuX's Blog",
-    "author": "OUC_LiuX <liuxiang@stu.ouc.edu.cn>",
+    "name": "OUC_WYC Blog",
+    "title": "OUC_WYC Blog",
+    "author": "OUC_WYC <wyc@stu.ouc.edu.cn>",
     "version": "1.0.0",
-    "homepage": "http://OUCliuxiang.github.io",
+    "homepage": "http://www.yution.com",
     "repository": {
         "type": "git",
-        "url": "https://github.com/OUCliuxiang/OUCliuxiang.github.io"
+        "url": "https://github.com/YutionW/Yution"
     },
-    "bugs": "https://github.com/OUCliuxiang/OUCliuxiang.github.io/issues",
+    "bugs": "https://github.com/YutionW/Yution/issues",
     "devDependencies": {
         "grunt": "~0.4.5",
         "grunt-contrib-less": "~0.11.4",
