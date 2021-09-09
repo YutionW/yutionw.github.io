@@ -25,7 +25,10 @@ tags:
 >  受崇教授所托，开发一款图片转表格OCR工具。决定调用阿里云的api，使用其java接口进行二次开发。项目代码开源在[github](https://github.com/OUCliuxiang/Java_related/tree/main/AliTableOCR)。  
 >  这篇博客主要记录项目开发的流程，一些共性的问题和基本语法问题会在其他博客中详细记录。  
 
-
+\begin{aligned}
+&\ddot{x}+d_{x} \dot{x}+k_{x} x+d_{y x} \dot{y}+k_{y x} y=F_{x}-2 \lambda \Omega_{z} \dot{y} \\
+&\ddot{y}+d_{y} \dot{y}+k_{y} y+d_{x y} \dot{x}+k_{x y} x=F_{y}+2 \lambda \Omega_{z} \dot{x}
+\end{aligned}
 
 # 项目结构：    
 ```
