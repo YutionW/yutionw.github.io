@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Gradient descent for first-order system
-subtitle:   resonant gyroscope parameter identification
+subtitle:   Resonant gyroscope parameter identification
 date:       2020-11-11
 author:     OUC_WYC
 header-img: img/identification.jpg
@@ -24,7 +24,7 @@ tags:
     </script>
 </head>     
 
-#造数据
+# 造数据
 首先采用一阶模型造一组陀螺输出数据的真值，代码如下：
 ```
 clear;
@@ -44,7 +44,11 @@ for i=1:20
     Gdata(i,3)=(i*0.5+10);                      %存储频率
 end
 ```
-#参数辨识
+
+<br>
+<br>
+
+# 参数辨识
 随后采用梯度下降的方法进行系统辨识，代码如下：
 ```
 close all;
@@ -111,4 +115,7 @@ zlabel('均方误差');
 
 grid on;
 ```
+<br>
+<br>
 
+# 结果
