@@ -3,7 +3,7 @@ layout:     post
 title:      Series Articles of Java Learning  -- 01
 subtitle:   Java项目实录01 -- 基于阿里云的表格识别OCR工具开发
 date:       2021-03-31
-author:     OUC_LiuX
+author:     OUC_WYC
 header-img: img/wallpic02.jpg
 catalog: true
 tags:
