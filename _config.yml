@@ -11,7 +11,7 @@ github_repo: "https://github.com/OUCliuxiang/OUCliuxiang.github.io.git" # you co
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "From Innovative Center, Ocean University of China"
+sidebar-about-description: "From Dept. Automation & Measurement, Ocean University of China"
 sidebar-avatar: img/a1.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
