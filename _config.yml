@@ -1,10 +1,10 @@
 # Site settings
 title: Yuchen Wang @ OUC
-SEOTitle: OUC_LiuX's Bolg
+SEOTitle: uchen Wang @ OUC
 header-img: img/wallpic02.jpg
-email: liuxiang@stu.ouc.edu.cn
+email: wyc@stu.ouc.edu.cn
 description: "Templete is from https://qiubaiying.github.io/"
-keyword: "OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ..."
+keyword: "OUC, Personal Blob, Technology, Research, Study, Life ..."
 url: "http://OUCliuxiang.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/OUCliuxiang/OUCliuxiang.github.io.git" # you code repository
@@ -12,7 +12,7 @@ github_repo: "https://github.com/OUCliuxiang/OUCliuxiang.github.io.git" # you co
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "From Innovative Center, Ocean University of China"
-sidebar-avatar: img/childhood-01.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: img/a1.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
@@ -98,12 +98,12 @@ service-worker: true
 friends: [
     {
         title: "Github",
-        href: "http://github.com/OUCliuxiang"
+        href: "https://github.com/YutionW"
     },{
-        title: "Twitter",
-        href: "https://twitter.com/LiuxOux"
+        title: "ResearchGate",
+        href: "https://www.researchgate.net/profile/Yuchen-Wang-37"
     },{
-        title: "OUCML Lab",
-        href: "https://github.com/OUCMachineLearning/OUCML"
+        title: "IEEE",
+        href: "https://ieeexplore.ieee.org/author/37088571137"
     }
 ]
