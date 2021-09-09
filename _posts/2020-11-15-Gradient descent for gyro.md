@@ -2,7 +2,7 @@
 layout:     post
 title:      Gradient descent for gyro system
 subtitle:   Resonant gyroscope parameter identification
-date:       2020-11-11
+date:       2020-11-15
 author:     OUC_WYC
 header-img: img/identification.jpg
 catalog: true
