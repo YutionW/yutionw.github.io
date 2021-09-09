@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Iterative learning control for gyro system
-subtitle:   Resonant gyroscope control algorithm
+subtitle:   Control algorithm for resonant gyroscopes
 date:       2021-02-15
 author:     OUC_WYC
 header-img: img/identification.jpg
