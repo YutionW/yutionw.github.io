@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Gradient descent -  
+title:      Gradient descent for first-order system
 subtitle:   resonant gyroscope parameter identification
 date:       2020-11-11
 author:     OUC_WYC
