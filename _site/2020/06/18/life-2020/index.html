@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Articles of The Life  -- 01 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2020/06/18/life-2020/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Life" title="Life">Life</a>
+                        
+                    </div>
+                    <h1>Series Articles of The Life  -- 01</h1>
+                    
+                    
+                    <h2 class="subheading">北大冯军旗博士论文《中县干部》</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on June 18, 2020</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<blockquote>
+  <p>我有一位故交，就是《我大学》中提到的那个回不去的曾经。每月每年结束的时候会复盘总结这一年的所为，罗列清单似的、简洁地写下值得记录的事儿、读了哪些书、看了哪些电影、去了什么地方等等，不一而足。现在我也试着开始记录我的2020。</p>
+
+  <p>读书不在多，在乎于精；读书不桎梏于书，网络平台和论文杂志也不乏高质量的文章；读书最无须在乎与功利，我学java学深度学习，但并非将自己的视野禁锢在南瓜书小花书与深入jvm虚拟机一类，这一点我在《我大学这四年》一文中曾反复强调过的，多读些与自己专业无关的杂书最好不过。</p>
+</blockquote>
+
+<h2 id="前言">前言</h2>
+<p>今年4月下旬，在与父亲的谈话中得知了《中县干部》一文，是北大社会学冯军旗博士的毕业论文。该文是作者挂职河南某县副乡长、进行的为期两年有余的基层考察之总结，深刻而系统的反映了中国县一级家族式、关系式的政治官僚体系之现状。作为博士毕业论文，作者更以严谨的社会学与政治学学术研究之思维，对中县及其现行政治官场生态进行了细致的、全面的、深邃的、无可辩驳的剖析。</p>
+
+<p>不同于理工科的研究往往对一个极小极细微的idea深入挖掘，出于对研究的学术严谨性、可扩展性、可参考性与可读性等问题的考量，历来中国政治与经济学者往往热衷于对省部一级以上的政治生态与事件进行分析。而非本专业人士对于了解中国大环境的需求尽可以通过毛选、邓选或诸如温铁军、陈平教授等的科普性著作而实现。从而，《中县干部》一文是难得可贵的集学术研究与科普阅读为一体的文章；即适合于研究者做参考用，又适合于普罗大众做了解用。</p>
+
+<p>我好读杂书，诗词歌赋每有赋闲总好翻一翻看一看，而真正下苦功夫去研读的却不多。2020年我用心读过的非本专业作品有三：《红楼梦》《八次危机》《中县干部》。尽管由于红楼之鸿篇巨制、危机之言语生涩付出的时间远超过本文，但是就单位时间付出比而言，费心最多的反而是这篇短短的博士论文。这一方面归咎于作者对县一级政治生态研究之通透，另一方面归因于作者本身在本专业惊人的知识储备量，譬如作者硕士毕业论文《中世纪英国贵族的家仆世界》单单写在引用中的中英文杂志、书籍、学位论文就高达82条，遑论阅读又未引用的。以上两点使得没有相关经验的非官场人士、没有相关知识储备的非本专业学生要想吃透这篇短短的文章需要花费不亚于阅读一本学术著作的力气。</p>
+
+<h2 id="作者献诗">作者献诗</h2>
+<center>
+
+**蒲公英**   
+
+中县的天空    
+飘满了蒲公英     
+  
+飘着的，是命运   
+落下的，是人生
+
+飘满了蒲公英  
+中县的天空
+
+</center>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/05/08/Life-Recording-01/" data-toggle="tooltip" data-placement="top" title="Life Recording -- 01">
+                        Previous<br>
+                        <span>Life Recording -- 01</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/06/18/%E7%A0%94%E7%A9%B6%E7%94%9F%E6%9C%9F%E9%97%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/" data-toggle="tooltip" data-placement="top" title="Series Articles of Learning Plan During Master Terms  -- 01">
+                        Next<br>
+                        <span>Series Articles of Learning Plan During Master Terms  -- 01</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Articles of Researching Recording - 01 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2020/01/02/Research-01-NN-shallowing-and-py-files/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#deep compression" title="deep compression">deep compression</a>
+                        
+                        <a class="tag" href="/tags/#pytorch" title="pytorch">pytorch</a>
+                        
+                    </div>
+                    <h1>Series Articles of Researching Recording - 01</h1>
+                    
+                    
+                    <h2 class="subheading">NN shallowing and py-files</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on January 2, 2020</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="head-files">Head files</h1>
+<p>We’d import the following modules and packages and remember these libraries unconditionally:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">torch</span>
+<span class="k">import</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">nn</span> <span class="k">as</span> <span class="nx">nn</span>
+<span class="k">import</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">nn</span><span class="p">.</span><span class="nx">functional</span> <span class="k">as</span> <span class="nx">F</span>
+<span class="k">import</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">optim</span> <span class="k">as</span> <span class="nx">optim</span>
+<span class="k">import</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">backend</span><span class="p">.</span><span class="nx">cudnn</span> <span class="k">as</span> <span class="nx">cudnn</span>
+<span class="k">from</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">data</span> <span class="k">import</span> <span class="nx">DataLoader</span> 
+<span class="k">import</span> <span class="nx">torchvision</span>
+<span class="k">from</span> <span class="nx">torchvision</span><span class="p">.</span><span class="nx">transforms</span> <span class="k">as</span> <span class="nx">transforms</span>
+<span class="k">from</span> <span class="nx">torchvision</span><span class="p">.</span><span class="nx">dataset</span> <span class="k">import</span> <span class="nx">ImageFolder</span>
+<span class="k">import</span> <span class="nx">os</span>
+<span class="k">from</span> <span class="nx">PIL</span> <span class="k">import</span> <span class="nx">Image</span>
+<span class="k">import</span> <span class="nx">numpy</span> <span class="k">as</span> <span class="nx">np</span>
+<span class="k">import</span> <span class="nx">utils</span><span class="p">,</span> <span class="nx">model</span> 
+</code></pre></div></div>
+
+<h1 id="custom-network-layer">custom network layer</h1>
+<p>It should be careful to use the following style that use <strong><em>nn.Sequential()</em></strong> and  <strong><em>OrderDict</em></strong> to establish your networks</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">nn</span><span class="p">.</span><span class="nx">Sequential</span><span class="p">(</span>
+	<span class="nx">OrderDict</span><span class="p">(</span>
+	<span class="p">[</span><span class="nx">nn</span><span class="p">.</span><span class="nx">Conv2d</span><span class="p">(...)</span>
+	<span class="p">...</span>
+	<span class="p">]))</span>
+</code></pre></div></div>
+<p>since the way will named layers of networks after (0)(1)(2) by default.
+The following form is suggested:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">model</span><span class="p">(</span><span class="nx">nn</span><span class="p">.</span><span class="nx">Module</span><span class="p">):</span>
+	<span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nb">self</span><span class="p">):</span>
+        <span class="k">super</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nb">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">()</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">conv1_1</span> <span class="o">=</span> <span class="nx">nn</span><span class="p">.</span><span class="nx">Conv2d</span><span class="p">(</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">bn1_1</span> <span class="o">=</span> <span class="nx">nn</span><span class="p">.</span><span class="nx">BatchNorm2d</span><span class="p">(</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">conv1_2</span> <span class="o">=</span> <span class="nx">nn</span><span class="p">.</span><span class="nx">Conv2d</span><span class="p">(</span> <span class="mi">64</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">...</span> <span class="p">...</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">classifier</span> <span class="o">=</span> <span class="nx">nn</span><span class="p">.</span><span class="nx">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">processDic</span> <span class="o">=</span> <span class="p">{}</span>
+        
+   <span class="nx">def</span> <span class="nx">forward</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nx">x</span><span class="p">):</span>
+        <span class="nx">out</span> <span class="o">=</span> <span class="nx">F</span><span class="p">.</span><span class="nx">relu</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nx">bn1_1</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nx">conv1_1</span><span class="p">(</span><span class="nx">x</span><span class="p">)))</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">processDic</span><span class="p">[</span><span class="s2">"conv1_1"</span><span class="p">]</span> <span class="o">=</span> <span class="nx">out</span>
+        <span class="nx">out</span> <span class="o">=</span> <span class="nx">F</span><span class="p">.</span><span class="nx">relu</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nx">bn1_2</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nx">conv1_2</span><span class="p">(</span><span class="nx">out</span><span class="p">)))</span>
+        <span class="nb">self</span><span class="p">.</span><span class="nx">processDic</span><span class="p">[</span><span class="s2">"conv1_2"</span><span class="p">]</span> <span class="o">=</span> <span class="nx">out</span>
+        <span class="nx">out</span> <span class="o">=</span> <span class="nx">F</span><span class="p">.</span><span class="nx">max_pool2d</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span> <span class="nx">kernel_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nx">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">...</span>
+        <span class="nx">out</span> <span class="o">=</span> <span class="nx">out</span><span class="p">.</span><span class="nx">view</span><span class="p">(</span><span class="nx">out</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nx">out</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nx">classifier</span><span class="p">(</span><span class="nx">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">out</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="nx">processDic</span>
+</code></pre></div></div>
+<p>There aer some points should be cared in the above content:</p>
+<ol>
+  <li><strong>__ <em>init</em>__( self)</strong> Calculating layers(convolutional and linear layers) and Batch Normalization layer are defined here, and only these two type of layers for these parameters is trainable and should be trained(update). As far as <strong><em>max_pool2d()</em></strong> and <strong><em>relu()</em></strong>, they have no parameters need to be trained, so  <strong>torch.nn.functional()</strong> is suggested.</li>
+  <li><strong>__ <em>init</em>__( self)</strong> A dictionary defined here  <strong>processDict={}</strong>. This dictionary is used to store the process result during the net running，assignment is occurred in function <strong>forward(x)</strong>  and the dictionary is returned while the method ending.</li>
+  <li><strong>relu</strong>, <strong>max_pool2d</strong> have no trainable parameters so method <strong>torch.nn.functional</strong> is suggested.
+    <h1 id="custom-image-dataset">Custom Image Dataset</h1>
+    <p>Image folder dataset is suggested to use to train the network for the small scale dataset examples like cifar10/100, mnist, svhn that can be loaded by pytorch
+ with existed and embedded API  are actually special and not practical in industrial production.</p>
+    <h2 id="for-cifar10">For Cifar10</h2>
+    <p>In order to use images-type data set of cifar10, we’d transform the type of cifar_based_on_python to visual images. The process of transformation is general.
+```javascript
+import pickle    # cPickle if python2
+import os 
+import numpy 
+from PIL import Image</p>
+  </li>
+</ol>
+
+<p>img_dir = “/home/liuxiang/pytorch/data/”
+batch_name = “/home/liuxiang/pytorch/data/cifar-10-batches-py/”</p>
+
+<p>os.chdir(“/home/liuxiang/pytorch/data/”)
+if ( not os.path.isdir(“cifar_images”)):
+	os.mkdir(“./cifar_images”)
+os.chdir(“./cifar_images”)</p>
+
+<p>if not os.path.isdir(“train”):
+	os.mkdir(“train”)
+if not os.path.isdir(“test”):
+	os.mkdir(“test”)
+for i in range(10):
+	if not os.path.isdir(“./train/”+str(i)):
+		os.mkdir(“./train”+str(i))
+	if not os.path.isdir(“./test/”+str(i)):
+		os.mkdir(“./test/”+str(i))</p>
+
+<p>def unload(filename):
+	with open(filename, ‘rb’) as f:
+		data = pickle.load(f, “latin1”)
+		X = data[“data”]
+		Y = data[“labels”]
+		X = X.reshape((-1, 3, 32, 32))
+		Y = np.array(Y)
+		return X, Y</p>
+
+<p>def store_image(batch_dir, image_dir, train=True):
+	if train:
+		for k in range(1, 6):
+			imgX, imgY = unload(batch_dir+”data_batch_“+str(k))
+			for i in range(len(imgY)):
+				imgs = imgX[i]
+				img0 = Image.fromarray(imgs[0])
+				img1 = Image.fromarray(imgs[1])
+				img2 = Image.fromarray(img2[2])
+				img = Image(“RGB”, (img0, img1, img2))
+				img.save(image_dir+str(imgY[i])+”/”+\
+				str(i+(k-1)*len(imgY)))+”.png”, “png”)
+	else:
+		imgX, imgY = unload(batch_dir+”test_batch”)
+		for i in range(len(imgY)):
+				imgs = imgX[i]
+				img0 = Image.fromarray(imgs[0])
+				img1 = Image.fromarray(imgs[1])
+				img2 = Image.fromarray(img2[2])
+				img = Image(“RGB”, (img0, img1, img2))
+				img.save(image_dir+str(imgY[i])+”/”+\
+				str(i)+”.png”, “png”)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>So now we have stored the images of cifar10 into images direction. In addition, If you are obsessional so that you want to rename the picture names into universal form, we've also provided the rename function following:
+```javascript
+def rename(dir_name):
+	i = 0
+	for parents, dirnames, filenames in os.walk(dir_name):
+		for filename in filenames:
+			if i &lt; 10:
+				newName = "0000"+str(i)+".png"
+				os.rename(os.path.join(parents, filename), os.path.join(parents, newName))
+				i += 1
+			elif i &lt; 100:
+				newName = "000"+str(i)+".png"
+				os.rename(os.path.join(parents, filename), os.path.join(parents, newName))
+				i += 1
+			elif i &lt; 1000:
+				newName = "00"+str(i)+".png"
+				os.rename(os.path.join(parents, filename), os.join(parents, newName))
+				i += 1
+			elif i &lt; 10000:
+				newName = "0"+str(i)+".png"
+				os.rename(os.path.join(parents, filename), os.join(parents, newName))
+				i += 1
+			else:
+				newName = str(name)+".png"
+				os.rename(os.path.join(parents, filename), os.path.join(parents, newName))
+</code></pre></div></div>
+<p>To complete establishment of images dataset, just run the <strong>main()</strong>:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">img_dir</span> <span class="o">=</span> <span class="s2">"/home/liuxiang/pytorch/data/cifar_images/"</span>
+<span class="nx">batch_name</span> <span class="o">=</span> <span class="s2">"/home/liuxiang/pytorch/data/cifar-10-batches-py/"</span>
+<span class="nx">def</span> <span class="nx">main</span><span class="p">():</span>
+	<span class="nx">store_image</span><span class="p">(</span><span class="nx">batch_name</span><span class="p">,</span> <span class="nx">image_dir</span><span class="o">+</span><span class="s2">"train/"</span><span class="p">,</span> <span class="nx">True</span><span class="p">)</span>
+	<span class="nx">store_image</span><span class="p">(</span><span class="nx">batch_name</span><span class="p">,</span> <span class="nx">image_dir</span><span class="o">+</span><span class="s2">"test/"</span><span class="p">,</span> <span class="nx">False</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+		<span class="nx">rename</span><span class="p">(</span><span class="nx">img_dir</span><span class="o">+</span><span class="s2">"train/"</span><span class="o">+</span><span class="nx">str</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+		<span class="nx">rename</span><span class="p">(</span><span class="nx">img_dir</span><span class="o">+</span><span class="s2">"train/"</span><span class="o">+</span><span class="nx">str</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+</code></pre></div></div>
+<h2 id="load-the-data-set-with-pytorch">Load the data set with pytorch</h2>
+<p>There are some pytorch packages and modules are required to load dataset for pytorch</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">torch</span>
+<span class="k">import</span> <span class="nx">torchvision</span>
+<span class="k">from</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">data</span> <span class="k">import</span> <span class="nx">DataLoader</span>
+<span class="k">from</span> <span class="nx">torchvision</span><span class="p">.</span><span class="nx">datasets</span> <span class="k">import</span> <span class="nx">ImageFolder</span>
+<span class="k">import</span> <span class="nx">os</span>
+<span class="k">import</span> <span class="nx">torchvision</span><span class="p">.</span><span class="nx">transforms</span> <span class="k">as</span> <span class="nx">transforms</span>
+
+<span class="nx">Image_dir</span> <span class="o">=</span> <span class="s2">"/home/liuxiang/pytorch/data/cifar_images/"</span>
+<span class="nx">transform_train</span> <span class="o">=</span> <span class="nx">transforms</span><span class="p">.</span><span class="nx">Compose</span><span class="p">([</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">RandomCrop</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="nx">padding</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">RandomHorizontalFlip</span><span class="p">(),</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">RandomVerticalFlip</span><span class="p">(),</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">ToTensor</span><span class="p">(),</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">Normalize</span><span class="p">((</span><span class="mf">0.4914</span><span class="p">,</span> <span class="mf">0.4822</span><span class="p">,</span> <span class="mf">0.4465</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2023</span><span class="p">,</span> <span class="mf">0.1994</span><span class="p">,</span> <span class="mf">0.2010</span><span class="p">))</span>
+	<span class="p">])</span>
+<span class="nx">transform_test</span> <span class="o">=</span> <span class="nx">transform</span><span class="p">.</span><span class="nx">Compose</span><span class="p">([</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">ToTensor</span><span class="p">(),</span>
+	<span class="nx">transforms</span><span class="p">.</span><span class="nx">Normalize</span><span class="p">((</span><span class="mf">0.4914</span><span class="p">,</span> <span class="mf">0.4822</span><span class="p">,</span> <span class="mf">0.4465</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.2023</span><span class="p">,</span> <span class="mf">0.1994</span><span class="p">,</span> <span class="mf">0.2010</span><span class="p">))</span>
+<span class="p">])</span>
+</code></pre></div></div>
+<p>Here notifying that we have given the mean and standard value of dataset, if we do not know the what the mean/std values are, the following method is usable</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nx">test_data_</span> <span class="o">=</span> <span class="nx">ImageFolder</span><span class="p">(</span><span class="nx">image_test</span><span class="p">,</span> <span class="nx">transforms</span><span class="p">.</span><span class="nx">Compose</span><span class="p">([</span>
+	<span class="nx">transform</span><span class="p">.</span><span class="nx">ToTensor</span><span class="p">(),</span>
+	<span class="nx">transform</span><span class="p">.</span><span class="nx">Normalize</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+	<span class="p">]))</span>
+	<span class="nx">mean</span><span class="p">,</span> <span class="nx">std</span> <span class="o">=</span> <span class="nx">get_mean_and_std</span><span class="p">(</span><span class="nx">test_data_</span><span class="p">)</span>
+</code></pre></div></div>
+<p>where the function <em><strong>get_mean_and_std()</strong></em> defined on my <a href="https://github.com/OUCliuxiang/pytorch/blob/master/utils.py">github</a>
+ Now that we have got the pytorch-typed dateset via<code class="highlighter-rouge">train_data = ImageFolder(image_train, transform_train)</code>, we’d also make that accepted by net:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>train_loader = DataLoader(train_data, batched=200, shuffle=True, num_workers=2)
+</code></pre></div></div>
+<p>The test data set is similarly.</p>
+<h1 id="train">Train</h1>
+<p>We’ve establish a model and its forward process before. now let we see how to train and test it!</p>
+<h2 id="enable-a-model">Enable a model</h2>
+<p>Assume we define the model as <em><strong>class model(nn.Moduule)</strong></em> on file <em><strong>model.py</strong></em>, so that we
+ <code class="highlighter-rouge">from model import model</code>
+ and
+ <code class="highlighter-rouge">net = model()</code>
+ Pytorch allows we select which type of device the net running manually. We can select device according is GPU available:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> device = "cuda" if torch.cuda.is_available() 
+ net.to(device)
+</code></pre></div></div>
+<p>If GPU is available, the usage of <strong>cudnn.benchmark</strong> will accelerate your train process by finding the best algorithm by <strong>auto-tuner</strong> mechanism automatically.
+ In order to use <strong>cudnn.benchmark</strong>, we’d
+ <code class="highlighter-rouge">import torch.backends.cudnn as cudnn</code>
+ and use command
+ <code class="highlighter-rouge">cudnn.benchmark = True</code>
+ to use it.
+ In addition, if you have more than one GPUs, parallel calculating is allowed on pytorch. There is just one line to use parallel calculation:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> if device == "cuda":
+ 	net = torch.nn.DataParallew(net)
+</code></pre></div></div>
+<p>We’d noticed that once if parallel calculation is used, all GPUs will be called to support the program’s running, even though you give your program restricted command like
+<code class="highlighter-rouge">CUDA_VISIBLE_DEVICES=x python train.py ...</code>
+However, the type of tensor will be changed after we use parallel calculation, for example it will be changed to</p>
+<pre><code class="language-module.feature.conv1_1.weight```">from 
+```conv1_1.weight```
+We are going to discuss the change later on session "save and reload model".
+## State criterion and optimizer
+During the train process, there only *__CrossEntropy()__*  is used. when we start our KD process, the custom loss layer will be used.
+define the criterion outside the train process, and define optimizer inside the train process to control learning rate:
+</code></pre>
+<p>criterion = nn.CrossEntropyLoss()
+def train(…):
+	optimizer = optim.SGD(net.parameters(), lr, momentum, weight_decay)
+	…</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Notifying here that we send the output of last fc layer to *__CrossEntropyLoss()__* directly with out *__softmax()__* for *__CrossEntropyLoss()__*  already contains the softmax process(nagetive log)
+## Enter training and test function
+### STATUS STATED
+It's important to state which statue the networks running on, use:
+```net.train()```during training process and 
+```net.eval()```during test process
+due to _train()_ will update parameter and _eval()_ will not do this. It's obviously that if we running test under _train()_[default] state, the result is very very very bad.
+
+### Train
+Before we start training iterations, some variables are excepted to be established that ```train_loss=.0```to record the training loss, ```correct=0```to record how many inferences are correct each batch during training, and ```total=0 ```to record how many judges we have done totally, so that the total accuracy is calculated as _100. * correct / total %_. Then we enter batches iteration:
+```javascript
+for batch_idx, (inputs, targets) in enumerate(train_loader):
+	inputs, targets = inputs.to(deivce), targets.to(device) #1
+	optimizer.zero_grad() #2
+	outputs = net(inputs) #3
+	loss = criterion(outputs, targets) #4
+	loss.backward()  #5
+	optimizer.step()  #6 
+
+	train_loss += loss.item() 
+	_, predicted = outputs.max(1) 
+	total += targets.size(0) 
+	correct += predicted.eq(targets).sum().item()
+	
+	utils.process_bar(batch_idx, len(train_loader), 
+					  "Loss: %.3f | Acc: %.3f%% (%d/%d)"
+					  %(train_loss / (batch_idx+1), 100. * correct / total, corrected, total ))
+</code></pre></div></div>
+<p>Explain:</p>
+<ol>
+  <li>data and net are excepted to running on the same device</li>
+  <li>each iteration/batch is expect calculating grad from zero</li>
+  <li>get outputs of the net given inputs data</li>
+  <li>calculating loss with <em>criterion(outputs, class)</em></li>
+  <li>calculating grad via backward process of loss.</li>
+  <li>update trainable parameters sent into optimizer
+    <h3 id="test">Test</h3>
+    <p><code class="highlighter-rouge">net.eval()</code>is expected to use to prevent the parameters update has been stated; variables are same with training process:<code class="highlighter-rouge">train_loss, correct, total</code>. A global variable best_acc should be stated <code class="highlighter-rouge">global best_acc</code>for it may be inherited from file<code class="highlighter-rouge">ckpt.t7</code>and is expected to have the only value all around the program. Let we enter the test process:</p>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">with</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">no_grad</span><span class="p">()</span> <span class="err">#</span><span class="mi">1</span>
+ <span class="k">for</span> <span class="nx">idx</span><span class="p">,</span> <span class="p">(</span><span class="nx">inputs</span><span class="p">,</span> <span class="nx">targets</span><span class="p">)</span> <span class="k">in</span> <span class="nx">enumerate</span><span class="p">(</span><span class="nx">test_loader</span><span class="p">):</span>
+     <span class="nx">inputs</span><span class="p">,</span> <span class="nx">targets</span> <span class="o">=</span> <span class="nx">inputs</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">device</span><span class="p">),</span> <span class="nx">targets</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">device</span><span class="p">)</span>
+     <span class="nx">outputs</span> <span class="o">=</span> <span class="nx">net</span><span class="p">(</span><span class="nx">inputs</span><span class="p">)</span>
+     <span class="nx">loss</span> <span class="o">=</span> <span class="nx">criterion</span><span class="p">(</span><span class="nx">outputs</span><span class="p">,</span> <span class="nx">targets</span><span class="p">)</span>
+
+     <span class="nx">total_test</span> <span class="o">+=</span> <span class="nx">loss</span><span class="p">.</span><span class="nx">items</span><span class="p">()</span>
+     <span class="nx">_</span><span class="p">,</span> <span class="nx">predicted</span> <span class="o">=</span> <span class="nx">output</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+     <span class="nx">total</span> <span class="o">+=</span> <span class="nx">targets</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+     <span class="nx">correct</span> <span class="o">+=</span> <span class="nx">predicted</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="nx">targets</span><span class="p">).</span><span class="nx">sum</span><span class="p">().</span><span class="nx">item</span><span class="p">()</span>
+     <span class="nx">utils</span><span class="p">.</span><span class="nx">progress_bar</span><span class="p">(...)</span>
+</code></pre></div>    </div>
+    <p>After all batches are finished, the best model state should be stored</p>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">acc</span> <span class="o">=</span> <span class="mi">100</span><span class="p">.</span><span class="o">*</span><span class="nx">correct</span><span class="o">/</span><span class="nx">total</span>
+<span class="k">if</span> <span class="nx">acc</span> <span class="o">&gt;</span> <span class="nx">best_acc</span><span class="p">:</span>
+ <span class="nx">best_acc</span> <span class="o">=</span> <span class="nx">acc</span>
+ <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s2">"net"</span><span class="p">:</span> <span class="nx">net</span><span class="p">.</span><span class="nx">state_dict</span><span class="p">(),</span>
+     <span class="s2">"acc"</span><span class="p">:</span> <span class="nx">acc</span><span class="p">,</span>
+     <span class="s2">"epoch"</span><span class="p">:</span> <span class="nx">epoch</span>
+ <span class="p">}</span>
+ <span class="k">if</span> <span class="nx">not</span> <span class="nx">os</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">isdir</span><span class="p">(</span><span class="s2">"checkpoint"</span><span class="p">):</span>
+     <span class="nx">os</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="s2">"./checkpoint"</span><span class="p">)</span>
+ <span class="nx">torch</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="s2">"cktp.t7"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <h2 id="start">Start</h2>
+    <p>Then just run like</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for epoch in range(start_epoch, start_epoch+200):
+ train(epoch)
+ test(epoch)
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h1 id="load-and-extract-parameters-and-process-outputs">Load and extract parameters and process outputs</h1>
+<p>Assuming that we have stored old state_dict(with three fully connection layers) as <code class="highlighter-rouge">./checkpoint/cktp.t7</code>and then we’ll extract it and reload it into another model(only one fully connection layer)</p>
+<h2 id="parameters-s-extract-and-reload">parameters’ s extract and reload</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">model_new</span> <span class="o">=</span> <span class="nx">model</span><span class="p">()</span>
+<span class="nx">model</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">device</span><span class="p">)</span>
+<span class="nx">old_state</span> <span class="o">=</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">"./checkpoint/cktp.t7"</span><span class="p">)[</span><span class="s2">"net"</span><span class="p">]</span>
+<span class="nx">new_state</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">state_dict</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Notifying here, do not send model_new into parallel calculation, if do it, the new_state.key() will become to type like <code class="highlighter-rouge">"module.conv1_1.weight"</code>, and if not, or says just the current state, it’s keys is just<code class="highlighter-rouge">"conv1_1.weight"</code>
+If there are two same model, you can use command</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">new_state</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">old_state</span><span class="p">)</span>
+<span class="nx">model_new</span><span class="p">.</span><span class="nx">load_state_dict</span><span class="p">(</span><span class="nx">new_state</span><span class="p">)</span>
+</code></pre></div></div>
+<p>to load the old state, however we know that the two model’s state dict is not same that one has three fully connection layers and another has only one, so that the fully connection layers is not suit to be load, do this:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">new_name</span> <span class="o">=</span> <span class="nx">new_state</span><span class="p">.</span><span class="nx">keys</span><span class="p">()</span>
+<span class="nx">old_name</span> <span class="o">=</span> <span class="nx">old_state</span><span class="p">.</span><span class="nx">keys</span><span class="p">()</span>
+<span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="nx">len</span><span class="p">(</span><span class="nx">new_name</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+	<span class="nx">new_state</span><span class="p">[</span><span class="nx">new_name</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">old_state</span><span class="p">[</span><span class="nx">old_name</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span>
+<span class="nx">model_new</span><span class="p">.</span><span class="nx">load_state_dict</span><span class="p">(</span><span class="nx">new_state</span><span class="p">)</span>
+</code></pre></div></div>
+<p>In this way we should ensure that the order of two net’s layers you made are same.
+After these steps, the keys’ s type is still <code class="highlighter-rouge">"conv1_1.weight"</code>, when you send the network into parallel calculation, it becomes <code class="highlighter-rouge">"module.conv1_1.weight"</code>
+Actually, we do not suggest you use parallel calculation but just send the current model into training and test process while you are sharing GPUs with partners.</p>
+
+<h2 id="process-outputs">Process outputs</h2>
+<p>It’s so easy to do for we have established  a dictionary in  <em>init()</em> to store the process value so just do  as following to pick the first 200 pictures’ process outputs up:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">with</span> <span class="nx">torch</span><span class="p">.</span><span class="nx">no_grad</span><span class="p">():</span>
+	<span class="nx">net</span><span class="p">.</span><span class="kr">eval</span><span class="p">()</span>
+	<span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="p">(</span><span class="nx">inputs</span><span class="p">,</span> <span class="nx">targets</span><span class="p">)</span> <span class="k">in</span> <span class="nx">enumrate</span><span class="p">(</span><span class="nx">test_loader</span><span class="p">):</span>
+		<span class="k">for</span> <span class="nx">index</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+			<span class="k">break</span><span class="p">;</span>
+		<span class="nx">inputs</span><span class="p">,</span> <span class="nx">targets</span> <span class="o">=</span> <span class="nx">inputs</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">device</span><span class="p">),</span> <span class="nx">targets</span><span class="p">.</span><span class="nx">to</span><span class="p">(</span><span class="nx">device</span><span class="p">)</span>
+		<span class="nx">outputs</span><span class="p">,</span> <span class="nx">processDict</span> <span class="o">=</span> <span class="nx">net</span><span class="p">(</span><span class="nx">inputs</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Now we got it. Then we’ll save and load it:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">np</span><span class="p">.</span><span class="nx">savez_compressed</span><span class="p">(</span><span class="s2">"./processDict.npz"</span><span class="p">,</span> <span class="nx">dict</span><span class="o">=</span><span class="nx">processDict</span><span class="p">)</span>
+<span class="nx">data</span> <span class="o">=</span> <span class="nx">np</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="s2">"./processDict.npz"</span><span class="p">)</span>
+<span class="nx">processDict_</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="s2">"dict"</span><span class="p">][()]</span>
+</code></pre></div></div>
+<p>It’s finished</p>
+
+<h1 id="retrain-and-squeeze">Retrain and Squeeze</h1>
+<p>When we start to retrain network in distilling method with some layers are squeezed that do not participate the gradient backward and parameters update, we support two method to decide which layers are squeezed.
+First to check the layers’ name and index and do them require gradient:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="nx">index</span><span class="p">,</span> <span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="k">in</span> <span class="nx">enumerate</span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">named_parameters</span><span class="p">()):</span>
+	<span class="nx">print</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">.</span><span class="nx">requires_grad</span><span class="p">)</span>
+</code></pre></div></div>
+<ul>
+  <li>method 1
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span>  <span class="nx">index</span><span class="p">,</span> <span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="k">in</span> <span class="nx">enumerate</span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">named_parameters</span><span class="p">()):</span>
+  <span class="k">if</span> <span class="p">(</span><span class="s2">"classifier"</span> <span class="k">in</span> <span class="nx">k</span> <span class="nx">or</span> <span class="s2">"5_3"</span> <span class="k">in</span> <span class="nx">k</span><span class="p">):</span>
+      <span class="nx">v</span><span class="p">.</span><span class="nx">requires_grad</span> <span class="o">=</span> <span class="nx">False</span>
+</code></pre></div>    </div>
+  </li>
+  <li>method 2
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span>  <span class="nx">index</span><span class="p">,</span> <span class="p">(</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="k">in</span> <span class="nx">enumerate</span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">named_parameters</span><span class="p">()):</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="nx">xx</span><span class="p">):</span>
+      <span class="nx">v</span><span class="p">.</span><span class="nx">requires_grad</span> <span class="o">=</span> <span class="nx">False</span>
+</code></pre></div>    </div>
+    <p>Then if you check the _net.parameters().requires_grad_with sentence</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for  param in model_new.parameters():
+  print (param.requires_grad)
+</code></pre></div>    </div>
+    <p>you may found that some of them is False now. However, we can still not send the parameters into optimizer now even though there are already some layers’ property <em>requires_grad</em> is False now, we’d just send layers we want to train into optimizer, so that we need to filtrate the layers requires_grad in False out with
+***</p>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">trainable_params</span> <span class="o">=</span> <span class="nx">filter</span><span class="p">(</span><span class="nx">lambda</span> <span class="nx">param</span><span class="p">:</span> <span class="nx">param</span><span class="p">.</span><span class="nx">requires_grad</span><span class="p">,</span> <span class="nx">net</span><span class="p">.</span><span class="nx">parameters</span><span class="p">())</span>
+</code></pre></div>    </div>
+    <hr />
+  </li>
+</ul>
+
+<p>After these steps, retrain the net with optimizer 
+<strong><code class="highlighter-rouge">optimizer = optim.SGD(trainable_params, lr, moment, weight_decay)</code></strong></p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/01/02/Series-Article-of-UbuntuOS-01/" data-toggle="tooltip" data-placement="top" title="Series Articles of Ubuntu OS usage -- 01">
+                        Previous<br>
+                        <span>Series Articles of Ubuntu OS usage -- 01</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/01/03/Series-Article-of-UbuntuOS-03/" data-toggle="tooltip" data-placement="top" title="Series Articles of Ubuntu OS usage -- 03">
+                        Next<br>
+                        <span>Series Articles of Ubuntu OS usage -- 03</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

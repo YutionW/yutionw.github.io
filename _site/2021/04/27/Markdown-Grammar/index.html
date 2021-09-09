@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Markdown Grammar - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2021/04/27/Markdown-Grammar/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#博客" title="博客">博客</a>
+                        
+                        <a class="tag" href="/tags/#github" title="github">github</a>
+                        
+                        <a class="tag" href="/tags/#Markdown" title="Markdown">Markdown</a>
+                        
+                    </div>
+                    <h1>Markdown Grammar</h1>
+                    
+                    
+                    <h2 class="subheading">一些Markdown语法记录</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on April 27, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<blockquote>
+  <p>使用markdown书写github博客过程中遇到的问题记录，主要是记录一点儿不熟悉的语法。随时补充。</p>
+</blockquote>
+
+<p><strong><code class="highlighter-rouge">&gt; </code></strong>： 右向尖括号后面的内容是引用，适合用在文章开头。</p>
+
+<p><strong>表格</strong>： Markdown 制作表格使用“ | ”来分隔不同的单元格，使用“ - ”来分隔表头和其他行。语法格式如下：  <br />
+ |  表头  |  表头  |  <br />
+ |  —-  | —-  |  <br />
+ |  单元格 | 单元格 |  <br />
+ |  单元格 | 单元格 |</p>
+
+<p>效果如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>表头</th>
+      <th>表头</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>单元格</td>
+      <td>单元格</td>
+    </tr>
+    <tr>
+      <td>单元格</td>
+      <td>单元格</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>By the way，如同“语法格式如下”到“效果如下”之间的内容，也即，当我们想要以原始文本而不是渲染表现展示markdown的语法符号，使用反斜杠 ‘\’ 进行反义。</p>
+
+<p><strong>表格内容对齐</strong>：  <br />
+通过表头与内容之间的冒号与短横杠组合设置表格的对齐方式：</p>
+
+<p>冒号在右边： 设置内容和标题栏居右对齐。  <br />
+冒号在左边： 设置内容和标题栏居左对齐。  <br />
+冒号在两边： 设置内容和标题栏居中对齐。</p>
+
+<p>| 左对齐 | 右对齐 | 居中对齐 |  <br />
+| :—–| —-: | :—-: |  <br />
+| 单元格 | 单元格 | 单元格 |  <br />
+| 单元格 | 单元格 | 单元格 |</p>
+
+<p><strong>表格内换行</strong>  <br />
+当内容过长，需要主动换行。换行符<code class="highlighter-rouge">&lt;br&gt;</code>。</p>
+
+<p><strong>github博客中渲染数学公式</strong></p>
+
+<p>github博客默认markdown页面不支持渲染数学公式，需要再每篇文章开头添加如下内容：</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/x-mathjax-config"</span><span class="o">&gt;</span>
+        <span class="nx">MathJax</span><span class="p">.</span><span class="nx">Hub</span><span class="p">.</span><span class="nx">Config</span><span class="p">({</span>
+            <span class="na">tex2jax</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">skipTags</span><span class="p">:</span> <span class="p">[</span><span class="s1">'script'</span><span class="p">,</span> <span class="s1">'noscript'</span><span class="p">,</span> <span class="s1">'style'</span><span class="p">,</span> <span class="s1">'textarea'</span><span class="p">,</span> <span class="s1">'pre'</span><span class="p">],</span>
+            <span class="na">inlineMath</span><span class="p">:</span> <span class="p">[[</span><span class="s1">'$'</span><span class="p">,</span><span class="s1">'$'</span><span class="p">]]</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p><strong>代码及高亮</strong></p>
+
+<p>上面的代码以<code class="highlighter-rouge">javascript</code>格式高亮显示，通过</p>
+
+<p>```javascript(换行)     <br />
+代码内容 <br />
+```</p>
+
+<p>实现。同理，将javascript换成其他关键词，如java/cpp/bash/python等等，即可以相应语言高亮显示代码块。</p>
+
+<p><strong>使用html语言插入图片</strong></p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">align=</span><span class="s">center</span><span class="nt">&gt;&lt;img</span> <span class="na">src=</span><span class="s">"https://path/to/pic.png"</span> <span class="na">width=</span><span class="s">xxx</span> <span class="na">height=</span><span class="s">xxx</span><span class="nt">&gt;&lt;/div&gt;</span>      
+</code></pre></div></div>
+
+<p>使用html语言的优势是可以主动指定图片位置和尺寸信息，比如将<code class="highlighter-rouge">center</code>换成<code class="highlighter-rouge">right</code>即可指定图像右对齐。尺寸信息可以通过<code class="highlighter-rouge">width(height)=xxx</code>指定，其中xxx可以是数字，也即像素，也可以是百分数，意思是缩放百分比。通常缺省只写一个，这样会按照原比例缩放。  <br />
+github博客中图像仓库是<code class="highlighter-rouge">raw.githubusercontent.com/</code>，也即src中需要图像在github中存放地址的<code class="highlighter-rouge">github.com/</code>换成<code class="highlighter-rouge">raw.githubusercontent.com/</code>。</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/03/31/Series-Record-of-Java-Learning-05/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 05">
+                        Previous<br>
+                        <span>Series Articles of Java Learning  -- 05</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/04/28/Series-Record-of-Java-Learning-06/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 06">
+                        Next<br>
+                        <span>Series Articles of Java Learning  -- 06</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

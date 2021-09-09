@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OUC_LiuX&#39;s Blog</title>
+    <description>Templete is from https://qiubaiying.github.io/</description>
+    <link>http://OUCliuxiang.github.io/</link>
+    <atom:link href="http://OUCliuxiang.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Thu, 27 May 2021 00:54:02 +0800</pubDate>
+    <lastBuildDate>Thu, 27 May 2021 00:54:02 +0800</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Series Article of Python Using -- 03</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;concurrent.futures.Executor类有子类ThreadPoolExecutor()和ProcessPoolExecutor()分别可实现多线程和多进程加速。
+由于这部分内容过于重要，我不得不把它们从&lt;code class=&quot;highlighter-rouge&quot;&gt;Python实录01 -- 汇总一些小知识&lt;/code&gt;中拿出来单独讲。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;python3中concurrent.futures是标准库，在python2需要自己pip install futures。  &lt;br /&gt;
+使用futures的多线程/多进程处理需要从futures导入线程池处理器和进程池处理器：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;concurrent.futures&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ThreadPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ProcessPoolExecutor&lt;/span&gt;   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;线程池处理器threadpoolexecutor-int-max_workers&quot;&gt;线程池处理器ThreadPoolExecutor( int max_workers)&lt;/h2&gt;
+
+&lt;p&gt;用于多线程处理的类&lt;code class=&quot;highlighter-rouge&quot;&gt;ThreadPoolExecutor&lt;/code&gt;继承自父类&lt;code class=&quot;highlighter-rouge&quot;&gt;Executor&lt;/code&gt;，用于创建线程池，可以接受一个整型参数&lt;code class=&quot;highlighter-rouge&quot;&gt;max_workers&lt;/code&gt;，代表创建的最大线程数。参数可以为空，为空则自动创建基于机器cpu核心数的进程数。&lt;/p&gt;
+
+&lt;p&gt;Executor中定义了submit()方法，这个方法的作用是提交一个可执行的回调task,并返回一个future实例。比如在给图片&lt;a href=&quot;https://github.com/OUCliuxiang/smartShip2020/blob/main/data/dataReinformance.py&quot;&gt;添加噪声的代码&lt;/a&gt;中，定义main(imgIn)函数为随机执行五种添加噪声的函数：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;于是可以：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ThreadPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_workers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;future&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# submit(func, argvs[])方法接收第一个参数为需要调用的方法（名），      &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 其后的可选参数为func需要传入接收的形参。    &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;future能够使用done()方法判断该任务是否结束，done()方法是不阻塞的，使用result()方法可以获取任务的返回值，这个方法是阻塞的。但是&lt;code class=&quot;highlighter-rouge&quot;&gt;submit(func, argvs[])&lt;/code&gt;方法只能进行单个任务，用并发多个任务，需要使用map与as_completed。&lt;/p&gt;
+
+&lt;h3 id=&quot;map方法&quot;&gt;map方法&lt;/h3&gt;
+
+&lt;p&gt;依然以数据比赛中&lt;a href=&quot;https://www.ouc-liux.cn/2021/05/07/Series-Article-of-Deep-Learning-01/#%E6%B7%BB%E5%8A%A0%E5%99%AA%E5%A3%B0&quot;&gt;图片添加噪声&lt;/a&gt;部分为例：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;img_root&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;./data/images/train/&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;txt_root&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;./data/labels/train/&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;img_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listdir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img_root&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concurrent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;futures&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ThreadPoolExecutor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;img_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;executor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;这里有三个需要注意的点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Executor.map()方法往往须要配合zip打包函数执行。&lt;/li&gt;
+  &lt;li&gt;zip的使用参照&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Tue, 25 May 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/05/25/Series-Article-of-Python-Using-03/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/05/25/Series-Article-of-Python-Using-03/</guid>
+        
+        <category>python</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Article of Python Using -- 02</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;记录一些python-opencv使用过程中一些有用的小知识、小技巧，零零散散，想起来就添一点儿。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;cvimread的返回值&quot;&gt;cv.imread()的返回值&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;cv.imread()返回值类型为&lt;code class=&quot;highlighter-rouge&quot;&gt;uint8&lt;/code&gt;的数组，也就是其读取图像的像素值为0–255之间的整型。&lt;/li&gt;
+  &lt;li&gt;cv.imread()返回的三维张量shape为[高度，宽度，通道]。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;cvresize图像尺寸缩放&quot;&gt;cv.resize()图像尺寸缩放&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interpolation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]]])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;|参数|描述|
+|:—|:—|
+|src|【必】原图像|
+|dsize|【必】输出图像大小|
+|fx|【可】水平方向缩放因子|
+|fy|【可】竖直方向缩放印子|
+|interpolation|【可】差值方式|
+|返回值|与输入同类型的图像张量|&lt;/p&gt;
+
+&lt;p&gt;差值方式&lt;code class=&quot;highlighter-rouge&quot;&gt;interpolation&lt;/code&gt;可指定如下几种：   &lt;br /&gt;
+|方法名|含义|
+|:—|:—|
+|cv.INTER_NEAREST|最近邻差值|
+|cv.INTER_LINEAR|线性插值|
+|cv.INTER_CUBIC|双线性插值|
+|cv.INTER_AREA|使用像素区域关系重新采样。它可能是图像抽取的首选方法，因为它可以提供无莫尔条纹的结果。但是当图像被缩放时，它类似于INTER_NEAREST方法。|&lt;/p&gt;
+
+&lt;p&gt;有几个需要注意的点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;cv.imread()读取的图像通过&lt;code class=&quot;highlighter-rouge&quot;&gt;.shape&lt;/code&gt;提取长宽信息，&lt;code class=&quot;highlighter-rouge&quot;&gt;shape[0]&lt;/code&gt;是高，&lt;code class=&quot;highlighter-rouge&quot;&gt;shape[1]&lt;/code&gt;是宽。所以&lt;code class=&quot;highlighter-rouge&quot;&gt;dsize&lt;/code&gt;参数不能直接指定为&lt;code class=&quot;highlighter-rouge&quot;&gt;oriImg.shape&lt;/code&gt;，而需要提取原图像宽高组成新的&lt;code class=&quot;highlighter-rouge&quot;&gt;newSize = (height, width)&lt;/code&gt;，作为参数。&lt;/li&gt;
+  &lt;li&gt;如果使用缩放因子参数&lt;code class=&quot;highlighter-rouge&quot;&gt;fx, fy&lt;/code&gt;，而不是&lt;code class=&quot;highlighter-rouge&quot;&gt;dsize&lt;/code&gt;指定新图像的宽高，需要给第二个参数一个&lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt;值。&lt;/li&gt;
+  &lt;li&gt;面临大量图像的时候，插值方式选最近邻&lt;code class=&quot;highlighter-rouge&quot;&gt;cv.INTER_NEAREST&lt;/code&gt;，快。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;cvwaitkeydelay的使用和作用&quot;&gt;cv.waitKey(delay)的使用和作用&lt;/h2&gt;
+
+&lt;p&gt;使用&lt;code class=&quot;highlighter-rouge&quot;&gt;cv.imshow(&#39;windowName&#39;, img)&lt;/code&gt;显示图片的时候，如果不加&lt;code class=&quot;highlighter-rouge&quot;&gt;cv.waitKey()&lt;/code&gt;，则会有窗口一闪即逝，并不停留。于是需要使用&lt;code class=&quot;highlighter-rouge&quot;&gt;cv.waitKey()&lt;/code&gt;保留窗口显示在屏幕上。&lt;/p&gt;
+
+&lt;h3 id=&quot;case-1&quot;&gt;case 1：&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imshow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;windowName&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;waitKay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;图片一直显示，直到按下任意一个键退出显示。&lt;/p&gt;
+
+&lt;h3 id=&quot;case-2&quot;&gt;case 2：&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imshow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;windowName&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;img&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;waitKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;图片显示一秒后自动退出，如果期间按下任意一个键，也会退出显示。&lt;/p&gt;
+
+&lt;h3 id=&quot;case-3&quot;&gt;case 3：&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imshow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;windowName&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     
+    &lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;直观上的表现是不显示，实际上是显示了，但没有完全显示，一闪即过。&lt;/p&gt;
+
+&lt;h3 id=&quot;case-4&quot;&gt;case 4：&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;    
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imshow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;windowName&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
+    &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;waitKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# n&#39;s integer type,  and expected to be small.   &lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;显示，但一直显示，只能在终端ctrl+A强制中断。&lt;/p&gt;
+
+&lt;h3 id=&quot;case-5&quot;&gt;case 5：&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;     
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;     
+    &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imshow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;windowName&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;waitKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xFF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;ord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;q&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;    
+        &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sucess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;显示，指导终端检测到&lt;code class=&quot;highlighter-rouge&quot;&gt;q&lt;/code&gt;键被按下，退出循环。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 25 May 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/05/25/Series-Article-of-Python-Using-02/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/05/25/Series-Article-of-Python-Using-02/</guid>
+        
+        <category>python</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Article of Deep Learning -- 02</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;参加数据比赛或进行具体目标检测任务的时候，需要自己划分一部分val验证集，用以在训练过程中监控网络精度、敛散性、泛化程度等状态。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;默认待划分的数据集以yolo组织：&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 08 May 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/05/08/Series-Article-of-Deep-Learning-02/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/05/08/Series-Article-of-Deep-Learning-02/</guid>
+        
+        <category>pytorch</category>
+        
+        <category>object detection</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Article of Deep Learning -- 01</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;2020年首届智能船舶检测挑战赛使用yolov5获得研究生组三等奖，简单记一些目标检测任务的小知识和比赛tricks。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;首先指出框架相关的问题&quot;&gt;首先指出框架相关的问题&lt;/h1&gt;
+
+&lt;p&gt;我们使用了u版yolov5，改变网络结构比较方便。但即使自己改了更大的backbone，对数据进行了细致的清洗和花式的加噪曾广，对网络本身和检测方法竭尽所能添加tricks，最后也只是三等奖的水平。坤乾老师的学生原封不动使用scaled-yolov4，达到了一等奖的水平。这里对&lt;strong&gt;yolov5的实际效果&lt;/strong&gt;表示严重怀疑。&lt;/p&gt;
+
+&lt;p&gt;后来的一次水下目标检测任务，我测试了scaled-yolov4，效果的确比yolov5优秀。但也发现针对简单任务，&lt;strong&gt;大模型的效果反而不如较小模型&lt;/strong&gt;，甚至超大模型还会出现loss报NaN的问题。&lt;/p&gt;
+
+&lt;h1 id=&quot;比赛实录&quot;&gt;比赛实录&lt;/h1&gt;
+
+&lt;h2 id=&quot;数据集&quot;&gt;数据集&lt;/h2&gt;
+
+&lt;p&gt;所谓数据比赛，一半以上的成绩在于数据集的处理。&lt;/p&gt;
+
+&lt;h3 id=&quot;voc转yolo小目标清洗&quot;&gt;voc转yolo（小目标清洗）&lt;/h3&gt;
+
+&lt;p&gt;简单来说，VOC的xml格式图像和bbox尺寸是整数，该多大是多大，bbox通过角点坐标确定；yolo的规则中，bbox的长宽相对于图像长宽归一化到1.0以内，位置和尺寸通过中心点集宽高确定。转化的代码网上一找一大堆，但实际操作还是要结合任务的具体情况。最核心的部分就两个函数：&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;convert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dw&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;dh&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dw&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dw&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dh&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dh&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.999&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.999&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.999&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.999&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;convert_annotation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rootpath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xmlname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xmlpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rootpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;/xmls&#39;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;xmlfile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlpath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;UTF-8&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;txtname&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xmlname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;.txt&#39;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;txtpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rootpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;/labels&#39;&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#生成的.txt文件会被保存在labels目录下&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exists&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtpath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;makedirs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtpath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;txtfile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtpath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;txtfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;w+&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;UTF-8&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;in_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tree&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getroot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;size&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;width&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;height&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;out_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;iter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;object&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;# difficult = obj.find(&#39;difficult&#39;).text&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;cls&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;name&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cls&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; 
+            &lt;span class=&quot;c&quot;&gt;# if cls not in classes or int(difficult)==1:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;cls_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;xmlbox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;bndbox&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlbox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;xmin&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; \
+                &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlbox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;xmax&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; \
+                &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlbox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;ymin&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; \
+                &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;xmlbox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;ymax&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;objWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;objHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objWidth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objHeight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;bb&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;out_file&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cls_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+                &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这东西就是轮子，轮子怎么造的不做解读了，主要是会用。指出几个需要注意的点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;txtpath = rootpath + &#39;/labels&#39;&lt;/code&gt;这一行，&lt;code class=&quot;highlighter-rouge&quot;&gt;labels&lt;/code&gt;路径需要自己事先创建，不会自动创建。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;difficult = obj.find(&#39;difficult&#39;).text&lt;/code&gt;这一句，比赛数据集没有&lt;code class=&quot;highlighter-rouge&quot;&gt;difficult&lt;/code&gt;项，事实上，我遇到的大多数数据集都没有这一项，直接注释掉即可。&lt;/li&gt;
+  &lt;li&gt;相应地，后面条件语句里面的&lt;code class=&quot;highlighter-rouge&quot;&gt;int(difficult)==1&lt;/code&gt;这一判断也得删掉，只留一个&lt;code class=&quot;highlighter-rouge&quot;&gt;if cls not in classes&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;有些数据集，比如这次比赛用的数据集，标注是有问题的。存在很多误标的ground truth，猜测是标注数据的学生手一抖，就点了俩点儿，成了一个ground truth。这种情况可以在读xml文件的时候通过bbox和weight/hight把长宽/像素值或其相对整体图像的比例小于某个值的目标筛掉，不进入转yolo的过程。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;具体的实现上，如果已有的VOC数据集本身已经分好组了（在数据比赛中，这应该是大多数情况），则遍历train和a_test路径调用函数即可。&lt;/p&gt;
+
+&lt;h3 id=&quot;数据集划分&quot;&gt;数据集划分&lt;/h3&gt;
+&lt;p&gt;考虑一般情况下，数据比赛给出的a_test只是用来打榜，自己还是需要另外分一个val验证集用以在训练过程中监控网络状态。下面给出已将数据按yolo要求组织后，划分数据集的代码。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;valImg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xxx&quot;&lt;/span&gt;      &lt;span class=&quot;c&quot;&gt;# 将要被划分出来的验证集图片路径      &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;trainImg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xxx&quot;&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# 目前图片路径     &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;valLabel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xxx&quot;&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;# 将要被划分出来的验证集标签路径&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;trainLabel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xxx&quot;&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 当前标签路径      &lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;files&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listdir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trainImg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;       &lt;span class=&quot;c&quot;&gt;# 这个比例按需求来&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;shutil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trainImg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valImg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;shutil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trainLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;jpg&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;txt&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; 
+                    &lt;span class=&quot;n&quot;&gt;valLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;jpg&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&#39;txt&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;负样本和空标签&quot;&gt;负样本和空标签&lt;/h3&gt;
+
+&lt;p&gt;比赛中去除了所有空标签，因为我们认为数据足够多、样本足够丰富，负样本的存在没有必要。但另一项简单的水下目标检测的任务中，由于目标和场景过于简单，且有些背景和目标过与相似，则需要添加相应的负样本。所谓负样本，就是对应于某图片的标签文件存在但为空。&lt;/p&gt;
+
+&lt;h4 id=&quot;删除空标签&quot;&gt;删除空标签&lt;/h4&gt;
+
+&lt;p&gt;通过python读文件操作判断文件是否为空，遍历标签文件直接删除空标签文件。参照&lt;a href=&quot;https://www.ouc-liux.cn/2021/05/07/Series-Article-of-Python-Using-01/#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA&quot;&gt;这篇博客&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;添加负样本&quot;&gt;添加负样本&lt;/h4&gt;
+
+&lt;p&gt;如果是自己收集的图片，则遍历没有标签的背景图片，并通过&lt;a href=&quot;https://www.ouc-liux.cn/2021/05/07/Series-Article-of-Python-Using-01/#%E8%B0%83%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4&quot;&gt;系统命令&lt;/a&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;touch&lt;/code&gt;生成相应的空标签：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;files&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;listdir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;./background/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+    &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;replace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   
+    &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;touch trainLabel/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;需要注意的是，执行这一步的时候应该先行筛选出一定数量和形式的负样本图片，并加入到数据集。&lt;/p&gt;
+
+&lt;h3 id=&quot;添加噪声&quot;&gt;添加噪声&lt;/h3&gt;
+
+&lt;p&gt;给清洗完毕的数据添加噪声是一种非常有效的涨点方法。比赛总共使用了三种噪声和两种添加方式，为原图片添加了五类噪声，简单介绍如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;三种噪声&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;椒盐噪声：由 0(0.0) 和 255(1.0) 两个值组成的噪声。噪点在彩色RGB三通道图像中的位置可以相同，也可以不同。&lt;/li&gt;
+  &lt;li&gt;高斯噪声：符合高斯分布的噪声。&lt;/li&gt;
+  &lt;li&gt;叠加噪声：将另一幅图片的（部分）像素值按一定比例和权重叠加到目标图片。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;两种添加方式&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;像素相加：全部噪声像素和输入图片按不同权重直接相加，超过255的部分直接砍掉。&lt;/li&gt;
+  &lt;li&gt;像素替换：按一定的比例将原始图片中部分像素直接替换为噪声像素。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;添加噪声的代码如&lt;a href=&quot;https://github.com/OUCliuxiang/smartShip2020/blob/main/data/dataReinformance.py&quot;&gt;github/smartShip2020/data/dataReformance.py&lt;/a&gt;所示。需要注意的一个点儿是，添加噪声对时间序列没有要求，可以调用python多进程工具进行并行处理，配合numba加速工具，可以极大地加快处理速度。&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 May 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Deep-Learning-01/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Deep-Learning-01/</guid>
+        
+        <category>pytorch</category>
+        
+        <category>object detection</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Article of Python Using -- 01</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;记录一些python编程过程中的一些有用的小知识、小技巧，零零散散，想起来就添一点儿。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;判断文件是否为空&quot;&gt;判断文件是否为空&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;line = f.readline()&lt;/code&gt;之后判断&lt;code class=&quot;highlighter-rouge&quot;&gt;line&lt;/code&gt;是否存在，比如现在的任务是剔除一组文件里没有内容的项：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+    &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    
+        &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;     
+            &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;调用系统命令&quot;&gt;调用系统命令&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt; 
+&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;system cmd&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;npndarray指定值类型&quot;&gt;np.ndarray指定值类型&lt;/h2&gt;
+
+&lt;p&gt;以任何方法产生或转换&lt;code class=&quot;highlighter-rouge&quot;&gt;np.array()&lt;/code&gt;数组的时候，建议指定数组数据类型。如建造适用于图像的零数组：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;转换适用于np操作的浮点数组：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;255.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;如果需要，也可以建造时不指定，而在使用时另行转换：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;numpy生成高斯噪声&quot;&gt;numpy生成高斯噪声&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;如果是用于给图像加噪声，则图像以np.array表示为imgArr后，各参数可有：  &lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;mean = imgArr.mean()&lt;/code&gt;；   &lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;std = imgArr.std()&lt;/code&gt;；   &lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;shape = imgArr.shape&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;numpy限定数组的值范围&quot;&gt;numpy限定数组的值范围&lt;/h2&gt;
+
+&lt;p&gt;图像作为数组执行加噪声操作后，值可能会突破0–255，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;uint8&lt;/code&gt;类型会报错。此时需要将值强制限定在0–255的范围。&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;span class=&quot;c&quot;&gt;# 这里是因为前面将图像数组转换成浮点类型方便添加高斯噪声，     &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# clip函数的min, max 参数可以是浮点或整型。     &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;concurrentfutures-并发加速&quot;&gt;concurrent.futures 并发加速&lt;/h2&gt;
+
+&lt;h2 id=&quot;numba加速&quot;&gt;numba加速&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;numba&lt;/code&gt;对带循环的方法的处理有奇效，往往可达到几十甚至上百倍的加速。使用也很简单，通过&lt;code class=&quot;highlighter-rouge&quot;&gt;import numba as nb&lt;/code&gt;导入&lt;code class=&quot;highlighter-rouge&quot;&gt;nb.jit&lt;/code&gt;修饰器，并通过函数定义上一行添加&lt;code class=&quot;highlighter-rouge&quot;&gt;@jit&lt;/code&gt;标记使用该修饰器的函数。比如给图片添加椒盐噪声的代码：&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@nb.jit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;pepperSalt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uint8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;k&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]):&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;rdn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.025&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.975&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imgIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imgOut&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;有三个需要注意的点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;@jit只能修饰显示定义的函数，而不能修饰某几条语句或lambda函数。&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Numba对处理循环有奇效，非循环语句则无法实现较强的加速。&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Numba只支持了Python原生函数和部分NumPy函数，&lt;/strong&gt; 对如opencv等其他库函数则无法加速，会报warning甚至error。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;python3中的zip函数&quot;&gt;python3中的zip()函数&lt;/h2&gt;
+
+&lt;p&gt;zip() 函数用于将可迭代的对象作为参数，将对象中对应的元素打包成一个个元组，然后返回由这些元组组成的列表。  &lt;br /&gt;
+在 python 3 中为了减少内存，zip() 返回的是一个对象。如需展示列表，需手动 list() 转换。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;# 打包为元组的列表    &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;         
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;......&amp;gt;&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 返回一串地址，由于zip的返回值是一个对象      &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;      
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;      &lt;span class=&quot;c&quot;&gt;# 返回打包的值，非列表形式。    &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 注意，由于已经通过*符号将zipped的值提取出来了，zipped对应的地址内容现在为空    &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;     
+&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;                          &lt;span class=&quot;c&quot;&gt;# zipped已空     &lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;              &lt;span class=&quot;c&quot;&gt;# 元素个数与最短的列表一致    &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;     
+&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;            &lt;span class=&quot;c&quot;&gt;# 返回列表     &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 注意，由于已经通过list将zipped的值提取出来了，zipped对应的地址内容现在为空&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zipped&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;     
+                          &lt;span class=&quot;c&quot;&gt;# zipped已空     &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Fri, 07 May 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Python-Using-01/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Python-Using-01/</guid>
+        
+        <category>python</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Articles of Java Learning  -- 06</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.awt.image.BufferedImage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.io.File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.io.IOException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.math.BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;javax.imageio.ImageIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;net.coobird.thumbnailator.Thumbnails&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.commons.lang3.StringUtils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PicUtils&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;      
+
+     &lt;span class=&quot;cm&quot;&gt;/**      
+
+     * 根据指定大小和指定精度压缩图片       
+     
+     *        
+     
+     * @param srcPath      
+     
+     *            源图片地址      
+     
+     * @param desPath      
+     
+     *            目标图片地址      
+     
+     * @param desFilesize      
+     
+     *            指定图片大小，单位kb      
+     
+     * @param accuracy      
+     
+     *            精度，递归压缩的比率，建议小于0.9      
+     
+     * @return      
+     
+     */&lt;/span&gt;      
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;commpressPicForScale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFileSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StringUtils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StringUtils&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;exists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFileSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;源图片：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;，大小：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFileSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;kb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+ 
+            &lt;span class=&quot;c1&quot;&gt;// 1、先转换成jpg&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Thumbnails&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// 递归压缩，直到目标文件大小小于desFileSize&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;commpressPicCycle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFileSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+ 
+            &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;目标图片：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;，大小&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;kb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;图片压缩完成！&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+ 
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;commpressPicCycle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFileSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IOException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFileJPG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFileSizeJPG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcFileJPG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 2、判断大小，如果小于500kb，不压缩；如果大于等于500kb，压缩&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcFileSizeJPG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFileSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 计算宽高&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;BufferedImage&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcFileJPG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcWdith&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getWidth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srcHeigth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHeight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcWdith&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;intValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srcHeigth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;BigDecimal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;intValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+ 
+        &lt;span class=&quot;n&quot;&gt;Thumbnails&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desWidth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desHeight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;outputQuality&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;commpressPicCycle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;desPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;desFileSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+ 
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 28 Apr 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/04/28/Series-Record-of-Java-Learning-06/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/04/28/Series-Record-of-Java-Learning-06/</guid>
+        
+        <category>学习</category>
+        
+        <category>Java</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Markdown Grammar</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;使用markdown书写github博客过程中遇到的问题记录，主要是记录一点儿不熟悉的语法。随时补充。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt; &lt;/code&gt;&lt;/strong&gt;： 右向尖括号后面的内容是引用，适合用在文章开头。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;表格&lt;/strong&gt;： Markdown 制作表格使用“ | ”来分隔不同的单元格，使用“ - ”来分隔表头和其他行。语法格式如下：  &lt;br /&gt;
+ |  表头  |  表头  |  &lt;br /&gt;
+ |  —-  | —-  |  &lt;br /&gt;
+ |  单元格 | 单元格 |  &lt;br /&gt;
+ |  单元格 | 单元格 |&lt;/p&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;表头&lt;/th&gt;
+      &lt;th&gt;表头&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;单元格&lt;/td&gt;
+      &lt;td&gt;单元格&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;单元格&lt;/td&gt;
+      &lt;td&gt;单元格&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;By the way，如同“语法格式如下”到“效果如下”之间的内容，也即，当我们想要以原始文本而不是渲染表现展示markdown的语法符号，使用反斜杠 ‘\’ 进行反义。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;表格内容对齐&lt;/strong&gt;：  &lt;br /&gt;
+通过表头与内容之间的冒号与短横杠组合设置表格的对齐方式：&lt;/p&gt;
+
+&lt;p&gt;冒号在右边： 设置内容和标题栏居右对齐。  &lt;br /&gt;
+冒号在左边： 设置内容和标题栏居左对齐。  &lt;br /&gt;
+冒号在两边： 设置内容和标题栏居中对齐。&lt;/p&gt;
+
+&lt;p&gt;| 左对齐 | 右对齐 | 居中对齐 |  &lt;br /&gt;
+| :—–| —-: | :—-: |  &lt;br /&gt;
+| 单元格 | 单元格 | 单元格 |  &lt;br /&gt;
+| 单元格 | 单元格 | 单元格 |&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;表格内换行&lt;/strong&gt;  &lt;br /&gt;
+当内容过长，需要主动换行。换行符&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;br&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;github博客中渲染数学公式&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;github博客默认markdown页面不支持渲染数学公式，需要再每篇文章开头添加如下内容：&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/x-mathjax-config&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;MathJax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;tex2jax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;skipTags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;script&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;noscript&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;style&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;textarea&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;pre&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;inlineMath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;$&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;$&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/head&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;代码及高亮&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;上面的代码以&lt;code class=&quot;highlighter-rouge&quot;&gt;javascript&lt;/code&gt;格式高亮显示，通过&lt;/p&gt;
+
+&lt;p&gt;```javascript(换行)     &lt;br /&gt;
+代码内容 &lt;br /&gt;
+```&lt;/p&gt;
+
+&lt;p&gt;实现。同理，将javascript换成其他关键词，如java/cpp/bash/python等等，即可以相应语言高亮显示代码块。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用html语言插入图片&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;align=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://path/to/pic.png&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;xxx&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;xxx&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;      
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用html语言的优势是可以主动指定图片位置和尺寸信息，比如将&lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;换成&lt;code class=&quot;highlighter-rouge&quot;&gt;right&lt;/code&gt;即可指定图像右对齐。尺寸信息可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;width(height)=xxx&lt;/code&gt;指定，其中xxx可以是数字，也即像素，也可以是百分数，意思是缩放百分比。通常缺省只写一个，这样会按照原比例缩放。  &lt;br /&gt;
+github博客中图像仓库是&lt;code class=&quot;highlighter-rouge&quot;&gt;raw.githubusercontent.com/&lt;/code&gt;，也即src中需要图像在github中存放地址的&lt;code class=&quot;highlighter-rouge&quot;&gt;github.com/&lt;/code&gt;换成&lt;code class=&quot;highlighter-rouge&quot;&gt;raw.githubusercontent.com/&lt;/code&gt;。&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 27 Apr 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/04/27/Markdown-Grammar/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/04/27/Markdown-Grammar/</guid>
+        
+        <category>博客</category>
+        
+        <category>github</category>
+        
+        <category>Markdown</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Articles of Java Learning  -- 05</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;h2 id=&quot;窗口位置&quot;&gt;窗口位置&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;setLocationRelativeTo(null)&lt;/code&gt;方法将窗口在屏幕中央显示。 &lt;br /&gt;
+JFrame 中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;setLocationRelativeTo(Component c)&lt;/code&gt;是从&lt;code class=&quot;highlighter-rouge&quot;&gt;java.awt.Window&lt;/code&gt;类继承的方法，用于设置当前窗口相对于指定组件&lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;的位置。  &lt;br /&gt;
+如果指定组件当前未显示，或者&lt;code class=&quot;highlighter-rouge&quot;&gt;c = null&lt;/code&gt;，则此窗口位于屏幕的中央。  &lt;br /&gt;
+如果组件&lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;在屏幕的右部，则当前窗口将被放置在左部，其他情况亦然。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;可以使用&lt;code class=&quot;highlighter-rouge&quot;&gt;setLocation(up, left)&lt;/code&gt;方法设置窗口距显示屏上边缘up像素，距显示屏左边缘left像素。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;窗口退出方式&quot;&gt;窗口退出方式&lt;/h2&gt;
+
+&lt;p&gt;可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;setDefaultCloseOperation(int operation)&lt;/code&gt;设置用户在此窗口上发起 “close” 时默认执行的操作。其中参数&lt;code class=&quot;highlighter-rouge&quot;&gt;operation&lt;/code&gt;的取值和含义有：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;JFrame.DO_NOTHING_ON_CLOSE&lt;/code&gt;：不执行任何操作。&lt;/li&gt;
+  &lt;li&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;JFrame.HIDE_ON_CLOSE&lt;/code&gt;：隐藏窗口界面而不关闭程序，任务管理器中可以看到java.exe依然在运行。点击关闭按钮后在IDE中已无法再启动窗口，因为程序线程尚未关闭，窗口仍在。&lt;/li&gt;
+  &lt;li&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;2&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;JFrame.DISPOSE_ON_CLOSE&lt;/code&gt;：释放窗口对象而不关闭程序，任务管理器中可以看到java.exe依然在运行，只是释放窗口占用的资源。&lt;/li&gt;
+  &lt;li&gt;为&lt;code class=&quot;highlighter-rouge&quot;&gt;3&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;JFrame.EXIT_ON_CLOSE&lt;/code&gt;：使用 System exit 方法退出应用程序。仅在应用程序中使用，从系统层级结束进程。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;标签label值的位置&quot;&gt;标签Label值的位置&lt;/h2&gt;
+
+&lt;p&gt;当不指定位置构造标签对象的时候，如&lt;code class=&quot;highlighter-rouge&quot;&gt;JLabel label = new JLabel(&quot;value&quot;);&lt;/code&gt;，默认内容“value”居中；可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;SwingConstants&lt;/code&gt;参数主动指定值“value”的位置。如&lt;code class=&quot;highlighter-rouge&quot;&gt;new JLabel(&quot;value&quot;, SwingConstants.RIGHT);&lt;/code&gt;意味着值在右；类似地，将RIGHT换成CENTER、LEFT即为指定居中或居左。&lt;/p&gt;
+
+&lt;h2 id=&quot;面板布局&quot;&gt;面板布局&lt;/h2&gt;
+
+&lt;p&gt;建立&lt;code class=&quot;highlighter-rouge&quot;&gt;JFrame&lt;/code&gt;后调用对象的&lt;code class=&quot;highlighter-rouge&quot;&gt;setLayout(param)&lt;/code&gt; 方法指定JFrame对象布局。 &lt;br /&gt;
+最常用最简单的一种布局是边界布局BorderLayout，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;setLayout(new BorderLayout())&lt;/code&gt;指定，不指定也没事儿，它是窗口、框架的内容窗格和对话框等的缺省布局。BorderLayout把容器的的布局分为五个位置：CENTER、EAST、WEST、NORTH、SOUTH。依次对应为：上北（NORTH）、下南（SOUTH）、左西（WEST）、右东（EAST），中（CENTER），如下图。&lt;/p&gt;
+
+&lt;p&gt;&amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-006.png&quot; /&gt;&amp;lt;/div&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;组建的时候在组件参数后面加跟&lt;code class=&quot;highlighter-rouge&quot;&gt;BorderLayout.xxxx&lt;/code&gt;参数（xxxx可以是WEST、EAST、CENTER这些）指定组件的位置。如果未指定位置，则缺省的位置是CENTER。
+南、北位置控件各占据一行，控件宽度将自动布满整行。东、西和中间位置占据一行;若东、西、南、北位置无控件，则中间控件将自动布满整个屏幕。若东、西、南、北位置中无论哪个位置没有控件，则中间位置控件将自动占据没有控件的位置。&lt;/p&gt;
+
+&lt;p&gt;项目用到的另一种布局是&lt;code class=&quot;highlighter-rouge&quot;&gt;GridLayout(row, col)&lt;/code&gt;网格布局，通过row和col参数指定行数和列数，随即版面被&lt;strong&gt;均等地&lt;/strong&gt;划分成row行col列的矩形网格区域, 每个区域只能放置一个组件。&lt;/p&gt;
+
+&lt;h2 id=&quot;文本域自动换行添加滚动条实时更新&quot;&gt;文本域自动换行、添加滚动条、实时更新&lt;/h2&gt;
+
+&lt;h3 id=&quot;自动换行&quot;&gt;自动换行&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JTextArea&lt;/code&gt;文本域对象&lt;code class=&quot;highlighter-rouge&quot;&gt;JTextAreaObject&lt;/code&gt;通过调用&lt;code class=&quot;highlighter-rouge&quot;&gt;setLineWrap()&lt;/code&gt;方法完成自动换行：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;JTextAreaObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setLineWrap&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 默认为false，不自动换行            &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;当布尔参数为&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;的时候，将不自动换行；&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;激活该功能。另外需要了解的是，英文单词的换行有两种风格，可以通过：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;JTextAreaObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setWrapStyleWord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//默认为true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;设置。布尔参数为&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;意思是在单词边界处换行（每行最右侧可能留白），当设置为&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;时候在字符边界处换行，右侧不留白，但最右侧单词可能会被分成两部分显示。&lt;/p&gt;
+
+&lt;h3 id=&quot;滚动条&quot;&gt;滚动条&lt;/h3&gt;
+
+&lt;p&gt;要给文本域添加滚动条，需要构造一文本域对象为参数的&lt;code class=&quot;highlighter-rouge&quot;&gt;JScrollPane&lt;/code&gt;对象：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scorllPane&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JTextAreaObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;滚动条默认是当文字超出范围文本域后才显示，但可以通过以下语句主动激活其常显示功能：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;scrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setVerticalScrollBarPolicy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;命令意思是设置垂直滚动条策略，参数有：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;params:&lt;/span&gt;  
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;VERTICAL_SCROLLBAR_ALWAYS&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// 常显示    &lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;VERTICAL_SCROLLBAR_AS_NEEDED&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 当需要时显示（默认）    &lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;VERTICAL_SCROLLBAR_NEVER&lt;/span&gt;      &lt;span class=&quot;c1&quot;&gt;// 从不显示   &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;额外的，我们还可以类似地设置水平滚动条策略：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;scrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setHorizontalScrollBarPolicy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;参数相应地为：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;params:&lt;/span&gt;   
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HORIZONTAL_SCROLLBAR_ALWAYS&lt;/span&gt;   
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HORIZONTAL_SCROLLBAR_AS_NEEDED&lt;/span&gt;   
+&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JScrollPane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;HORIZONTAL_SCROLLBAR_NEVER&lt;/span&gt;       
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;实时更新&quot;&gt;实时更新&lt;/h3&gt;
+
+&lt;p&gt;默认地，当Swing主线程运行时向&lt;code class=&quot;highlighter-rouge&quot;&gt;JTextArea&lt;/code&gt;对象添加或删改内容，不会实时地刷新在屏幕上，而是等到线程结束才一并显示。调用文本域对象的&lt;code class=&quot;highlighter-rouge&quot;&gt;paintImmediately()&lt;/code&gt;方法可以使之实时刷新：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;paintImmediately&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;infoPrint&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getBounds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;原理暂不做探讨，后续有时间会进行剖析。&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 31 Mar 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-05/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-05/</guid>
+        
+        <category>学习</category>
+        
+        <category>Java</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Articles of Java Learning  -- 04</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;h2 id=&quot;list-和-arraylist&quot;&gt;List 和 ArrayList&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ouc-liux.cn/2021/01/30/Series-Record-of-Java-Learning-02/&quot;&gt;Java项目实录02&lt;/a&gt;开头有这么一行代码：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NameValuePair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NameValuePair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;试图建立一个ArrayList（泛型）对象，再将之指向到List（泛型）。对该语句的正确解释是：&lt;/p&gt;
+
+&lt;p&gt;List是一个接口，而ArrayList是List接口的一个实现类。 &lt;br /&gt;
+ArrayList类是继承AbstractList抽象类和实现List接口的一个实现类。 &lt;br /&gt;
+因此，List接口不能被构造，也就是我们说的不能创建实例对象，但是我们可以为List接口创建一个指向自己的对象引用，而ArrayList实现类的实例对象就在这充当了这个指向List接口的对象引用。&lt;/p&gt;
+
+&lt;p&gt;我们进行一组对比：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alist&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;上面三行代码中，&lt;strong&gt;1&lt;/strong&gt; 是可行的用法，这个语句创建了一个ArrayList实现类的对象后把它上溯到了List接口。此时它就是一个List对象了，有些ArrayList类具有的，但是List接口没有的属性和方法，它就不能再用了。 &lt;br /&gt;
+而&lt;strong&gt;3&lt;/strong&gt; 创建的实现类ArrayList的对象则保留了ArrayList的所有属性和方法。 &lt;br /&gt;
+&lt;strong&gt;2&lt;/strong&gt; 是错误的写法，由于接口类List无法具体实现为对象，该句无法执行。&lt;/p&gt;
+
+&lt;h2 id=&quot;正则表达式去除字符串中特定值&quot;&gt;正则表达式/去除字符串中特定值&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.ouc-liux.cn/2021/01/30/Series-Record-of-Java-Learning-02/&quot;&gt;项目实录02&lt;/a&gt;中遇到一个小问题：在一串由数字和短横杠组成的String类型变量中提取数字，得到一个纯数字字符串；问题可以等价为在原字符串中去除非数字字符。可以采用正则匹配方法处理，代码及解读如下：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;IntegerOnly&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Pattern&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[^0-9]&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;Matcher&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;matcher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;replaceAll&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;语句 1&lt;/strong&gt; ：  &lt;br /&gt;
+构造了一个正则表达式。&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;[^0-9]&quot;&lt;/code&gt;是反向字符范围的正则表达，意思是除0–9以外的所有字符。由于0–9的ASICII码是连续的，从而可以通过短横连接作为一个范围。关于正则表达，相似的例子有：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;[0-9]&quot;&lt;/code&gt; ：字符范围，意思是（以ASICII码顺序）0–9之间的字符。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;[abc]&quot;&lt;/code&gt; ：字符集，意思是只允许abc三个字符。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;[^abc]&quot;&lt;/code&gt;：反向字符集的，意思是除a、b、c以外的所有字符。&lt;/li&gt;
+  &lt;li&gt;关于正则表达的更多语法，见&lt;a href=&quot;https://www.runoob.com/java/java-regular-expressions.html&quot;&gt;这里&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;语句 2&lt;/strong&gt; ：  &lt;br /&gt;
+通过 1 构建的正则表达式对字符串str进行匹配，并返回一个带有匹配结果的&lt;code class=&quot;highlighter-rouge&quot;&gt;Matcher&lt;/code&gt;变量。在本项目中就是匹配出有短横杠的String中的非数字字符。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;语句 3&lt;/strong&gt; ：  &lt;br /&gt;
+对语句 2 的匹配结果加以操作： 通过&lt;code class=&quot;highlighter-rouge&quot;&gt;Matcher&lt;/code&gt;变量的&lt;code class=&quot;highlighter-rouge&quot;&gt;replaceAll(String)&lt;/code&gt;方法将原始字符串str中的匹配结果（非数字字符）全部替换为空。该方法返回一个字符串，详见&lt;a href=&quot;https://docs.oracle.com/javase/8/docs/api/java/util/regex/Matcher.html#replaceAll-java.lang.String-&quot;&gt;文档&lt;/a&gt;。 &lt;br /&gt;
+随后调用String变量的&lt;code class=&quot;highlighter-rouge&quot;&gt;trim()&lt;/code&gt;方法，去除replaceAll之后的字符串头尾的空白符。得到纯数字组成的字符串,返回。&lt;/p&gt;
+
+&lt;h2 id=&quot;类类型double与基本数据类型double&quot;&gt;类类型Double与基本数据类型double&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Double是一个类，创建对象，存放在堆中&lt;/li&gt;
+  &lt;li&gt;double是一种基本数据类型，创建引用，存放在栈中&lt;/li&gt;
+  &lt;li&gt;Double是对double类型的封装，内置很多方法可以实现String到double的转换，以及获取各种double类型的属性值（MAX_VALUE，SIZE等）&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Double d =new Double(dou)&lt;/code&gt;  可将double基本数据类型自动装箱为Double包装类&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;double dou =d.doubleValue()&lt;/code&gt;可将Double的包装类自动拆箱为基本数据类型&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Double提取字符串中浮点数的两个静态方法：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Double.parseDouble(String)&lt;/code&gt;： 把数字类型的字符串转换成基本数据类型double&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Double.valueOf(String)&lt;/code&gt;： 把数字类型的字符串转换成类类型Double&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;stringformat格式化输出&quot;&gt;String.format()格式化输出&lt;/h2&gt;
+
+&lt;p&gt;来自String的静态类&lt;code class=&quot;highlighter-rouge&quot;&gt;String.format(String, [argvs])&lt;/code&gt;用于格式化填充字符串。方法的第一个参数是一个含有格式化占位符的字符串变量，如%d, %f, %3.4f等等，第二个及之后的参数按顺序是填充内容。   &lt;br /&gt;
+常用的format占位符含义及表现展示为如下&lt;a href=&quot;https://www.ouc-liux.cn/2021/04/27/Markdown-Grammar/&quot;&gt;表格&lt;/a&gt;：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;占位符&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;含义&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;案例&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%d&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;int型变量&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;‘c’ -&amp;gt; 99&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%s&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;String变量&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%c&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;char型变量&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;99 -&amp;gt; ‘c’&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%f&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;浮点型变量，&lt;br /&gt;默认小数点后六位&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;3.12 -&amp;gt; &lt;br /&gt;3.120000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%x&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;十六进制数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;101(10) -&amp;gt; 65&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%o&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;八进制数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;15(10) -&amp;gt; 17&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%nd, &lt;br /&gt;n是整数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;右对齐n位，左侧为空&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%n.mf, &lt;br /&gt;n,m都整数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;小数点前右对齐n位，&lt;br /&gt;左侧为空；保留m位小数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;123.45(%3.3f)&lt;br /&gt;-&amp;gt;123.450&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%mnd, mn是整数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;右对齐n位，左侧补’m’&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;101(%010d)-&amp;gt;&lt;br /&gt;0000000101&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%mn.kf, m,n,k是整数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;不做&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;解释&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;%-nd, n是整数&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;左对齐n位，右侧为空&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;类似地&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;可以&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;自行组合&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;文件读写与存在性判断&quot;&gt;文件读写与存在性判断&lt;/h2&gt;
+&lt;p&gt;[文件读写]操作都要包装在&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IOException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;   
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;语句中用以捕获可能发生的IO错误。读文件通过是固定的流程：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 1. 以文件名为参 构造文件对象;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newExcelFile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;    
+
+&lt;span class=&quot;c1&quot;&gt;// 2. 以文件对象为参构造文件输出流对象；     &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;FileOutputStream&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FileOutputStream&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newExcelFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;    
+
+&lt;span class=&quot;c1&quot;&gt;// 3. 以文件输出流为参数写入内容；    &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;wb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;    
+
+&lt;span class=&quot;c1&quot;&gt;// 4. 关闭文件输出流。     &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;可以通过文件对象的&lt;code class=&quot;highlighter-rouge&quot;&gt;exist()&lt;/code&gt;方法判断文件是否为空。文件非空，读到了内容，返回&lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;，否则，建立新文件并返回&lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;。  &lt;br /&gt;
+在&lt;code class=&quot;highlighter-rouge&quot;&gt;new&lt;/code&gt;的同时调用方法&lt;code class=&quot;highlighter-rouge&quot;&gt;new File(name).exist()&lt;/code&gt;也无不可。&lt;/p&gt;
+
+&lt;h2 id=&quot;读文件与读图像&quot;&gt;读文件与读图像&lt;/h2&gt;
+
+&lt;p&gt;图像可以读取为文件对象&lt;code class=&quot;highlighter-rouge&quot;&gt;File img = new File(imgPath)&lt;/code&gt;，但这样读出来是字节码，可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;img.length()&lt;/code&gt;方法获取图片大小，但无法获取诸如长宽像素值类似的图像属性。要获得图像属性，需要将图像读取为&lt;code class=&quot;highlighter-rouge&quot;&gt;BufferedImg&lt;/code&gt;对象，再通过该对象的get方法获取其属性：&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;BufferedImg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageIO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imgPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// 读取图像为BufferedImg对象&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imgHeight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getHeight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// 提取图像高度&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imgWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getWidth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;              &lt;span class=&quot;c1&quot;&gt;// 提取图像宽度&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;其中&lt;code class=&quot;highlighter-rouge&quot;&gt;BufferedImg&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;ImageIO&lt;/code&gt;分别需要import &lt;code class=&quot;highlighter-rouge&quot;&gt;java.awt.image.BufferedImg&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;javax.imageio.ImageIO&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;判断字符串中是否有特定字符或子串&quot;&gt;判断字符串中是否有特定字符或子串&lt;/h2&gt;
+
+&lt;p&gt;三种方法：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;startsWith()&lt;/li&gt;
+  &lt;li&gt;contains()&lt;/li&gt;
+  &lt;li&gt;indexOf()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;startswith&quot;&gt;startsWith()&lt;/h3&gt;
+
+&lt;p&gt;调用方法： &lt;code class=&quot;highlighter-rouge&quot;&gt;str.startsWith( subStr, offset);&lt;/code&gt;，参数&lt;code class=&quot;highlighter-rouge&quot;&gt;subStr&lt;/code&gt;是要匹配的字串/字符， &lt;code class=&quot;highlighter-rouge&quot;&gt;offset&lt;/code&gt;是偏移量，俗称从哪里开始找，默认从0开始。  &lt;br /&gt;
+返回值是boolean，找到就是true， 没找到就是false。&lt;/p&gt;
+
+&lt;h3 id=&quot;contains&quot;&gt;contains()&lt;/h3&gt;
+
+&lt;p&gt;调用方法： &lt;code class=&quot;highlighter-rouge&quot;&gt;str.contains(subStr);&lt;/code&gt;，参数&lt;code class=&quot;highlighter-rouge&quot;&gt;subStr&lt;/code&gt;是要匹配的字串/字符。返回值是boolean，找到就是true， 没找到就是false。&lt;/p&gt;
+
+&lt;h3 id=&quot;indexof&quot;&gt;indexOf()&lt;/h3&gt;
+
+&lt;p&gt;调用方法： &lt;code class=&quot;highlighter-rouge&quot;&gt;str.indexOf(subStr, offset);&lt;/code&gt;，参数&lt;code class=&quot;highlighter-rouge&quot;&gt;subStr&lt;/code&gt;是要匹配的字串/字符，&lt;code class=&quot;highlighter-rouge&quot;&gt;offset&lt;/code&gt;是偏移量，俗称从哪里开始找，默认从0开始。  &lt;br /&gt;
+返回值是int，找到了就返回子串/字符第一次出现时首字符在&lt;strong&gt;整个字符串&lt;/strong&gt;的下标（和offset是多少无关），没找到就是-1。&lt;/p&gt;
+
+&lt;h2 id=&quot;thumbnailator压缩图片&quot;&gt;thumbnailator压缩图片&lt;/h2&gt;
+&lt;p&gt;详见&lt;a href=&quot;https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-02/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-commpresspicforscaleparams&quot;&gt;项目实录02&lt;/a&gt;和&lt;a href=&quot;https://www.ouc-liux.cn/2021/04/28/Series-Record-of-Java-Learning-06/&quot;&gt;学习实录04&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;对字符串追加的五种操作&quot;&gt;对字符串追加的五种操作&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;直接使用“+”；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;String contact() 方法；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;StringUtils.join() 方法；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;StringBuffer append() 方法；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;StringBuilder append() 方法；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;时间开销如下图：&lt;/p&gt;
+
+&lt;p&gt;&amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-009.png&quot; /&gt;&amp;lt;/div&amp;gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 31 Mar 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-04/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-04/</guid>
+        
+        <category>学习</category>
+        
+        <category>Java</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Series Articles of Java Learning  -- 03</title>
+        <description>&lt;head&gt;
+    &lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;],
+            inlineMath: [[&#39;$&#39;,&#39;$&#39;]]
+            }
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;本文旨在对使用&lt;strong&gt;IDEA&lt;/strong&gt;进行java项目开发过程中遇到的一些共性问题进行总结。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;jar包的引入&quot;&gt;jar包的引入&lt;/h1&gt;
+&lt;p&gt;当项目需要非默认的功能时，需要引入第三方jar包。&lt;br /&gt;
+1, 在&lt;a href=&quot;https://mvnrepository.com/&quot;&gt;maven&lt;/a&gt;查询并下载指定版本号的File-&amp;gt;jar包，如下图所示：
+&amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-001.png&quot; /&gt;&amp;lt;/div&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;2, 将下载好的jar包放入项目的&lt;code class=&quot;highlighter-rouge&quot;&gt;lib&lt;/code&gt;目录，也即与&lt;code class=&quot;highlighter-rouge&quot;&gt;scr/&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;out/&lt;/code&gt;平级的路径，如下图所示。实际上，加入包到项目下任何路径均可，且如果直接加入到根路径，似乎无需下一步导入操作。
+&amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-002.png&quot; /&gt;&amp;lt;/div&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;3, 导入包到项目。File –&amp;gt; Project Structure –&amp;gt; 左侧栏Modules –&amp;gt; 右侧栏Dependencies –&amp;gt; 最右侧栏“+”号 –&amp;gt; 1.JARs or directories… –&amp;gt; 选中lib中的包 –&amp;gt; OK –&amp;gt; Apply –&amp;gt; OK. 完成导入。过程中部分步骤如下图所示：
+&amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-003.png&quot; /&gt;&amp;lt;/div&amp;gt; &amp;lt;div align=center&amp;gt;&lt;img src=&quot;https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-004.png&quot; /&gt;&amp;lt;/div&amp;gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;发布项目为可执行程序win系统&quot;&gt;发布项目为可执行程序（win系统）&lt;/h1&gt;
+
+&lt;p&gt;jpackage 是 java 14 里面自带的打包工具，jpackage 解决了 java 开发过程中得一个难题：分发自己的程序，需要客户电脑中已安装 jre 环境。有了 jpackage，我们可以直接将 java 程序打包成安装包，具体来说：&lt;/p&gt;
+
+&lt;p&gt;$\cdot$  Windows：exe，msi   &lt;br /&gt;
+$\cdot$  Mac：dmg，pkg  &lt;br /&gt;
+$\cdot$  Linux：deb，rpm&lt;/p&gt;
+
+&lt;p&gt;jpackage 目前并不成熟，但是也算是可以使用。另外，虽然 jpackage 可以打包各个系统的安装包，但是在一个系统上只能打对应系统的安装包。比如在 windows 上，就只能打成 exe 或 msi。&lt;/p&gt;
+&lt;h2 id=&quot;win环境准备&quot;&gt;win环境准备&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;jdk14&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/wixtoolset/wix3/releases&quot;&gt;wix3&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;linux下环境准备未验证&quot;&gt;linux下环境准备（未验证）&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;JDK14&lt;/li&gt;
+  &lt;li&gt;apt 安装 alien 和 fakeroot&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;生成jar包&quot;&gt;生成jar包&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;File-&amp;gt; Project Structure&lt;/li&gt;
+  &lt;li&gt;点击artifacts&lt;/li&gt;
+  &lt;li&gt;点击 +&lt;/li&gt;
+  &lt;li&gt;点击JAR-&amp;gt;From Modules with Dependencies..&lt;/li&gt;
+  &lt;li&gt;选择相应的Modules&lt;/li&gt;
+  &lt;li&gt;点击Main Class 最右边的 三个… 进行main的入口的选择&lt;/li&gt;
+  &lt;li&gt;点击ok，就会看到了，注意里面的输出的路径output dictoinary&lt;/li&gt;
+  &lt;li&gt;再点击apply，或者ok就可以了&lt;/li&gt;
+  &lt;li&gt;这个时候点击Build-&amp;gt;Build artifacts..输出的文件，就是在第6步里面的output dictoinary里面&lt;/li&gt;
+  &lt;li&gt;将jar包复制到lib路径里面，为下一部发布安装程序做准备&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;发布安装包&quot;&gt;发布安装包&lt;/h2&gt;
+&lt;p&gt;一条命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jpackage &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;      
+&lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; TableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--input&lt;/span&gt; lib &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--main-class&lt;/span&gt; com.alibaba.ocr.demo.AliTableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--main-jar&lt;/span&gt; AliTableOCR.jar &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--vendor&lt;/span&gt; alibaba.ocr.demo &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--win-dir-chooser&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--win-shortcut&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--win-menu&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;--win-menu-group&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;TableOCR&quot;&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;各参数意义分别为（注意顺序）：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;parms:
+&lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt;:             &lt;span class=&quot;c&quot;&gt;# 安装包名字      &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--input&lt;/span&gt;:            &lt;span class=&quot;c&quot;&gt;# 项目生成jar包的路径      &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--main-class&lt;/span&gt;:       &lt;span class=&quot;c&quot;&gt;# 项目入口函数从包到类（含）的路径（从哪儿启动程序）    &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--main-jar&lt;/span&gt;:         &lt;span class=&quot;c&quot;&gt;# 项目生成jar包名字    &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--vendor&lt;/span&gt;:           &lt;span class=&quot;c&quot;&gt;# 项目入口函数所在类的路径   &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--win-dir-chooser&lt;/span&gt;:  &lt;span class=&quot;c&quot;&gt;# 安装时添加“选择安装路径”，该项只用在win系统，下同    &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--win-shortcut&lt;/span&gt;:     &lt;span class=&quot;c&quot;&gt;# 安装后自动在桌面添加快捷键     &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--win-menu&lt;/span&gt;:         &lt;span class=&quot;c&quot;&gt;# 添加到系统菜单中    &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--win-menu-group&lt;/span&gt;:   &lt;span class=&quot;c&quot;&gt;# 启动该应用程序所在的菜单组。放在–win-menu 之后，否则无效。&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;发布为免安装版本未验证&quot;&gt;发布为免安装版本（未验证）&lt;/h2&gt;
+&lt;p&gt;jpackage 提供一个选项，可以用来生成镜像（image），而这个镜像就可以充当便携版执行命令和上面基本一致，添加&lt;code class=&quot;highlighter-rouge&quot;&gt;--type app-image&lt;/code&gt; 命令，删除所有–win-xxx 即可：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jpackage &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;      
+&lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; TableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;--type&lt;/span&gt; app-image &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--input&lt;/span&gt; lib &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--main-class&lt;/span&gt; com.alibaba.ocr.demo.AliTableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--main-jar&lt;/span&gt; AliTableOCR.jar &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;   
+&lt;span class=&quot;nt&quot;&gt;--vendor&lt;/span&gt; alibaba.ocr.demo     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;结果是一个文件夹。&lt;/p&gt;
+
+&lt;h3 id=&quot;免安装版本发布为msi安装包&quot;&gt;免安装版本发布为msi安装包&lt;/h3&gt;
+
+&lt;p&gt;打包成镜像后，还可以将镜像转化为安装包（通常发生在我们想对镜像做一些定制化内容时），执行命令：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jpackage &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; TableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;--type&lt;/span&gt; msi &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  
+&lt;span class=&quot;nt&quot;&gt;--app-image&lt;/span&gt; TableOCR &lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# 上一步生成的镜像文件夹的位置 &lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--vendor&lt;/span&gt; alibaba.ocr.demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;其他关于模块化项目发布的信息教程&quot;&gt;其他关于模块化项目发布的信息教程&lt;/h1&gt;
+
+&lt;p&gt;参考博客&lt;a href=&quot;https://www.ravenxrz.ink/archives/421e5ad2.html&quot;&gt;Java 应用程序打包 - jpackage 使用记录 &lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 31 Mar 2021 00:00:00 +0800</pubDate>
+        <link>http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-03/</link>
+        <guid isPermaLink="true">http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-03/</guid>
+        
+        <category>学习</category>
+        
+        <category>Java</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

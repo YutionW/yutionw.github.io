@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Article of Python Using -- 01 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Python-Using-01/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#python" title="python">python</a>
+                        
+                    </div>
+                    <h1>Series Article of Python Using -- 01</h1>
+                    
+                    
+                    <h2 class="subheading">Python实录01 -- 汇总一些小知识</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on May 7, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<blockquote>
+  <p>记录一些python编程过程中的一些有用的小知识、小技巧，零零散散，想起来就添一点儿。</p>
+</blockquote>
+
+<h2 id="判断文件是否为空">判断文件是否为空</h2>
+
+<p><code class="highlighter-rouge">line = f.readline()</code>之后判断<code class="highlighter-rouge">line</code>是否存在，比如现在的任务是剔除一组文件里没有内容的项：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>    
+        <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>     
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="调用系统命令">调用系统命令</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span> 
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">"system cmd"</span><span class="p">)</span>    
+</code></pre></div></div>
+
+<h2 id="npndarray指定值类型">np.ndarray指定值类型</h2>
+
+<p>以任何方法产生或转换<code class="highlighter-rouge">np.array()</code>数组的时候，建议指定数组数据类型。如建造适用于图像的零数组：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">imgOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">imgIn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</code></pre></div></div>
+<p>转换适用于np操作的浮点数组：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">imgOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">imgIn</span><span class="o">/</span><span class="mf">255.</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="nb">float</span><span class="p">)</span>
+</code></pre></div></div>
+<p>如果需要，也可以建造时不指定，而在使用时另行转换：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">imgOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">imgOut</span><span class="o">*</span><span class="mi">255</span><span class="p">)</span>     
+</code></pre></div></div>
+
+<h2 id="numpy生成高斯噪声">numpy生成高斯噪声</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<p>如果是用于给图像加噪声，则图像以np.array表示为imgArr后，各参数可有：  <br />
+<code class="highlighter-rouge">mean = imgArr.mean()</code>；   <br />
+<code class="highlighter-rouge">std = imgArr.std()</code>；   <br />
+<code class="highlighter-rouge">shape = imgArr.shape</code>。</p>
+
+<h2 id="numpy限定数组的值范围">numpy限定数组的值范围</h2>
+
+<p>图像作为数组执行加噪声操作后，值可能会突破0–255，使用<code class="highlighter-rouge">uint8</code>类型会报错。此时需要将值强制限定在0–255的范围。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">imgOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">imgOut</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>    
+<span class="c"># 这里是因为前面将图像数组转换成浮点类型方便添加高斯噪声，     </span>
+<span class="c"># clip函数的min, max 参数可以是浮点或整型。     </span>
+</code></pre></div></div>
+
+<h2 id="concurrentfutures-并发加速">concurrent.futures 并发加速</h2>
+
+<h2 id="numba加速">numba加速</h2>
+
+<p><code class="highlighter-rouge">numba</code>对带循环的方法的处理有奇效，往往可达到几十甚至上百倍的加速。使用也很简单，通过<code class="highlighter-rouge">import numba as nb</code>导入<code class="highlighter-rouge">nb.jit</code>修饰器，并通过函数定义上一行添加<code class="highlighter-rouge">@jit</code>标记使用该修饰器的函数。比如给图片添加椒盐噪声的代码：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@nb.jit</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">pepperSalt</span><span class="p">(</span><span class="n">imgIn</span><span class="p">):</span>
+    <span class="n">imgOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">imgIn</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imgIn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imgIn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">imgIn</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">rdn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">rdn</span> <span class="o">&lt;</span> <span class="mf">0.025</span><span class="p">:</span>
+                    <span class="n">imgOut</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">elif</span> <span class="n">rdn</span> <span class="o">&gt;</span> <span class="mf">0.975</span><span class="p">:</span>
+                    <span class="n">imgOut</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">imgOut</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">imgIn</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">imgOut</span>
+</code></pre></div></div>
+
+<p>有三个需要注意的点：</p>
+<ol>
+  <li><strong>@jit只能修饰显示定义的函数，而不能修饰某几条语句或lambda函数。</strong></li>
+  <li><strong>Numba对处理循环有奇效，非循环语句则无法实现较强的加速。</strong></li>
+  <li><strong>Numba只支持了Python原生函数和部分NumPy函数，</strong> 对如opencv等其他库函数则无法加速，会报warning甚至error。</li>
+</ol>
+
+<h2 id="python3中的zip函数">python3中的zip()函数</h2>
+
+<p>zip() 函数用于将可迭代的对象作为参数，将对象中对应的元素打包成一个个元组，然后返回由这些元组组成的列表。  <br />
+在 python 3 中为了减少内存，zip() 返回的是一个对象。如需展示列表，需手动 list() 转换。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">zipped</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>     <span class="c"># 打包为元组的列表    </span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">zipped</span><span class="p">)</span>         
+<span class="o">&lt;</span><span class="nb">zip</span> <span class="n">at</span> <span class="nb">zip</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">......&gt;</span>  <span class="c"># 返回一串地址，由于zip的返回值是一个对象      </span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">zipped</span><span class="p">)</span>      
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>      <span class="c"># 返回打包的值，非列表形式。    </span>
+<span class="c"># 注意，由于已经通过*符号将zipped的值提取出来了，zipped对应的地址内容现在为空    </span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">zipped</span><span class="p">))</span>     
+<span class="p">[]</span>                          <span class="c"># zipped已空     </span>
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">zipped</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>              <span class="c"># 元素个数与最短的列表一致    </span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">zipped</span><span class="p">))</span>     
+<span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>            <span class="c"># 返回列表     </span>
+<span class="c"># 注意，由于已经通过list将zipped的值提取出来了，zipped对应的地址内容现在为空</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">zipped</span><span class="p">)</span>     
+                          <span class="c"># zipped已空     </span>
+<span class="o">&gt;&gt;&gt;</span>     
+</code></pre></div></div>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/04/28/Series-Record-of-Java-Learning-06/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 06">
+                        Previous<br>
+                        <span>Series Articles of Java Learning  -- 06</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/" data-toggle="tooltip" data-placement="top" title="Series Article of Deep Learning -- 01">
+                        Next<br>
+                        <span>Series Article of Deep Learning -- 01</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

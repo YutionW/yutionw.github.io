@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Articles of Java Learning  -- 04 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-04/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#学习" title="学习">学习</a>
+                        
+                        <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                    </div>
+                    <h1>Series Articles of Java Learning  -- 04</h1>
+                    
+                    
+                    <h2 class="subheading">Java学习实录02 -- 总结一些小知识</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on March 31, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<h2 id="list-和-arraylist">List 和 ArrayList</h2>
+<p><a href="https://www.ouc-liux.cn/2021/01/30/Series-Record-of-Java-Learning-02/">Java项目实录02</a>开头有这么一行代码：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">NameValuePair</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">NameValuePair</span><span class="o">&gt;();</span>
+</code></pre></div></div>
+<p>试图建立一个ArrayList（泛型）对象，再将之指向到List（泛型）。对该语句的正确解释是：</p>
+
+<p>List是一个接口，而ArrayList是List接口的一个实现类。 <br />
+ArrayList类是继承AbstractList抽象类和实现List接口的一个实现类。 <br />
+因此，List接口不能被构造，也就是我们说的不能创建实例对象，但是我们可以为List接口创建一个指向自己的对象引用，而ArrayList实现类的实例对象就在这充当了这个指向List接口的对象引用。</p>
+
+<p>我们进行一组对比：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>        <span class="c1">// 1</span>
+<span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">List</span><span class="o">();</span>             <span class="c1">// 2</span>
+<span class="n">ArrayList</span> <span class="n">alist</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>  <span class="c1">// 3</span>
+</code></pre></div></div>
+
+<p>上面三行代码中，<strong>1</strong> 是可行的用法，这个语句创建了一个ArrayList实现类的对象后把它上溯到了List接口。此时它就是一个List对象了，有些ArrayList类具有的，但是List接口没有的属性和方法，它就不能再用了。 <br />
+而<strong>3</strong> 创建的实现类ArrayList的对象则保留了ArrayList的所有属性和方法。 <br />
+<strong>2</strong> 是错误的写法，由于接口类List无法具体实现为对象，该句无法执行。</p>
+
+<h2 id="正则表达式去除字符串中特定值">正则表达式/去除字符串中特定值</h2>
+
+<p><a href="https://www.ouc-liux.cn/2021/01/30/Series-Record-of-Java-Learning-02/">项目实录02</a>中遇到一个小问题：在一串由数字和短横杠组成的String类型变量中提取数字，得到一个纯数字字符串；问题可以等价为在原字符串中去除非数字字符。可以采用正则匹配方法处理，代码及解读如下：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">IntegerOnly</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">){</span>
+    <span class="n">Pattern</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"[^0-9]"</span><span class="o">);</span>  <span class="c1">// 1</span>
+    <span class="n">Matcher</span> <span class="n">m</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>             <span class="c1">// 2</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="na">replaceAll</span><span class="o">(</span><span class="s">""</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>         <span class="c1">// 3</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>语句 1</strong> ：  <br />
+构造了一个正则表达式。<code class="highlighter-rouge">"[^0-9]"</code>是反向字符范围的正则表达，意思是除0–9以外的所有字符。由于0–9的ASICII码是连续的，从而可以通过短横连接作为一个范围。关于正则表达，相似的例子有：</p>
+<ul>
+  <li><code class="highlighter-rouge">"[0-9]"</code> ：字符范围，意思是（以ASICII码顺序）0–9之间的字符。</li>
+  <li><code class="highlighter-rouge">"[abc]"</code> ：字符集，意思是只允许abc三个字符。</li>
+  <li><code class="highlighter-rouge">"[^abc]"</code>：反向字符集的，意思是除a、b、c以外的所有字符。</li>
+  <li>关于正则表达的更多语法，见<a href="https://www.runoob.com/java/java-regular-expressions.html">这里</a>。</li>
+</ul>
+
+<p><strong>语句 2</strong> ：  <br />
+通过 1 构建的正则表达式对字符串str进行匹配，并返回一个带有匹配结果的<code class="highlighter-rouge">Matcher</code>变量。在本项目中就是匹配出有短横杠的String中的非数字字符。</p>
+
+<p><strong>语句 3</strong> ：  <br />
+对语句 2 的匹配结果加以操作： 通过<code class="highlighter-rouge">Matcher</code>变量的<code class="highlighter-rouge">replaceAll(String)</code>方法将原始字符串str中的匹配结果（非数字字符）全部替换为空。该方法返回一个字符串，详见<a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Matcher.html#replaceAll-java.lang.String-">文档</a>。 <br />
+随后调用String变量的<code class="highlighter-rouge">trim()</code>方法，去除replaceAll之后的字符串头尾的空白符。得到纯数字组成的字符串,返回。</p>
+
+<h2 id="类类型double与基本数据类型double">类类型Double与基本数据类型double</h2>
+
+<ul>
+  <li>Double是一个类，创建对象，存放在堆中</li>
+  <li>double是一种基本数据类型，创建引用，存放在栈中</li>
+  <li>Double是对double类型的封装，内置很多方法可以实现String到double的转换，以及获取各种double类型的属性值（MAX_VALUE，SIZE等）</li>
+  <li><code class="highlighter-rouge">Double d =new Double(dou)</code>  可将double基本数据类型自动装箱为Double包装类</li>
+  <li><code class="highlighter-rouge">double dou =d.doubleValue()</code>可将Double的包装类自动拆箱为基本数据类型</li>
+</ul>
+
+<p>Double提取字符串中浮点数的两个静态方法：</p>
+<ul>
+  <li><code class="highlighter-rouge">Double.parseDouble(String)</code>： 把数字类型的字符串转换成基本数据类型double</li>
+  <li><code class="highlighter-rouge">Double.valueOf(String)</code>： 把数字类型的字符串转换成类类型Double</li>
+</ul>
+
+<h2 id="stringformat格式化输出">String.format()格式化输出</h2>
+
+<p>来自String的静态类<code class="highlighter-rouge">String.format(String, [argvs])</code>用于格式化填充字符串。方法的第一个参数是一个含有格式化占位符的字符串变量，如%d, %f, %3.4f等等，第二个及之后的参数按顺序是填充内容。   <br />
+常用的format占位符含义及表现展示为如下<a href="https://www.ouc-liux.cn/2021/04/27/Markdown-Grammar/">表格</a>：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">占位符</th>
+      <th style="text-align: left">含义</th>
+      <th style="text-align: left">案例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">%d</td>
+      <td style="text-align: left">int型变量</td>
+      <td style="text-align: left">‘c’ -&gt; 99</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%s</td>
+      <td style="text-align: left">String变量</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%c</td>
+      <td style="text-align: left">char型变量</td>
+      <td style="text-align: left">99 -&gt; ‘c’</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%f</td>
+      <td style="text-align: left">浮点型变量，<br />默认小数点后六位</td>
+      <td style="text-align: left">3.12 -&gt; <br />3.120000</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%x</td>
+      <td style="text-align: left">十六进制数</td>
+      <td style="text-align: left">101(10) -&gt; 65</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%o</td>
+      <td style="text-align: left">八进制数</td>
+      <td style="text-align: left">15(10) -&gt; 17</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%nd, <br />n是整数</td>
+      <td style="text-align: left">右对齐n位，左侧为空</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%n.mf, <br />n,m都整数</td>
+      <td style="text-align: left">小数点前右对齐n位，<br />左侧为空；保留m位小数</td>
+      <td style="text-align: left">123.45(%3.3f)<br />-&gt;123.450</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%mnd, mn是整数</td>
+      <td style="text-align: left">右对齐n位，左侧补’m’</td>
+      <td style="text-align: left">101(%010d)-&gt;<br />0000000101</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%mn.kf, m,n,k是整数</td>
+      <td style="text-align: left">不做</td>
+      <td style="text-align: left">解释</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">%-nd, n是整数</td>
+      <td style="text-align: left">左对齐n位，右侧为空</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">类似地</td>
+      <td style="text-align: left">可以</td>
+      <td style="text-align: left">自行组合</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="文件读写与存在性判断">文件读写与存在性判断</h2>
+<p>[文件读写]操作都要包装在</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>   
+</code></pre></div></div>
+<p>语句中用以捕获可能发生的IO错误。读文件通过是固定的流程：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. 以文件名为参 构造文件对象;</span>
+<span class="n">File</span> <span class="n">newExcelFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">outputName</span><span class="o">);</span>    
+
+<span class="c1">// 2. 以文件对象为参构造文件输出流对象；     </span>
+<span class="n">FileOutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">newExcelFile</span><span class="o">);</span>    
+
+<span class="c1">// 3. 以文件输出流为参数写入内容；    </span>
+<span class="n">wb</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">out</span><span class="o">);</span>    
+
+<span class="c1">// 4. 关闭文件输出流。     </span>
+<span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>     
+</code></pre></div></div>
+
+<p>可以通过文件对象的<code class="highlighter-rouge">exist()</code>方法判断文件是否为空。文件非空，读到了内容，返回<code class="highlighter-rouge">true</code>，否则，建立新文件并返回<code class="highlighter-rouge">false</code>。  <br />
+在<code class="highlighter-rouge">new</code>的同时调用方法<code class="highlighter-rouge">new File(name).exist()</code>也无不可。</p>
+
+<h2 id="读文件与读图像">读文件与读图像</h2>
+
+<p>图像可以读取为文件对象<code class="highlighter-rouge">File img = new File(imgPath)</code>，但这样读出来是字节码，可以通过<code class="highlighter-rouge">img.length()</code>方法获取图片大小，但无法获取诸如长宽像素值类似的图像属性。要获得图像属性，需要将图像读取为<code class="highlighter-rouge">BufferedImg</code>对象，再通过该对象的get方法获取其属性：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BufferedImg</span> <span class="n">bim</span> <span class="o">=</span> <span class="n">ImageIO</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">imgPath</span><span class="o">);</span>    <span class="c1">// 读取图像为BufferedImg对象</span>
+<span class="kt">int</span> <span class="n">imgHeight</span><span class="o">=</span> <span class="n">bim</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>             <span class="c1">// 提取图像高度</span>
+<span class="kt">int</span> <span class="n">imgWidth</span> <span class="o">=</span> <span class="n">bim</span><span class="o">.</span><span class="na">getWidth</span><span class="o">();</span>              <span class="c1">// 提取图像宽度</span>
+</code></pre></div></div>
+<p>其中<code class="highlighter-rouge">BufferedImg</code>和<code class="highlighter-rouge">ImageIO</code>分别需要import <code class="highlighter-rouge">java.awt.image.BufferedImg</code> 和 <code class="highlighter-rouge">javax.imageio.ImageIO</code>。</p>
+
+<h2 id="判断字符串中是否有特定字符或子串">判断字符串中是否有特定字符或子串</h2>
+
+<p>三种方法：</p>
+<ul>
+  <li>startsWith()</li>
+  <li>contains()</li>
+  <li>indexOf()</li>
+</ul>
+
+<h3 id="startswith">startsWith()</h3>
+
+<p>调用方法： <code class="highlighter-rouge">str.startsWith( subStr, offset);</code>，参数<code class="highlighter-rouge">subStr</code>是要匹配的字串/字符， <code class="highlighter-rouge">offset</code>是偏移量，俗称从哪里开始找，默认从0开始。  <br />
+返回值是boolean，找到就是true， 没找到就是false。</p>
+
+<h3 id="contains">contains()</h3>
+
+<p>调用方法： <code class="highlighter-rouge">str.contains(subStr);</code>，参数<code class="highlighter-rouge">subStr</code>是要匹配的字串/字符。返回值是boolean，找到就是true， 没找到就是false。</p>
+
+<h3 id="indexof">indexOf()</h3>
+
+<p>调用方法： <code class="highlighter-rouge">str.indexOf(subStr, offset);</code>，参数<code class="highlighter-rouge">subStr</code>是要匹配的字串/字符，<code class="highlighter-rouge">offset</code>是偏移量，俗称从哪里开始找，默认从0开始。  <br />
+返回值是int，找到了就返回子串/字符第一次出现时首字符在<strong>整个字符串</strong>的下标（和offset是多少无关），没找到就是-1。</p>
+
+<h2 id="thumbnailator压缩图片">thumbnailator压缩图片</h2>
+<p>详见<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-02/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-commpresspicforscaleparams">项目实录02</a>和<a href="https://www.ouc-liux.cn/2021/04/28/Series-Record-of-Java-Learning-06/">学习实录04</a>。</p>
+
+<h2 id="对字符串追加的五种操作">对字符串追加的五种操作</h2>
+
+<ol>
+  <li>
+    <p>直接使用“+”；</p>
+  </li>
+  <li>
+    <p>String contact() 方法；</p>
+  </li>
+  <li>
+    <p>StringUtils.join() 方法；</p>
+  </li>
+  <li>
+    <p>StringBuffer append() 方法；</p>
+  </li>
+  <li>
+    <p>StringBuilder append() 方法；</p>
+  </li>
+</ol>
+
+<p>时间开销如下图：</p>
+
+<p>&lt;div align=center&gt;<img src="https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-009.png" />&lt;/div&gt;</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/03/31/Series-Record-of-Java-Learning-03/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 03">
+                        Previous<br>
+                        <span>Series Articles of Java Learning  -- 03</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/03/31/Series-Record-of-Java-Learning-05/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 05">
+                        Next<br>
+                        <span>Series Articles of Java Learning  -- 05</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Articles of Java Learning  -- 02 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2021/03/31/Series-Record-of-Java-Learning-02/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#学习" title="学习">学习</a>
+                        
+                        <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                    </div>
+                    <h1>Series Articles of Java Learning  -- 02</h1>
+                    
+                    
+                    <h2 class="subheading">Java项目实录02 -- 基于阿里云的普通增值税发票识别工具开发</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on March 31, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<blockquote>
+  <p>写完崇教授的程序后，想趁着还熟悉开发流程，一些如GUI之类的组件也还能复用，写个发票识别工具。
+这篇博客主要记录项目开发的流程，一些共性的问题和基本语法问题会在其他博客中详细记录。  <br />
+所有我们使用poi库读写生成的excel表格均需要是97-03版式<code class="highlighter-rouge">.xls</code>后缀的远古表格；
+07及以后的<code class="highlighter-rouge">.xlsx</code>后缀表格无法读写生成。</p>
+</blockquote>
+
+<h1 id="项目结构">项目结构</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ticket2Excel    
+|   
+|--GenereteExcel        
+|  |    
+|  |--Generate    
+|  |--Ticket2Excel     
+|   
+|--utils    
+|  |     
+|  |--Base64Utils     
+|  |--HttpUtils     
+|  |--PicUtils     
+|  |--Utils    
+|    
+|--gui    
+|  |--FileChooser    
+</code></pre></div></div>
+
+<h1 id="代码解析">代码解析</h1>
+<p>已经在<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/">上一篇项目实录</a>中介绍过的内容不再赘述，但会给出提示。</p>
+
+<h2 id="主函数类-ticket2excel">主函数类： Ticket2Excel</h2>
+
+<h3 id="main函数-main">main函数: main()</h3>
+
+<p><code class="highlighter-rouge">new Runnable(){...}</code>线程安全启动不再赘述。</p>
+
+<h3 id="静态方法-submit2aliapistring-string">静态方法 submit2AliAPI(String, String)</h3>
+
+<p>该方法内容大致可分为两部分，后半部分是结果解析，也就是怎么通过API返回的结果生成Excel表格，是解读的重点。前半部分主要是<code class="highlighter-rouge">http</code>实例构建、请求发送、参数设置、结果获取相关的内容。这些知识一是现阶段并不熟悉，二者也可能大部分都是固定的流程，本无需进行解读；但考虑到有些内容牵扯到其他知识点或者前后两部分的衔接，还是则其要者尝试解读，或许以后学习的更深入以后会对http部分进行补充。</p>
+
+<h4 id="第一部分http">第一部分–http</h4>
+
+<p>定义适用于http传输的<code class="highlighter-rouge">NameValuePair</code>（来自包<code class="highlighter-rouge">org.apache.http</code>）链表变量：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">NameValuePair</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">NameValuePair</span><span class="o">&gt;();</span>   
+</code></pre></div></div>
+<p>关于接口类<code class="highlighter-rouge">List</code>和抽象类<code class="highlighter-rouge">AbstractList</code>的实现类<code class="highlighter-rouge">ArrayList</code>之间关系的小知识，见博客<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#list-%E5%92%8C-arraylist">java学习实录2</a></p>
+
+<p>下一步，参照<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-submit2aliapi-string-imgpath-string-targetpath">这里</a>关于图片<code class="highlighter-rouge">Base64</code>编码的知识对图片编码，并将相应的base64码构造为键值对加入到参数链表<code class="highlighter-rouge">params</code>中：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">params</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">BasicNameValuePair</span><span class="o">(</span><span class="s">"AI_VAT_INVOICE_IMAGE"</span><span class="o">,</span> <span class="n">imgBase64</span><span class="o">));</span>
+</code></pre></div></div>
+<p>此处注意的是<code class="highlighter-rouge">new BasicNameValuePair(key, value)</code>，同<code class="highlighter-rouge">List</code>与<code class="highlighter-rouge">ArrayList</code>之间的关系一样，<code class="highlighter-rouge">apache.http</code>中的<code class="highlighter-rouge">NameValuePair</code>定义了一种接口类型，它无法通过<code class="highlighter-rouge">new</code>具体实现。而<code class="highlighter-rouge">apache.http.message</code>中的<code class="highlighter-rouge">BasicNameValuePair</code>则是适用于这个接口的具体类。</p>
+
+<p>后面是 HttpGet 实例的构建和请求参数的设置，一是不熟，二是或许就是固定流程，不做解读。</p>
+
+<p>接下来是发送 HttpGet 请求，通过<code class="highlighter-rouge">httpClient.execute(httpPost)</code>实现。其中<code class="highlighter-rouge">httpPost</code>是上一步构建的<code class="highlighter-rouge">HttpPost</code>类型实例；<code class="highlighter-rouge">httpClient</code>被声明为一个<code class="highlighter-rouge">CloseableHttpClient</code>类型变量，但通过<code class="highlighter-rouge">HttpClient</code>（均来自<code class="highlighter-rouge">org.apache.http.impl.client</code>）的静态方法<code class="highlighter-rouge">createDefault()</code>定义。  <br />
+发送请求使用的<code class="highlighter-rouge">execute()</code>方法会返回一个<code class="highlighter-rouge">HttpResponse</code>类型变量，该变量（本项目设为<code class="highlighter-rouge">execute</code>）里包含着结果信息。比如可以通过<code class="highlighter-rouge">.getStatueLine().getStatueCode()</code>获取结果信息状态码已查看结果返回状态。该API中定义状态码为200为返回正常。</p>
+
+<p>在接下来就是获取结果信息。<code class="highlighter-rouge">execute.getEntity()</code>会返回一个<code class="highlighter-rouge">HttpEntity</code>类型变量，既是结果。但是这个结果对我们不是直观可读的，通过<code class="highlighter-rouge">EntityUtils</code>的静态方法<code class="highlighter-rouge">EntityUtils.parseString(HttpEntity)</code>可以将<code class="highlighter-rouge">HttpEntity</code>类型的结果转化为字符串类型。由于结果中包含多种信息，显然json对我们的处理更加方便。</p>
+
+<p>JSON（来自<code class="highlighter-rouge">com.alibaba.fastjson</code>）中的静态方法<code class="highlighter-rouge">JSON.parseObject(String)</code>可以将字符串形式表示的结果转化为<code class="highlighter-rouge">JSONObject</code>变量<code class="highlighter-rouge">res_obj</code>。</p>
+
+<h4 id="第二部分结果解析">第二部分–结果解析</h4>
+
+<p>从上一步得到的JSONObject类型变量<code class="highlighter-rouge">res_obj</code>中将结果各部分提取出来，用到合适的位置。就本项目发票API而言：</p>
+<ul>
+  <li>
+    <p>发票抬头是一个字符串变量，直接通过<code class="highlighter-rouge">res_obj.getString(key)</code>提取。</p>
+  </li>
+  <li>
+    <p>发票日期是一个字符串变量，直接通过<code class="highlighter-rouge">res_obj.getString(key)</code>提取。 <br />
+不同的是，这个日期是“year-month-day”格式的字符串变量。我们不希望出现中间的小短横‘-’，于是通过<code class="highlighter-rouge">Utils</code>的静态方法<code class="highlighter-rouge">IntegerOnly()</code>进行提取结果为纯数字。由于涉及到一些有关正则匹配的共性知识，方法的具体实现在<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8E%BB%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%80%BC">java学习实录2</a>中单独解读。</p>
+  </li>
+  <li>
+    <p>发票总额是一个浮点型变量，所以通过<code class="highlighter-rouge">res_obj.getString(key)</code>提取出后，需要再通过<code class="highlighter-rouge">Double</code>的静态方法<code class="highlighter-rouge">Double.parseDouble(String)</code>将之转化为double型的 <strong>基本数据类型</strong> 变量。基本类型这一点很重要，<code class="highlighter-rouge">Double</code>还有一个静态方法<code class="highlighter-rouge">Double.valueOf(String)</code>返回一个Double型的 <strong>类类型</strong> 变量。关于Double 和 double的区别与联系依然见于<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#%E7%B1%BB%E7%B1%BB%E5%9E%8Bdouble%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8Bdouble">java学习实录2</a>中。</p>
+  </li>
+  <li>
+    <p>发票detail是一个<code class="highlighter-rouge">JSONArray</code>变量，由多个具体条目组成，每个条目以<code class="highlighter-rouge">JSONObject</code>表现。通过<code class="highlighter-rouge">res_obj.getJSONArray(key)</code>提取。</p>
+  </li>
+</ul>
+
+<p>内容提取结束。然后定义一个String类型变量作为生成的Excel文件的名字，使用<code class="highlighter-rouge">String.format()</code>方法填充抬头、日期、总额等发票信息对该字符串变量赋值。</p>
+
+<p>接下来创建一个<code class="highlighter-rouge">Generator()</code>对象，并调用其方法（不能是静态方法，原因存疑）<code class="highlighter-rouge">generator.generateExcel(invoice_detail, excel_name);</code>生成指定名字的excel表格。</p>
+
+<p>最后返回状态码<code class="highlighter-rouge">return stateCode;</code>结束该静态方法。</p>
+
+<h2 id="类-generator">类： Generator</h2>
+
+<p>该类用于生成excel表格，需要使用<code class="highlighter-rouge">poi.hssf</code>库：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.apache.poi.hssf.usermodel.*</span><span class="o">;</span>     
+</code></pre></div></div>
+
+<h3 id="方法-generateexceljsonarray-inputjson-string-outputname">方法 generateExcel(JSONArray inputJson, String outputName)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 该方法需要被其他对象调用，权限为public。</span>
+<span class="nl">Params:</span>    
+<span class="err">@</span> <span class="n">inputJson</span><span class="err">，</span>    <span class="err">发票</span><span class="n">detail</span><span class="err">信息，</span><span class="n">json</span><span class="err">数组类型</span>      
+<span class="err">@</span> <span class="n">outputName</span><span class="err">，</span>   <span class="err">生成</span><span class="n">excel</span><span class="err">表格的名字</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>回忆Excel表格的组成，自顶向下为：  <br />
+工作薄（Workbook） –&gt; 页面（sheet） –&gt; 行（row） –&gt; 单元格（cell）， <br />
+依次而<strong>不能跨层</strong>地，下一层是上一层的组成部分，上一层是下一层存在的基础。</p>
+</blockquote>
+
+<p>那么首先构造一个工作薄对象：<code class="highlighter-rouge">HSSFWorkbook wb = new HSSFWorkbook()</code>；显然我们还需要且只需要一个页面（sheet），于是再给工作薄<code class="highlighter-rouge">wb</code>构造一个页面对象，命名为”sheet1”：<code class="highlighter-rouge">HSSFSheet sheet = wb.createSheet("sheet1")</code>。接下来可以再给sheet1构造一个行（row）对象作为表头：<code class="highlighter-rouge">HSSFRow row = sheet.createRow(0)</code>，参数零表示作为页面的第一行，这样在调用表头构造方法的时候可以直接将该对象作为参数传入。当然也可以不事先构造，只是本项目如此做了。</p>
+
+<p>随后分别调用类中私有方法<code class="highlighter-rouge">this.generateHeadRow(params)</code>和 <code class="highlighter-rouge">this.generateBodyRow(params)</code>写如表头和主题单元格内容。</p>
+
+<p><strong>写文件</strong>：  <br />
+填充完表格内容就要将之写入文件了，<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-convert2excelstring-base64-string-output">文件读写</a>操作都要包装在</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span>   
+</code></pre></div></div>
+<p>语句中用以捕获可能发生的IO错误。文件读写是固定的流程：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. 以文件名为参 构造文件对象;</span>
+<span class="n">File</span> <span class="n">newExcelFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">outputName</span><span class="o">);</span>    
+
+<span class="c1">// 2. 以文件对象为参构造文件输出流对象；     </span>
+<span class="n">FileOutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">newExcelFile</span><span class="o">);</span>    
+
+<span class="c1">// 3. 以文件输出流为参数写入内容；    </span>
+<span class="n">wb</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">out</span><span class="o">);</span>    
+
+<span class="c1">// 4. 关闭文件输出流。     </span>
+<span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>     
+</code></pre></div></div>
+
+<p>需要考虑，表头有一些重要的项需要加红标注，单元格内容的对齐方式和字体也有要求。从而我们需要主动设置单元格的风格<code class="highlighter-rouge">HSSFCellStyle</code>：   <br />
+类中定义两个<code class="highlighter-rouge">HSSFCellStyle</code>类型的私有全局变量<code class="highlighter-rouge">style_red</code>和<code class="highlighter-rouge">style_normal</code>分别表示加红和正常的单元格格式，通过私有方法<code class="highlighter-rouge">generateStyle</code>设置赋值。可以在构造函数<code class="highlighter-rouge">Generator()</code>或者本方法中中调用赋值方法完成赋值，总之在写单元格之前完成赋值就可以。</p>
+
+<h3 id="方法-generatestylehssfworkbook-wb-short-color">方法 generateStyle(HSSFWorkbook wb, short color)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="n">HSSFCellStyle</span> <span class="nf">getnerateStyle</span><span class="o">(</span><span class="n">HSSFWorkbook</span> <span class="n">wb</span><span class="o">,</span> <span class="kt">short</span> <span class="n">color</span><span class="o">){</span>
+    <span class="cm">/******************************************    
+    * 方法用以返回特定的单元格格式对象，从而在填充单元格式主动为单元格设置其格式。    
+    * Params:   
+    * @ wb, HSSFWorkbook 工作薄对象     
+    * @ color, short 类型变量     
+    *     
+    * return 返回值     
+    * style, HSSFCellStyle 单元格格式 对象       
+    *******************************************/</span>    
+
+    <span class="c1">// 从本工作薄构造HSSF单元格格式对象，并设置对齐方式。    </span>
+    <span class="c1">// 是否由本工作薄的构造的单元格格式对象只能应用于本工作薄，存疑。   </span>
+    <span class="n">HSSFCellStyle</span> <span class="n">style</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="na">createCellStyle</span><span class="o">();</span>    
+    <span class="n">style</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">LEFT</span><span class="o">);</span>  <span class="c1">//居左    </span>
+
+    <span class="c1">// 从本工作薄构造HSSF字体对象，并设置字号颜色和字体等。    </span>
+    <span class="c1">// 是否由本工作薄构造的字体对象只适用于本工作薄，存疑；    </span>
+    <span class="c1">// 是否字号设置方法的参数必须要强制转换为short，存疑。</span>
+    <span class="n">HSSFFont</span> <span class="n">font</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="na">createFont</span><span class="o">();</span>   
+    <span class="n">font</span><span class="o">.</span><span class="na">setFontHeightInPoints</span><span class="o">((</span><span class="kt">short</span><span class="o">)</span> <span class="mi">11</span><span class="o">);</span>   
+    <span class="c1">// 参数传入的color, 其值为HSSFFont.COLOR_NORMAL/RED</span>
+    <span class="n">font</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">color</span><span class="o">);</span>    
+    <span class="n">font</span><span class="o">.</span><span class="na">setFontName</span><span class="o">(</span><span class="s">"宋体"</span><span class="o">);</span>    
+
+    <span class="c1">// 设置style字体为已设置好的font，并返回。    </span>
+    <span class="n">style</span><span class="o">.</span><span class="na">setFont</span><span class="o">(</span><span class="n">font</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">style</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<h3 id="方法-enerateheadrowhssfrow-row">方法 enerateHeadRow(HSSFRow row)</h3>
+
+<p>接受已构造的表格行（第一行）对象为参数，填充表头内容：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 构造单元格对象，参数是第几列。一次定义，   </span>
+<span class="c1">// 后面只要改参数重新赋值继续使用就可以。   </span>
+<span class="n">HSSFCell</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>   
+<span class="n">cell</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="s">"*物资名称(必填)"</span><span class="o">);</span>   <span class="c1">// 填内容    </span>
+<span class="n">cell</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style_red</span><span class="o">);</span>         <span class="c1">// 设置格式     </span>
+</code></pre></div></div>
+<p>重复这三行内容，往后填就行，没什么好说的。</p>
+
+<h3 id="方法-generatebodyrowsparams">方法 generateBodyRows(Params)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Params:</span>   
+<span class="err">@</span> <span class="n">inputJson</span><span class="o">,</span> <span class="n">JSONArray</span><span class="err">类型，发票内容，也即表格内容</span>      
+<span class="err">@</span> <span class="n">sheet</span><span class="o">,</span> <span class="n">HSSFSheet</span><span class="err">对象，表格页面。对象的值传过来是内存地址，可以直接用。</span>   
+</code></pre></div></div>
+
+<p>for循环开始填充：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">inputJson</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span> <span class="o">++){</span>
+    <span class="n">JSONArray</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">inputJson</span><span class="o">.</span><span class="na">getJSONObject</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">......</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>一个for填充一行表格，由于JSONArray里的内容需要使用对象的<code class="highlighter-rouge">getJSONObject(index)</code>方法提取而不是直接下标<code class="highlighter-rouge">[index]</code>取值，从而似乎无法使用<code class="highlighter-rouge">for each</code>语句完成循环。</p>
+
+<p>for 循环内：</p>
+
+<p><code class="highlighter-rouge">obj.getString(key)</code>取值，通过<code class="highlighter-rouge">Ticket2Excel.java</code>文件中第111-114行内容可以将API返回的原始json文件保存下来，从而查看<code class="highlighter-rouge">obj</code>的key值; <br />
+浮点数可以直接通过<code class="highlighter-rouge">obj.getDouble</code>提取； <br />
+税率是百分数，只能提取到String，但可以<code class="highlighter-rouge">replace('%', '')</code>将百分号去掉后再<code class="highlighter-rouge">Double.parseDouble()</code>转String为double，当然，还需要结果乘以0.01；  <br />
+物资的真额（净额＋税额）通过<code class="highlighter-rouge">(税率+1.0)*净额</code>得到。其值一般是整数，考虑到计算机二进制计算误差，可能会出现xxx.000001或xxx.999999类似的值，于是以<code class="highlighter-rouge">(int)round(真额)</code>将之四舍五入并取整。</p>
+
+<p>随后填充单元格：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">HSSFRow</span> <span class="n">row</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="na">createRow</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">);</span>    <span class="c1">// 构造新行    </span>
+<span class="c1">// index是列数，从0开始；表头有多少列，这一行就重复多少次。   </span>
+<span class="c1">// 当然，index和value要对应地填充。    </span>
+<span class="n">row</span><span class="o">.</span><span class="na">createRow</span><span class="o">(</span><span class="n">index</span><span class="o">).</span><span class="na">setCellValue</span><span class="o">(</span><span class="n">value</span><span class="o">);</span> 
+</code></pre></div></div>
+
+<h2 id="gui类-filechooser">GUI类： FileChooser</h2>
+
+<h3 id="静态方法-createwindow">静态方法 createWindow()</h3>
+
+<p>权限为public，由于需要项目主函数调用。</p>
+
+<p><code class="highlighter-rouge">setLayout(...)</code>指定窗口布局，依然是原始的东西南北中布局，参数填<code class="highlighter-rouge">new BorderLayout()</code>；随后构造和add各<code class="highlighter-rouge">Panel</code>；最后不要忘记设置<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-05/">JFrame窗口属性</a>：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">frame</span><span class="o">.</span><span class="na">setDefaultCloseOperation</span><span class="o">(</span><span class="n">JFrame</span><span class="o">.</span><span class="na">EXIT_ON_CLOSE</span><span class="o">);</span>   <span class="c1">//如何退出     </span>
+<span class="n">frame</span><span class="o">.</span><span class="na">setSize</span><span class="o">(</span><span class="mi">500</span><span class="o">,</span> <span class="mi">400</span><span class="o">);</span>            <span class="c1">// 原始尺寸</span>
+<span class="n">frame</span><span class="o">.</span><span class="na">setResizable</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>           <span class="c1">// 不解释</span>
+<span class="n">frame</span><span class="o">.</span><span class="na">setLocationRelativeTo</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>  <span class="c1">// 窗口在屏幕居中出现</span>
+<span class="n">frame</span><span class="o">.</span><span class="na">setVisible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>             <span class="c1">// 不解释</span>
+</code></pre></div></div>
+
+<h3 id="静态方法-createnorthpanel">静态方法 createNorthPanel()</h3>
+
+<p>上部（北）面板，用于输入路径选择。一般地，我们会先取当前路径作为默认值：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">File</span> <span class="n">direction</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>    
+<span class="n">path</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="na">getAbsolutePath</span><span class="o">();</span>    <span class="c1">// path是类全局变量。</span>
+</code></pre></div></div>
+<p>需要注意的是，<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E7%B1%BB-fielchooser-gui%E7%95%8C%E9%9D%A2">项目实录1</a>中，我们在整个<code class="highlighter-rouge">panel</code>上通过<code class="highlighter-rouge">new GridLayout(3, 2)</code>的方式创造了一个包含两行三列内容的面板，其显示效果却不尽人意。如下图，三列宽度均等十分不和谐。</p>
+
+<p>&lt;div align=center&gt;<img src="https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-007.png" />&lt;/div&gt;</p>
+
+<p>于是在本项目中，我们采用另一种更灵活的布局方式：以<code class="highlighter-rouge">NorthPanel</code>为具有<code class="highlighter-rouge">BorderLayout布局方式的</code>母面板，另行构造三个两行一列的<code class="highlighter-rouge">GridLayout</code>布局的子面板<code class="highlighter-rouge">labelPanel</code>、<code class="highlighter-rouge">textPanel</code>和<code class="highlighter-rouge">buttonPanel</code>，分别<code class="highlighter-rouge">add</code>到母面板<code class="highlighter-rouge">NorthPanel</code>的<code class="highlighter-rouge">WEST</code>、 <code class="highlighter-rouge">CENTER</code> 和 <code class="highlighter-rouge">EAST</code>三个位置。母面板的上下Panel缺失会自动被其他部分占据；母面板的子面板宽度能够根据组件的宽度自行适应，这样得到的界面更加好看：</p>
+
+<p>&lt;div align=center&gt;<img src="https://raw.githubusercontent.com/OUCliuxiang/OUCliuxiang.github.io/master/img/javaSeries/java-008.png" />&lt;/div&gt;</p>
+
+<p>该部分另一个需要注意的地方是button的添加，由于其已经在<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-createbuttonstring-name-jtextfield-textfield">项目实录01</a>进行过解读，且<a href="https://github.com/OUCliuxiang/Java_learning/blob/main/Ticket2Excel/src/gui/FileChooser.java#L87">源码</a>足够清晰，这里不再解读。</p>
+
+<h3 id="静态方法-createbutton">静态方法： createButton()</h3>
+
+<p>信息展示panel，需要注意的方面有自动换行和滚动条的添加；和<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-createcenterpanel">项目实录01</a>一致，不再解读。</p>
+
+<h3 id="静态方法-createsouthpanel">静态方法： createSouthPanel()</h3>
+
+<p>按键面板，包含开始按键和退出按键，并为按键添加事件监听器以响应鼠标点击事件：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">button</span><span class="o">.</span><span class="na">addActionListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ActionListener</span><span class="o">(){</span>    
+    <span class="nd">@Override</span>    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actionPerformed</span><span class="o">(</span><span class="n">ActionEvent</span> <span class="n">e</span><span class="o">){</span>
+        <span class="o">...</span><span class="na">code</span><span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">endButton</code>比较简单，事件监听器内容有一行： <code class="highlighter-rouge">System.exit(0);</code>在系统层级完全结束进程。下面仅对<code class="highlighter-rouge">startButton</code>的事件监听器内容加以解读。</p>
+
+<p><code class="highlighter-rouge">new File(direction)</code>可以一次性读取路径下所有文件，之后调用<code class="highlighter-rouge">File</code>对象的<code class="highlighter-rouge">listFiles()</code>可以得到<code class="highlighter-rouge">File[]</code>类型的文件列表，随后<code class="highlighter-rouge">for(variable: collection)</code>语句遍历所有文件。具体解读见<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-01/#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-createsouthpanel">项目实录01</a>。</p>
+
+<p>需要注意，在对文件合法性进行判断的时候，由于本项目还有一部对图像进行压缩的操作，而压缩后的图像会被另存为以原名+“_compress”为名称的新文件，所以有一步判断字符串是否含有某子字符（子串）的操作。<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#判断字符串中是否有特定字符或子串">学习实录2</a>中总结了3种方法，这里由于已知特定子串（_compress）的具体位置（后缀长度一直，文件名串长度可<code class="highlighter-rouge">length()</code>方法提取），我们使用较高效的<code class="highlighter-rouge">str.startWith(subStr, offset)</code>方法，其参数中的offset业绩起始位置就是<code class="highlighter-rouge">str.length() 减 后缀长度</code>。</p>
+
+<p>随后，调用静态方法<code class="highlighter-rouge">PicUtils.compressPicForScale(params)</code>方法压缩图片到指定大小，调用静态方法<code class="highlighter-rouge">Ticket2Excel.submit2AliAPI(parmas)</code>提交图片到API，同时接受方法返回的状态码。并打印信息到<code class="highlighter-rouge">centerPanel</code>的<code class="highlighter-rouge">JTextArea</code>中。需要注意的仍然是每次更新提交都需要做到内容<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-05/#%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0">实时刷新</a>。</p>
+
+<h2 id="类-picutils">类 PicUtils</h2>
+
+<p>通过google的<code class="highlighter-rouge">thumbnailator</code>库，压缩图片到指定大小。</p>
+
+<h3 id="静态方法-commpresspicforscaleparams">静态方法 commpressPicForScale(params)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Param:</span>   
+<span class="err">@</span> <span class="n">srcPath</span><span class="err">，</span><span class="n">String</span><span class="err">类型，原图片路径</span>     
+<span class="err">@</span> <span class="n">desPath</span><span class="err">，</span><span class="n">String</span><span class="err">类型，压缩后目标图片路径</span>     
+<span class="err">@</span> <span class="n">desFileSize</span><span class="err">，</span> <span class="n">int</span><span class="err">型，目标图片大小，单位</span><span class="n">Kb</span>    
+<span class="err">@</span> <span class="n">accuracy</span><span class="err">，</span><span class="n">double</span><span class="err">类型，迭代压缩过程中每次压缩的比例</span>    
+
+<span class="k">return</span><span class="o">:</span>  
+<span class="n">void</span><span class="err">方法，无返回值</span>    
+</code></pre></div></div>
+
+<p>首先进行路径合法性判断，接受的路径参数是否存在，或文件读出来是否为空：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">srcPath</span><span class="o">)</span> <span class="o">||</span> <span class="o">!</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">scrPath</span><span class="o">).</span><span class="na">exist</span><span class="o">()){</span>
+    <span class="k">return</span><span class="o">;}</span>
+</code></pre></div></div>
+
+<p><strong>包装在<code class="highlighter-rouge">try-catch</code>里的内容</strong>：  <br />
+以文件方式<a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#%E8%AF%BB%E6%96%87%E4%BB%B6%E4%B8%8E%E8%AF%BB%E5%9B%BE%E5%83%8F">读图像</a>，并通过<code class="highlighter-rouge">(int) (.length()/1024)</code>得到以kb为单位的图像大小，这一步非必须操作，目的是将原图像大小打印到控制台，方便查看。       <br />
+<code class="highlighter-rouge">Thumbnails.of(srcPath).scale(1f).toFile(desPath);</code>将原图像以jpg形式另为目标图像路径，调用的各方法和参数暂不展开讨论，有时间回头剖析。   <br />
+<strong><a href="https://www.ouc-liux.cn/2021/04/28/Series-Record-of-Java-Learning-06/">调用compressPicCycle(desPath, desSize, accuracy)方法递归压缩</a>。</strong>   <br />
+同样的方法打印压缩后图像的尺寸，不细表，结束。</p>
+
+<h3 id="静态方法-compresspiccycleparams">静态方法 compressPicCycle(params)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">Params:</span>   
+<span class="err">@</span> <span class="n">desPath</span><span class="err">，</span><span class="n">String</span><span class="err">型变量，目标图像路径</span>    
+<span class="err">@</span> <span class="n">desSize</span><span class="err">，</span><span class="n">int</span><span class="err">型变量，目标图像大小，单位</span><span class="n">Kb</span>     
+<span class="err">@</span> <span class="n">accuracy</span><span class="o">,</span><span class="n">double</span><span class="err">型变量，每次大小变化的比例</span>      
+</code></pre></div></div>
+
+<p>该方法递归运行，需要给一个跳出递归的判定条件，也即图像小于目标大小时<code class="highlighter-rouge">return</code>：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">srcFileSize</span> <span class="o">&lt;</span> <span class="n">desSize</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">){</span><span class="k">return</span><span class="o">;}</span>
+</code></pre></div></div>
+<p>其中<code class="highlighter-rouge">srcFileSize</code>是目标图像大小，通过读图像为<code class="highlighter-rouge">File</code>后取<code class="highlighter-rouge">length()</code>得到，默认单位是字节’b’，于是在和以“Kb”为单位的<code class="highlighter-rouge">desSize</code>比较时将<code class="highlighter-rouge">desSize</code>乘以1024。</p>
+
+<p><a href="https://www.ouc-liux.cn/2021/03/31/Series-Record-of-Java-Learning-04/#%E8%AF%BB%E6%96%87%E4%BB%B6%E4%B8%8E%E8%AF%BB%E5%9B%BE%E5%83%8F">读图像，取宽高</a>
+，并设置新的压缩图像的宽高为<code class="highlighter-rouge">accuracy*取得的原宽高</code>。这一步找到的教程使用了大数乘法:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">desWidth</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BigDecimal</span><span class="o">(</span><span class="n">srcWidth</span><span class="o">).</span>
+    <span class="n">multiply</span><span class="o">(</span><span class="k">new</span> <span class="n">BigDecimal</span><span class="o">(</span><span class="n">accuracy</span><span class="o">)).</span><span class="na">intValue</span><span class="o">()</span>     
+</code></pre></div></div>
+<p>但我觉得基本数据类型完全能hold住，不知用意何在。</p>
+
+<p>灵魂的两步，首先设置本次迭代要压缩的的目标尺寸和精度比，并将压缩结果输出到相同路径；随后调用方法自身，完成递归：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Thumbnails</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">desPath</span><span class="o">).</span><span class="na">size</span><span class="o">(</span><span class="n">desWidth</span><span class="o">,</span> <span class="n">desHeight</span><span class="o">)</span>
+          <span class="o">.</span><span class="na">outputQuality</span><span class="o">(</span><span class="n">accuracy</span><span class="o">).</span><span class="na">toFile</span><span class="o">(</span><span class="n">desPath</span><span class="o">);</span>    
+<span class="k">this</span><span class="o">.</span><span class="na">compressPicCicle</span><span class="o">(</span><span class="n">desPath</span><span class="o">,</span> <span class="n">desSize</span><span class="o">,</span> <span class="n">accuracy</span><span class="o">);</span>   
+</code></pre></div></div>
+
+<p>结束</p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/03/31/Series-Record-of-Java-Learning-01/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 01">
+                        Previous<br>
+                        <span>Series Articles of Java Learning  -- 01</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/03/31/Series-Record-of-Java-Learning-03/" data-toggle="tooltip" data-placement="top" title="Series Articles of Java Learning  -- 03">
+                        Next<br>
+                        <span>Series Articles of Java Learning  -- 03</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

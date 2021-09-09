@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Tags - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/tags/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/wallpic02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading" id="tag-heading">
+                    <h1>Tags</h1>
+                    <span class="subheading">Do one thing and do it best!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+			<div id='tag_cloud' class="tags">
+				
+				<a href="#Ubuntu OS" title="Ubuntu OS" rel="5">Ubuntu OS</a>
+				
+				<a href="#deep compression" title="deep compression" rel="1">deep compression</a>
+				
+				<a href="#pytorch" title="pytorch" rel="4">pytorch</a>
+				
+				<a href="#object detection" title="object detection" rel="3">object detection</a>
+				
+				<a href="#Anaconda" title="Anaconda" rel="1">Anaconda</a>
+				
+				<a href="#Jupyter" title="Jupyter" rel="1">Jupyter</a>
+				
+				<a href="#LaTeX" title="LaTeX" rel="1">LaTeX</a>
+				
+				<a href="#Life" title="Life" rel="3">Life</a>
+				
+				<a href="#学习" title="学习" rel="6">学习</a>
+				
+				<a href="#Java" title="Java" rel="6">Java</a>
+				
+				<a href="#博客" title="博客" rel="1">博客</a>
+				
+				<a href="#github" title="github" rel="1">github</a>
+				
+				<a href="#Markdown" title="Markdown" rel="1">Markdown</a>
+				
+				<a href="#python" title="python" rel="3">python</a>
+				
+			</div>
+
+            <!--<blockquote class="tag-comments">
+                标签命名规范：
+                    <li>行业观察、职位、公司优先使用中文</li>
+                    <li>外国产品、术语优先使用英文</li>
+            </blockquote>-->
+
+            <!-- 标签列表 -->
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Ubuntu OS">
+                    <span class="tag-text">Ubuntu OS</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-05-08">2020-05-08</time>
+				  <a href="/2020/05/08/Series-Article-of-UbuntuOS-05/" title="Series Article of UbuntuOS -- 05">Series Article of UbuntuOS -- 05</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/05/08/Series-Article-of-UbuntuOS-05/">
+				        <h2 class="post-title">
+                            Series Article of UbuntuOS -- 05
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            linux中正则表达的一点儿小知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-05-08</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-05-07">2020-05-07</time>
+				  <a href="/2020/05/07/Series-Article-of-UbuntuOS-04/" title="Series Article of UbuntuOS -- 04">Series Article of UbuntuOS -- 04</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/05/07/Series-Article-of-UbuntuOS-04/">
+				        <h2 class="post-title">
+                            Series Article of UbuntuOS -- 04
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            一些常用的有用的linux命令
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-05-07</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-05">2020-01-05</time>
+				  <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/" title="Series Articles of Ubuntu OS usage -- 02">Series Articles of Ubuntu OS usage -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            OS kernel & NVIDIA-SMI/CUDA, Jupyter & Anaconda, LaTeX & TexStudio
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-05</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-03">2020-01-03</time>
+				  <a href="/2020/01/03/Series-Article-of-UbuntuOS-03/" title="Series Articles of Ubuntu OS usage -- 03">Series Articles of Ubuntu OS usage -- 03</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/03/Series-Article-of-UbuntuOS-03/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 03
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Ubuntu16.04LTS下teamviewer14反馈商业用途的解决办法
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-03</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-02">2020-01-02</time>
+				  <a href="/2020/01/02/Series-Article-of-UbuntuOS-01/" title="Series Articles of Ubuntu OS usage -- 01">Series Articles of Ubuntu OS usage -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/02/Series-Article-of-UbuntuOS-01/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            如何安装源码opencv
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-02</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="deep compression">
+                    <span class="tag-text">deep compression</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-02">2020-01-02</time>
+				  <a href="/2020/01/02/Research-01-NN-shallowing-and-py-files/" title="Series Articles of Researching Recording - 01">Series Articles of Researching Recording - 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/02/Research-01-NN-shallowing-and-py-files/">
+				        <h2 class="post-title">
+                            Series Articles of Researching Recording - 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            NN shallowing and py-files
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-02</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="pytorch">
+                    <span class="tag-text">pytorch</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-08">2021-05-08</time>
+				  <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/" title="Series Article of Deep Learning -- 02">Series Article of Deep Learning -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/">
+				        <h2 class="post-title">
+                            Series Article of Deep Learning -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            目标检测02 --
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-08</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-07">2021-05-07</time>
+				  <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/" title="Series Article of Deep Learning -- 01">Series Article of Deep Learning -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/">
+				        <h2 class="post-title">
+                            Series Article of Deep Learning -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            目标检测01 -- 2020海智能船舶检测挑战赛实录
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-07</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-03">2020-01-03</time>
+				  <a href="/2020/01/03/Research-02-YOLO-v3-with-Custom-Dataset/" title="Series Articles of Researching Recording -- 02">Series Articles of Researching Recording -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/03/Research-02-YOLO-v3-with-Custom-Dataset/">
+				        <h2 class="post-title">
+                            Series Articles of Researching Recording -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Training YOLO-v3 with Custom Dataset
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-03</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-02">2020-01-02</time>
+				  <a href="/2020/01/02/Research-01-NN-shallowing-and-py-files/" title="Series Articles of Researching Recording - 01">Series Articles of Researching Recording - 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/02/Research-01-NN-shallowing-and-py-files/">
+				        <h2 class="post-title">
+                            Series Articles of Researching Recording - 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            NN shallowing and py-files
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-02</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="object detection">
+                    <span class="tag-text">object detection</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-08">2021-05-08</time>
+				  <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/" title="Series Article of Deep Learning -- 02">Series Article of Deep Learning -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/">
+				        <h2 class="post-title">
+                            Series Article of Deep Learning -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            目标检测02 --
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-08</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-07">2021-05-07</time>
+				  <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/" title="Series Article of Deep Learning -- 01">Series Article of Deep Learning -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/">
+				        <h2 class="post-title">
+                            Series Article of Deep Learning -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            目标检测01 -- 2020海智能船舶检测挑战赛实录
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-07</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-03">2020-01-03</time>
+				  <a href="/2020/01/03/Research-02-YOLO-v3-with-Custom-Dataset/" title="Series Articles of Researching Recording -- 02">Series Articles of Researching Recording -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/03/Research-02-YOLO-v3-with-Custom-Dataset/">
+				        <h2 class="post-title">
+                            Series Articles of Researching Recording -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Training YOLO-v3 with Custom Dataset
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-03</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Anaconda">
+                    <span class="tag-text">Anaconda</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-05">2020-01-05</time>
+				  <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/" title="Series Articles of Ubuntu OS usage -- 02">Series Articles of Ubuntu OS usage -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            OS kernel & NVIDIA-SMI/CUDA, Jupyter & Anaconda, LaTeX & TexStudio
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-05</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Jupyter">
+                    <span class="tag-text">Jupyter</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-05">2020-01-05</time>
+				  <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/" title="Series Articles of Ubuntu OS usage -- 02">Series Articles of Ubuntu OS usage -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            OS kernel & NVIDIA-SMI/CUDA, Jupyter & Anaconda, LaTeX & TexStudio
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-05</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="LaTeX">
+                    <span class="tag-text">LaTeX</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-01-05">2020-01-05</time>
+				  <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/" title="Series Articles of Ubuntu OS usage -- 02">Series Articles of Ubuntu OS usage -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/01/05/Series-Article-of-UbuntuOS-02/">
+				        <h2 class="post-title">
+                            Series Articles of Ubuntu OS usage -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            OS kernel & NVIDIA-SMI/CUDA, Jupyter & Anaconda, LaTeX & TexStudio
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-01-05</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Life">
+                    <span class="tag-text">Life</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-06-18">2020-06-18</time>
+				  <a href="/2020/06/18/life-2020/" title="Series Articles of The Life  -- 01">Series Articles of The Life  -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/06/18/life-2020/">
+				        <h2 class="post-title">
+                            Series Articles of The Life  -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            北大冯军旗博士论文《中县干部》
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-06-18</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-05-08">2020-05-08</time>
+				  <a href="/2020/05/08/Life-Recording-01/" title="Life Recording -- 01">Life Recording -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/05/08/Life-Recording-01/">
+				        <h2 class="post-title">
+                            Life Recording -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            一个壁纸网站
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-05-08</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-04-10">2020-04-10</time>
+				  <a href="/2020/04/10/Series-Articles-For-Sharing-01/" title="Series Articles For Sharing -- 01">Series Articles For Sharing -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/04/10/Series-Articles-For-Sharing-01/">
+				        <h2 class="post-title">
+                            Series Articles For Sharing -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            博士学历真的很重要吗？
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-04-10</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="学习">
+                    <span class="tag-text">学习</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-04-28">2021-04-28</time>
+				  <a href="/2021/04/28/Series-Record-of-Java-Learning-06/" title="Series Articles of Java Learning  -- 06">Series Articles of Java Learning  -- 06</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/04/28/Series-Record-of-Java-Learning-06/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 06
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录04 -- Thumbnails压缩图片到指定大小
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-04-28</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-05/" title="Series Articles of Java Learning  -- 05">Series Articles of Java Learning  -- 05</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-05/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 05
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录03 -- JFrame小知识大杂烩
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-04/" title="Series Articles of Java Learning  -- 04">Series Articles of Java Learning  -- 04</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-04/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 04
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录02 -- 总结一些小知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-03/" title="Series Articles of Java Learning  -- 03">Series Articles of Java Learning  -- 03</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-03/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 03
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录01 -- 一些关于项目的基本知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-02/" title="Series Articles of Java Learning  -- 02">Series Articles of Java Learning  -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-02/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java项目实录02 -- 基于阿里云的普通增值税发票识别工具开发
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2020-06-18">2020-06-18</time>
+				  <a href="/2020/06/18/%E7%A0%94%E7%A9%B6%E7%94%9F%E6%9C%9F%E9%97%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/" title="Series Articles of Learning Plan During Master Terms  -- 01">Series Articles of Learning Plan During Master Terms  -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2020/06/18/%E7%A0%94%E7%A9%B6%E7%94%9F%E6%9C%9F%E9%97%B4%E5%AD%A6%E4%B9%A0%E8%A7%84%E5%88%92/">
+				        <h2 class="post-title">
+                            Series Articles of Learning Plan During Master Terms  -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java + BigData基础学习书单
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2020-06-18</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Java">
+                    <span class="tag-text">Java</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-04-28">2021-04-28</time>
+				  <a href="/2021/04/28/Series-Record-of-Java-Learning-06/" title="Series Articles of Java Learning  -- 06">Series Articles of Java Learning  -- 06</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/04/28/Series-Record-of-Java-Learning-06/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 06
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录04 -- Thumbnails压缩图片到指定大小
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-04-28</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-05/" title="Series Articles of Java Learning  -- 05">Series Articles of Java Learning  -- 05</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-05/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 05
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录03 -- JFrame小知识大杂烩
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-04/" title="Series Articles of Java Learning  -- 04">Series Articles of Java Learning  -- 04</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-04/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 04
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录02 -- 总结一些小知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-03/" title="Series Articles of Java Learning  -- 03">Series Articles of Java Learning  -- 03</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-03/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 03
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java学习实录01 -- 一些关于项目的基本知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-02/" title="Series Articles of Java Learning  -- 02">Series Articles of Java Learning  -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-02/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java项目实录02 -- 基于阿里云的普通增值税发票识别工具开发
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-03-31">2021-03-31</time>
+				  <a href="/2021/03/31/Series-Record-of-Java-Learning-01/" title="Series Articles of Java Learning  -- 01">Series Articles of Java Learning  -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/03/31/Series-Record-of-Java-Learning-01/">
+				        <h2 class="post-title">
+                            Series Articles of Java Learning  -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Java项目实录01 -- 基于阿里云的表格识别OCR工具开发
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-03-31</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="博客">
+                    <span class="tag-text">博客</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-04-27">2021-04-27</time>
+				  <a href="/2021/04/27/Markdown-Grammar/" title="Markdown Grammar">Markdown Grammar</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/04/27/Markdown-Grammar/">
+				        <h2 class="post-title">
+                            Markdown Grammar
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            一些Markdown语法记录
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-04-27</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="github">
+                    <span class="tag-text">github</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-04-27">2021-04-27</time>
+				  <a href="/2021/04/27/Markdown-Grammar/" title="Markdown Grammar">Markdown Grammar</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/04/27/Markdown-Grammar/">
+				        <h2 class="post-title">
+                            Markdown Grammar
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            一些Markdown语法记录
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-04-27</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Markdown">
+                    <span class="tag-text">Markdown</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-04-27">2021-04-27</time>
+				  <a href="/2021/04/27/Markdown-Grammar/" title="Markdown Grammar">Markdown Grammar</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/04/27/Markdown-Grammar/">
+				        <h2 class="post-title">
+                            Markdown Grammar
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            一些Markdown语法记录
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-04-27</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-25">2021-05-25</time>
+				  <a href="/2021/05/25/Series-Article-of-Python-Using-03/" title="Series Article of Python Using -- 03">Series Article of Python Using -- 03</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/25/Series-Article-of-Python-Using-03/">
+				        <h2 class="post-title">
+                            Series Article of Python Using -- 03
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Python实录03 -- concurrent.futures实现多线程/多进程加速
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-25</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-25">2021-05-25</time>
+				  <a href="/2021/05/25/Series-Article-of-Python-Using-02/" title="Series Article of Python Using -- 02">Series Article of Python Using -- 02</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/25/Series-Article-of-Python-Using-02/">
+				        <h2 class="post-title">
+                            Series Article of Python Using -- 02
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Python实录02 -- 汇总python-opencv知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-25</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2021-05-07">2021-05-07</time>
+				  <a href="/2021/05/07/Series-Article-of-Python-Using-01/" title="Series Article of Python Using -- 01">Series Article of Python Using -- 01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/2021/05/07/Series-Article-of-Python-Using-01/">
+				        <h2 class="post-title">
+                            Series Article of Python Using -- 01
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            Python实录01 -- 汇总一些小知识
+				        </h3>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2021-05-07</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Series Article of Deep Learning -- 01 - OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/2021/05/07/Series-Article-of-Deep-Learning-01/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/wallpic02.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/wallpic02.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#pytorch" title="pytorch">pytorch</a>
+                        
+                        <a class="tag" href="/tags/#object detection" title="object detection">object detection</a>
+                        
+                    </div>
+                    <h1>Series Article of Deep Learning -- 01</h1>
+                    
+                    
+                    <h2 class="subheading">目标检测01 -- 2020海智能船舶检测挑战赛实录</h2>
+                    
+                    <span class="meta">Posted by OUC_LiuX on May 7, 2021</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+
+<blockquote>
+  <p>2020年首届智能船舶检测挑战赛使用yolov5获得研究生组三等奖，简单记一些目标检测任务的小知识和比赛tricks。</p>
+</blockquote>
+
+<h1 id="首先指出框架相关的问题">首先指出框架相关的问题</h1>
+
+<p>我们使用了u版yolov5，改变网络结构比较方便。但即使自己改了更大的backbone，对数据进行了细致的清洗和花式的加噪曾广，对网络本身和检测方法竭尽所能添加tricks，最后也只是三等奖的水平。坤乾老师的学生原封不动使用scaled-yolov4，达到了一等奖的水平。这里对<strong>yolov5的实际效果</strong>表示严重怀疑。</p>
+
+<p>后来的一次水下目标检测任务，我测试了scaled-yolov4，效果的确比yolov5优秀。但也发现针对简单任务，<strong>大模型的效果反而不如较小模型</strong>，甚至超大模型还会出现loss报NaN的问题。</p>
+
+<h1 id="比赛实录">比赛实录</h1>
+
+<h2 id="数据集">数据集</h2>
+
+<p>所谓数据比赛，一半以上的成绩在于数据集的处理。</p>
+
+<h3 id="voc转yolo小目标清洗">voc转yolo（小目标清洗）</h3>
+
+<p>简单来说，VOC的xml格式图像和bbox尺寸是整数，该多大是多大，bbox通过角点坐标确定；yolo的规则中，bbox的长宽相对于图像长宽归一化到1.0以内，位置和尺寸通过中心点集宽高确定。转化的代码网上一找一大堆，但实际操作还是要结合任务的具体情况。最核心的部分就两个函数：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">box</span><span class="p">):</span>
+    <span class="n">dw</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">dh</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">box</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">box</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">box</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">dw</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">dw</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">*</span><span class="n">dh</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">dh</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">x</span><span class="o">=</span><span class="mf">0.999</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">y</span><span class="o">=</span><span class="mf">0.999</span>
+    <span class="k">if</span> <span class="n">w</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">w</span><span class="o">=</span><span class="mf">0.999</span>
+    <span class="k">if</span> <span class="n">h</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">h</span><span class="o">=</span><span class="mf">0.999</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">convert_annotation</span><span class="p">(</span><span class="n">rootpath</span><span class="p">,</span> <span class="n">xmlname</span><span class="p">):</span>
+    <span class="n">xmlpath</span> <span class="o">=</span> <span class="n">rootpath</span> <span class="o">+</span> <span class="s">'/xmls'</span>
+    <span class="n">xmlfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">xmlpath</span><span class="p">,</span><span class="n">xmlname</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xmlfile</span><span class="p">,</span> <span class="s">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'UTF-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">in_file</span><span class="p">:</span>
+      <span class="n">txtname</span> <span class="o">=</span> <span class="n">xmlname</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="s">'.txt'</span>
+      <span class="k">print</span><span class="p">(</span><span class="n">txtname</span><span class="p">)</span>
+      <span class="n">txtpath</span> <span class="o">=</span> <span class="n">rootpath</span> <span class="o">+</span> <span class="s">'/labels'</span>  <span class="c">#生成的.txt文件会被保存在labels目录下</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">txtpath</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">txtpath</span><span class="p">)</span>
+      <span class="n">txtfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txtpath</span><span class="p">,</span><span class="n">txtname</span><span class="p">)</span>
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">txtfile</span><span class="p">,</span> <span class="s">"w+"</span> <span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s">'UTF-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">out_file</span><span class="p">:</span>
+        <span class="n">tree</span><span class="o">=</span><span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'size'</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'width'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'height'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">out_file</span><span class="o">.</span><span class="n">truncate</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="nb">iter</span><span class="p">(</span><span class="s">'object'</span><span class="p">):</span>
+            <span class="c"># difficult = obj.find('difficult').text</span>
+            <span class="n">cls</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'name'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">cls</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span> 
+            <span class="c"># if cls not in classes or int(difficult)==1:</span>
+                <span class="k">continue</span>
+            <span class="n">cls_id</span> <span class="o">=</span> <span class="n">classes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+            <span class="n">xmlbox</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'bndbox'</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">xmlbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'xmin'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> \
+                <span class="nb">float</span><span class="p">(</span><span class="n">xmlbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'xmax'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> \
+                <span class="nb">float</span><span class="p">(</span><span class="n">xmlbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'ymin'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">),</span> \
+                <span class="nb">float</span><span class="p">(</span><span class="n">xmlbox</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'ymax'</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+            <span class="n">objWidth</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">objHeight</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">objWidth</span> <span class="o">&gt;</span> <span class="n">w</span> <span class="ow">or</span> <span class="n">objHeight</span> <span class="o">&gt;</span> <span class="n">h</span> <span class="ow">or</span> <span class="n">objWidth</span><span class="o">*</span><span class="n">objHeight</span><span class="o">&lt;=</span><span class="mi">21</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">bb</span> <span class="o">=</span> <span class="n">convert</span><span class="p">((</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">),</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">out_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cls_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="s">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> \
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">bb</span><span class="p">])</span> <span class="o">+</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>这东西就是轮子，轮子怎么造的不做解读了，主要是会用。指出几个需要注意的点：</p>
+<ol>
+  <li><code class="highlighter-rouge">txtpath = rootpath + '/labels'</code>这一行，<code class="highlighter-rouge">labels</code>路径需要自己事先创建，不会自动创建。</li>
+  <li><code class="highlighter-rouge">difficult = obj.find('difficult').text</code>这一句，比赛数据集没有<code class="highlighter-rouge">difficult</code>项，事实上，我遇到的大多数数据集都没有这一项，直接注释掉即可。</li>
+  <li>相应地，后面条件语句里面的<code class="highlighter-rouge">int(difficult)==1</code>这一判断也得删掉，只留一个<code class="highlighter-rouge">if cls not in classes</code>。</li>
+  <li>有些数据集，比如这次比赛用的数据集，标注是有问题的。存在很多误标的ground truth，猜测是标注数据的学生手一抖，就点了俩点儿，成了一个ground truth。这种情况可以在读xml文件的时候通过bbox和weight/hight把长宽/像素值或其相对整体图像的比例小于某个值的目标筛掉，不进入转yolo的过程。</li>
+</ol>
+
+<p>具体的实现上，如果已有的VOC数据集本身已经分好组了（在数据比赛中，这应该是大多数情况），则遍历train和a_test路径调用函数即可。</p>
+
+<h3 id="数据集划分">数据集划分</h3>
+<p>考虑一般情况下，数据比赛给出的a_test只是用来打榜，自己还是需要另外分一个val验证集用以在训练过程中监控网络状态。下面给出已将数据按yolo要求组织后，划分数据集的代码。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">valImg</span> <span class="o">=</span> <span class="s">"xxx"</span>      <span class="c"># 将要被划分出来的验证集图片路径      </span>
+<span class="n">trainImg</span> <span class="o">=</span> <span class="s">"xxx"</span>    <span class="c"># 目前图片路径     </span>
+<span class="n">valLabel</span> <span class="o">=</span> <span class="s">"xxx"</span>    <span class="c"># 将要被划分出来的验证集标签路径</span>
+<span class="n">trainLabel</span> <span class="o">=</span> <span class="s">"xxx"</span>  <span class="c"># 当前标签路径      </span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">trainImg</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">&lt;</span><span class="mf">0.25</span><span class="p">:</span>       <span class="c"># 这个比例按需求来</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">trainImg</span><span class="o">+</span><span class="n">f</span><span class="p">,</span> <span class="n">valImg</span><span class="o">+</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">trainLabel</span><span class="o">+</span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'jpg'</span><span class="p">,</span> <span class="s">'txt'</span><span class="p">),</span> 
+                    <span class="n">valLabel</span><span class="o">+</span><span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'jpg'</span><span class="p">,</span> <span class="s">'txt'</span><span class="p">))</span>    
+</code></pre></div></div>
+
+<h3 id="负样本和空标签">负样本和空标签</h3>
+
+<p>比赛中去除了所有空标签，因为我们认为数据足够多、样本足够丰富，负样本的存在没有必要。但另一项简单的水下目标检测的任务中，由于目标和场景过于简单，且有些背景和目标过与相似，则需要添加相应的负样本。所谓负样本，就是对应于某图片的标签文件存在但为空。</p>
+
+<h4 id="删除空标签">删除空标签</h4>
+
+<p>通过python读文件操作判断文件是否为空，遍历标签文件直接删除空标签文件。参照<a href="https://www.ouc-liux.cn/2021/05/07/Series-Article-of-Python-Using-01/#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA">这篇博客</a>。</p>
+
+<h4 id="添加负样本">添加负样本</h4>
+
+<p>如果是自己收集的图片，则遍历没有标签的背景图片，并通过<a href="https://www.ouc-liux.cn/2021/05/07/Series-Article-of-Python-Using-01/#%E8%B0%83%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4">系统命令</a><code class="highlighter-rouge">touch</code>生成相应的空标签：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s">"./background/"</span><span class="p">)</span>     
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>    
+    <span class="n">label</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"jpg"</span><span class="p">,</span> <span class="s">"txt"</span><span class="p">)</span>   
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">"touch trainLabel/"</span> <span class="o">+</span> <span class="n">label</span><span class="p">)</span>    
+</code></pre></div></div>
+
+<p>需要注意的是，执行这一步的时候应该先行筛选出一定数量和形式的负样本图片，并加入到数据集。</p>
+
+<h3 id="添加噪声">添加噪声</h3>
+
+<p>给清洗完毕的数据添加噪声是一种非常有效的涨点方法。比赛总共使用了三种噪声和两种添加方式，为原图片添加了五类噪声，简单介绍如下：</p>
+
+<p><strong>三种噪声</strong>：</p>
+<ul>
+  <li>椒盐噪声：由 0(0.0) 和 255(1.0) 两个值组成的噪声。噪点在彩色RGB三通道图像中的位置可以相同，也可以不同。</li>
+  <li>高斯噪声：符合高斯分布的噪声。</li>
+  <li>叠加噪声：将另一幅图片的（部分）像素值按一定比例和权重叠加到目标图片。</li>
+</ul>
+
+<p><strong>两种添加方式</strong>：</p>
+<ul>
+  <li>像素相加：全部噪声像素和输入图片按不同权重直接相加，超过255的部分直接砍掉。</li>
+  <li>像素替换：按一定的比例将原始图片中部分像素直接替换为噪声像素。</li>
+</ul>
+
+<p>添加噪声的代码如<a href="https://github.com/OUCliuxiang/smartShip2020/blob/main/data/dataReinformance.py">github/smartShip2020/data/dataReformance.py</a>所示。需要注意的一个点儿是，添加噪声对时间序列没有要求，可以调用python多进程工具进行并行处理，配合numba加速工具，可以极大地加快处理速度。</p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/05/07/Series-Article-of-Python-Using-01/" data-toggle="tooltip" data-placement="top" title="Series Article of Python Using -- 01">
+                        Previous<br>
+                        <span>Series Article of Python Using -- 01</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/" data-toggle="tooltip" data-placement="top" title="Series Article of Deep Learning -- 02">
+                        Next<br>
+                        <span>Series Article of Deep Learning -- 02</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                <!--Gitalk评论start  -->
+                
+                <!-- Gitalk end -->
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        // BY Fix:去除标题前的‘#’ issues:<https://github.com/qiubaiying/qiubaiying.github.io/issues/137>
+        // anchors.options = {
+        //   visible: 'always',
+        //   placement: 'right',
+        //   icon: '#'
+        // };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

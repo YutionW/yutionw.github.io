@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Templete is from https://qiubaiying.github.io/">
+    <meta name="keywords"  content="OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ...">
+    <meta name="theme-color" content="#000000">
+    
+    <title>OUC_LiuX's Bolg</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Safari Webpage Icon    by-BY -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://OUCliuxiang.github.io/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">OUC_LiuX's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/wallpic02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>OUC_LiuX's Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">From Innovative Center, Ocean University of China</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/2021/05/25/Series-Article-of-Python-Using-03/">
+        <h2 class="post-title">
+            Series Article of Python Using -- 03
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Python实录03 -- concurrent.futures实现多线程/多进程加速
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  concurrent.futures.Executor类有子类ThreadPoolExecutor()和ProcessPoolExecutor()分别可实现多线程和多进程加速。
+由于这部分内容过于重要，我不得不把它们从Python实录01 -- 汇总一些小知识中拿出来单独讲。
+
+
+python3中concurrent.futures是标准库，在python2需...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on May 25, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/05/25/Series-Article-of-Python-Using-02/">
+        <h2 class="post-title">
+            Series Article of Python Using -- 02
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Python实录02 -- 汇总python-opencv知识
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  记录一些python-opencv使用过程中一些有用的小知识、小技巧，零零散散，想起来就添一点儿。
+
+
+cv.imread()的返回值
+
+
+  cv.imread()返回值类型为uint8的数组，也就是其读取图像的像素值为0–255之间的整型。
+  cv.imread()返回的三维张量shape为[高度，宽度，通道]。
+
+
+cv.resize()图像尺寸缩放
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on May 25, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/05/08/Series-Article-of-Deep-Learning-02/">
+        <h2 class="post-title">
+            Series Article of Deep Learning -- 02
+        </h2>
+        
+        <h3 class="post-subtitle">
+            目标检测02 --
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  参加数据比赛或进行具体目标检测任务的时候，需要自己划分一部分val验证集，用以在训练过程中监控网络精度、敛散性、泛化程度等状态。
+
+
+默认待划分的数据集以yolo组织：
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on May 8, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/05/07/Series-Article-of-Deep-Learning-01/">
+        <h2 class="post-title">
+            Series Article of Deep Learning -- 01
+        </h2>
+        
+        <h3 class="post-subtitle">
+            目标检测01 -- 2020海智能船舶检测挑战赛实录
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  2020年首届智能船舶检测挑战赛使用yolov5获得研究生组三等奖，简单记一些目标检测任务的小知识和比赛tricks。
+
+
+首先指出框架相关的问题
+
+我们使用了u版yolov5，改变网络结构比较方便。但即使自己改了更大的backbone，对数据进行了细致的清洗和花式的加噪曾广，对网络本身和检测方法竭尽所能添加tricks，最后也只是三等奖的水平。坤乾老师的学生...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on May 7, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/05/07/Series-Article-of-Python-Using-01/">
+        <h2 class="post-title">
+            Series Article of Python Using -- 01
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Python实录01 -- 汇总一些小知识
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  记录一些python编程过程中的一些有用的小知识、小技巧，零零散散，想起来就添一点儿。
+
+
+判断文件是否为空
+
+line = f.readline()之后判断line是否存在，比如现在的任务是剔除一组文件里没有内容的项：
+for file in fileList:    
+    with open(file) as f:    
+        line =...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on May 7, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/04/28/Series-Record-of-Java-Learning-06/">
+        <h2 class="post-title">
+            Series Articles of Java Learning  -- 06
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Java学习实录04 -- Thumbnails压缩图片到指定大小
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+ 
+import javax.imageio.ImageIO;
+ 
+import net.coobird.thumbnailator.T...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on April 28, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/04/27/Markdown-Grammar/">
+        <h2 class="post-title">
+            Markdown Grammar
+        </h2>
+        
+        <h3 class="post-subtitle">
+            一些Markdown语法记录
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  使用markdown书写github博客过程中遇到的问题记录，主要是记录一点儿不熟悉的语法。随时补充。
+
+
+&gt; ： 右向尖括号后面的内容是引用，适合用在文章开头。
+
+表格： Markdown 制作表格使用“ | ”来分隔不同的单元格，使用“ - ”来分隔表头和其他行。语法格式如下：  
+ |  表头  |  表头  |  
+ |  —-  | —-  |...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on April 27, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/03/31/Series-Record-of-Java-Learning-05/">
+        <h2 class="post-title">
+            Series Articles of Java Learning  -- 05
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Java学习实录03 -- JFrame小知识大杂烩
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+窗口位置
+
+
+  
+    可以使用setLocationRelativeTo(null)方法将窗口在屏幕中央显示。 
+JFrame 中的 setLocationRelativeTo(Component c)是从java.awt.Window类继承的方法，用于设置当前窗口相对于指定组件c的位置。  
+如果指定组件当前未显示，或者c = null，则此窗口位于屏幕的中...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on March 31, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/03/31/Series-Record-of-Java-Learning-04/">
+        <h2 class="post-title">
+            Series Articles of Java Learning  -- 04
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Java学习实录02 -- 总结一些小知识
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+List 和 ArrayList
+Java项目实录02开头有这么一行代码：
+List&lt;NameValuePair&gt; params = new ArrayList&lt;NameValuePair&gt;();
+
+试图建立一个ArrayList（泛型）对象，再将之指向到List（泛型）。对该语句的正确解释是：
+
+List是一个接口，而ArrayList是L...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on March 31, 2021
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2021/03/31/Series-Record-of-Java-Learning-03/">
+        <h2 class="post-title">
+            Series Articles of Java Learning  -- 03
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Java学习实录01 -- 一些关于项目的基本知识
+        </h3>
+        
+        <div class="post-content-preview">
+            
+    
+    
+
+
+
+  本文旨在对使用IDEA进行java项目开发过程中遇到的一些共性问题进行总结。
+
+
+jar包的引入
+当项目需要非默认的功能时，需要引入第三方jar包。
+1, 在maven查询并下载指定版本号的File-&gt;jar包，如下图所示：
+&lt;div align=center&gt;&lt;/div&gt;
+
+2, 将下载好的jar包放入项目的lib目录，也即与s...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by OUC_LiuX on March 31, 2021
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                                <a href="/tags/#Ubuntu OS" title="Ubuntu OS" rel="5">
+                                    Ubuntu OS
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#pytorch" title="pytorch" rel="4">
+                                    pytorch
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#学习" title="学习" rel="6">
+                                    学习
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Java" title="Java" rel="6">
+                                    Java
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <a href="/about">
+                                <img src="img/childhood-01.jpg"/>
+                            </a>
+                        
+                        
+                            <p>From Innovative Center, Ocean University of China</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            <!-- add jianshu add target = "_blank" to <a> by BY -->
+                            
+                            
+                            <li>
+                                <a href="https://twitter.com/OUC_LiuX">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/OUCliuxiang">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                        </ul>
+                        
+                            <p>✉️ liuxiang@stu.ouc.edu.cn</p>
+                        
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://github.com/OUCliuxiang">Github</a></li>
+                    
+                        <li><a href="https://twitter.com/LiuxOux">Twitter</a></li>
+                    
+                        <li><a href="https://github.com/OUCMachineLearning/OUCML">OUCML Lab</a></li>
+                    
+                </ul>
+                
+    		</div>
+        
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <!-- add jianshu add target = "_blank" to <a> by BY -->
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/OUC_LiuX">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/OUCliuxiang">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; OUC_LiuX's Blog 2021
+                    <br>
+                    Theme on <a href="https://github.com/OUCliuxiang/OUCliuxiang.github.io.git">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=OUCliuxiang&repo=OUCliuxiang.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/apple-touch-icon.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

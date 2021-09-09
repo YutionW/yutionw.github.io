@@ -1,36 +1,33 @@
 # Site settings
-title: BY Blog
-SEOTitle: 柏荧的博客 | BY Blog
-header-img: img/post-bg-rwd.jpg
-email: qiubaiying@gmail.com
-description: "每个胜利背后都有许多尝试"
-keyword: "BY, BY Blog, 柏荧的博客, qiubaiying, 邱柏荧, iOS, Apple, iPhone"
-url: "https://qiubaiying.github.io"          # your host, for absolute URL
+title: OUC_LiuX's Blog
+SEOTitle: OUC_LiuX's Bolg
+header-img: img/wallpic02.jpg
+email: liuxiang@stu.ouc.edu.cn
+description: "Templete is from https://qiubaiying.github.io/"
+keyword: "OUC_LiuX, Personal Blob, Technology, Research, Study, Life, Machine Learning, ..."
+url: "http://OUCliuxiang.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
-
+github_repo: "https://github.com/OUCliuxiang/OUCliuxiang.github.io.git" # you code repository
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "It takes a great man <br> to be a good instener"
-sidebar-avatar: img/avatar-by.JPG      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "From Innovative Center, Ocean University of China"
+sidebar-avatar: img/childhood-01.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
 # SNS settings
 RSS: false
-weibo_username:     qiubaiying
-zhihu_username:     qiubaiying
-github_username:    qiubaiying
-facebook_username:  baiying.qiu.7
-#jianshu_username:   qiubaiying
-#twitter_username:   qiubaiying
+# weibo_username:     qiubaiying
+# zhihu_username:     OUC_LiuX
+github_username:    OUCliuxiang
+twitter_username:   OUC_LiuX
 
 
 
 
 # Build settings
 # from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
-highlighter: rouge
 permalink: pretty
 paginate: 10
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
@@ -44,42 +41,50 @@ gems: [jekyll-paginate]
 
 
 
+
 # Markdown settings
 # replace redcarpet to kramdown,
 # although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
 # document: http://jekyllrb.com/docs/configuration/#kramdown
 markdown: kramdown
+highlighter: rouge
 kramdown:
-  input: GFM                            # use Github Flavored Markdown !important
+input: GFM                            # use Github Flavored Markdown !important
 
 
 
-# Disqus settings
-#disqus_username: _your_disqus_short_name_
+# 评论系统
+# Disqus（https://disqus.com/）
+# disqus_username: qiubaiying
 
-# Duoshuo settings
-duoshuo_username: qiubaiying
-# Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+# Gitalk
+gitalk:
+  enable: false    #是否开启Gitalk评论
+  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
+  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
+  repo: OUCliuxiang.github.io    #仓库名称
+  owner: OUCliuxiang    #github用户名
+  admin: OUCliuxiang
+  distractionFreeMode: true #是否启用类似FB的阴影遮罩
 
 
-
+# 统计
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: b50bf2b12b5338a1845e33832976fd68
+# ba_track_id: b50bf2b12b5338a1845e33832976fd68
 
 # Google Analytics
-ga_track_id: 'UA-90855596-1'            # Format: UA-xxxxxx-xx
-ga_domain: auto
+# ga_track_id: 'UA-90855596-1'            # Format: UA-xxxxxx-xx
+ga_domain: auto               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
 
 
 
 
 
 # Featured Tags
-featured-tags: true                     # whether or not using Feature-Tags
-featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+featured-tags: true                     # 是否使用首页标签
+featured-condition-size: 3              # 相同标签数量大于这个数，才会出现在首页
 
 
 
@@ -92,13 +97,13 @@ service-worker: true
 # Friends
 friends: [
     {
-        title: "简书·BY",
-        href: "http://www.jianshu.com/u/e71990ada2fd"
+        title: "Github",
+        href: "http://github.com/OUCliuxiang"
     },{
-        title: "Apple",
-        href: "https://apple.com"
+        title: "Twitter",
+        href: "https://twitter.com/LiuxOux"
     },{
-        title: "Apple Developer",
-        href: "https://developer.apple.com/"
+        title: "OUCML Lab",
+        href: "https://github.com/OUCMachineLearning/OUCML"
     }
 ]
