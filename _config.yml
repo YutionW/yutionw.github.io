@@ -1,9 +1,9 @@
 # Site settings
-title: Yuchen Wang @ OUC
-SEOTitle: Yuchen Wang @ OUC
+title: Yuchen Wang
+SEOTitle: Yuchen Wang 
 header-img: img/wallpic02.jpg
 email: wyc@stu.ouc.edu.cn
-description: "Yuchen Wang @ OUC"
+description: "Yuchen Wang"
 keyword: "OUC, Personal Blob, Technology, Research, Study, Life ..."
 url: "http://www.yution.com"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
