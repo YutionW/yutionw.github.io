@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      Gradient descent - resonant gyroscope parameter identification 
-subtitle:   
+title:      Gradient descent -  
+subtitle:   resonant gyroscope parameter identification
 date:       2020-06
 author:     OUC_WYC
 header-img: img/identification.jpg
