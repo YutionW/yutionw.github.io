@@ -37,7 +37,7 @@ OLC是一种简单易用的控制算法，具有一定的工程实践意义。�
 
 # 控制对象
 随便选了一个二阶对象，代码如下：
-```MATLAB
+```matlab
 function [sys,x0,str,ts]=plant(t,x,u,flag)
 switch flag,
 case 0,
@@ -86,7 +86,7 @@ sys(2)=x(2);
 <center>外部干扰信号</center>
 
 同时也包含OLC控制器本身，代码如下：
-```MATLAB
+```matlab
 function [sys,x0,str,ts] = OLCctrl(t,x,u,flag)
 
 switch flag,
@@ -159,7 +159,7 @@ sys(3)=NonLinTerm;
 
 # NON-OLC控制器
 NON-OLC控制器的控制律形式与OLC的类似，只不过是去掉了学习项。相比于上一个S-Funcion，也去掉了干扰信号。代码如下：
-```MATLAB
+```matlab
 function [sys,x0,str,ts] = NONOLCctrl(t,x,u,flag)
 
 switch flag,
@@ -223,7 +223,7 @@ sys(1)=ut;
 
 # 结果
 将Workspace里面的数据画成图片，代码如下：
-```MATLAB
+```matlab
 close all;
 
 figure(1);

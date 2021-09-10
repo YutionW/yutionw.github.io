@@ -27,7 +27,7 @@ tags:
 
 # 一阶系统迭代学习控制
 代码如下：
-```MATLAB
+```matlab
 clear all;
 close all;
 clc;
@@ -113,7 +113,7 @@ xlabel('k');ylabel('max err');
 
 # 二阶系统
 替换一阶系统的for循环，代码如下：
-```MATLAB
+```matlab
     for t=1:n-1   %二阶系统
       x1(k,t+1)=x2(k,t);
       x2(k,t+1)=-0.5*x1(k,t)-0.1*x2(k,t)+0.5*u(k,t);
