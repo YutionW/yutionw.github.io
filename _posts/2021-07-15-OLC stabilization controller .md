@@ -262,12 +262,14 @@ xlabel('时间(s)');ylabel('对象输出信号');
 legend('NON-OLC','OLC');
 ```
 
+<br>
+
 ## 对象输出
 可以看出，面对幅值为50的干扰信号，NON-OLC仅能将输出信号y压到0.4以内，但是OLC可以压到0.1以下。
 ![图片](/img/OLC/ycom.png)
 <center>对象输出信号的结果对比图</center>
 
-<br>
+
 <br>
 
 ## 控制输入
