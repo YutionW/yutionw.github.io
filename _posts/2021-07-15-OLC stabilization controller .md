@@ -112,11 +112,6 @@ str = [];
 ts  = [0 0];
 
 function sys=mdlOutputs(t,x,u)
-% xd=u(1);      %xd期望值
-% dxd=cos(t);     
-% ddxd=-sin(t);
-% xr=u(2);      %xr实际值
-% dxr=u(3);
 
 xd=0;           %xd期望值
 dxd=0;     
@@ -221,7 +216,9 @@ sys(1)=ut;
 仿真图包含OLC和NON-OLC两部分，只是示波器连在了一起，并且通过To Workspace将仿真后的结果导出。
 ![图片](/img/OLC/simulink.png)
 <center>Simulink仿真图</center>
-
+正弦波作为输入信号可以用于设定跟踪轨迹，而本次仿真将OLC作为简单的镇定器来使用，因此设定值及其导数为0。
+<br>
+<br>
 
 
 # 结果
