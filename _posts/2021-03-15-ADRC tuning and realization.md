@@ -37,14 +37,14 @@ ADRC继承了PID的核心思想——反馈控制，并在此基础上发展而�
 
 Ps.下面这段是从自己以前的作品中巴拉出来的，懒得翻译了，这段写的文字比较简单，应该都能看懂
 $$\begin{cases}
-\dot{z}_{1}&=z_{2}+\beta_{1}\left(y-z_{1}\right) \\
-\dot{z}_{2}&=z_{3}+\beta_{2}\left(y-z_{1}\right)+B u \\
-\dot{z}_{3}&=\beta_{3}\left(y-z_{1}\right)
+\dot{z}_{1}&=z_{2}+\beta_{1}(y-z_{1}) \\
+\dot{z}_{2}&=z_{3}+\beta_{2}(y-z_{1})+B u \\
+\dot{z}_{3}&=\beta_{3}(y-z_{1})
 \end{cases}$$
 When the parameters are well tuned, the three observer parameters track $y$, $\dot{y}$ and generalized disturbances $f$ respectively. Terms of $K_P$, $K_D$, and $B$ represent the controller parameters, and the control law is written as:
 $$\begin{cases}
-u_{0}&=K_{P}\left(y_{s p}-z_{1}\right)-K_{D} z_{2} \\
-u&=\left(u_{0}-z_{3}\right) / B
+u_{0}&=K_{P}(y_{s p}-z_{1})-K_{D} z_{2} \\
+u&=(u_{0}-z_{3}) / B
 \end{cases}$$
 where $y_{sp}$ is the set point of the response output. $B$ needs to be selected to weigh the stability and response speed of the closed-loop system. We use the popular parameter tuning method proposed by Gao to conduct experiments.
 
