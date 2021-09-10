@@ -129,6 +129,9 @@ xlabel('k');ylabel('max err');
 
 # 结果
 红色虚代表设定值（所跟踪的曲线），不同颜色代表每次迭代的结果。
+
+<center>
+
 ![图片](/img/ILC/一阶系统.png)
 
 一阶系统运行结果
@@ -136,3 +139,4 @@ xlabel('k');ylabel('max err');
 ![图片](/img/ILC/二阶系统.png)
 
 二阶系统运行结果
+</center>

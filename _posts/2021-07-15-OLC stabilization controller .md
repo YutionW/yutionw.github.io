@@ -32,9 +32,6 @@ OLC算法由张承玺博士提出，本文主要参考其首次提出OLC算法�
 
 OLC是一种简单易用的控制算法，具有一定的工程实践意义。本例程采用MATLAB Simulink进行仿真，包含三个S-Function：二阶控制对象、OLC控制器、NON-OLC控制器。
 
-
-
-
 <br>
 <br>
 
@@ -86,6 +83,7 @@ sys(2)=x(2);
 # OLC控制器
 将外部干扰的轨迹写在这个S-Function里面，形如：
 ![图片](/img/OLC/disturb.png)
+<center>外部干扰信号</center>
 
 同时也包含OLC控制器本身，代码如下：
 ```MATLAB
@@ -222,6 +220,7 @@ sys(1)=ut;
 # SIMULINK仿真
 仿真图包含OLC和NON-OLC两部分，只是示波器连在了一起，并且通过To Workspace将仿真后的结果导出。
 ![图片](/img/OLC/simulink.png)
+<center>Simulink仿真图</center>
 
 
 
@@ -277,9 +276,9 @@ legend('NON-OLC','OLC');
 ## 控制输入
 OLC在0时刻的控制输入u变化较为剧烈，在多数情况下，考虑到实际执行器的非线性、时滞等因素，该行为并不会对被控对象产生实质性影响，这一点从上述输出信号y的对比中也能看出。总体来看，OLC的控制输入u与NON-OLC基本重合，如下图所示：
 ![图片](/img/OLC/ucom.png)
-控制输入信号对比图
+<center>控制输入信号对比图</center>
 <br>
 
 放大看细节不难发现，OLC的优势相比于NON-OLC还是很明显的，不管是从超调情况，还是噪声摆幅方面。
 ![图片](/img/OLC/uzoom.png)
-控制输入信号放大对比
+<center>控制输入信号放大对比</center>
