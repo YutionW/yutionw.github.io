@@ -53,7 +53,7 @@ where $y_{sp}$ is the set point of the response output. $B$ needs to be selected
 
 # C语言实现
 ADRC目前还是用在嵌入式系统里面比较多一些，所以在此给出C语言的实现。由于代码比较简单，也可以按照伪代码的逻辑来理解。将如下代码写入嵌入式系统的死循环中：
-```c
+```cpp
 Error = y - Z1;
 
 Z1 += H * (Z2 + Beta1 * Error);
