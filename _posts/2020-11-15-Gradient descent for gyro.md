@@ -26,7 +26,7 @@ tags:
 
 # 造数据
 首先采用一阶模型造一组陀螺输出数据的真值，代码如下：
-```MATLAB
+```matlab
 clear;
 
 DriveAmp=100;   %激励信号幅值100mV
@@ -115,7 +115,7 @@ zlabel('均方误差');
 
 grid on;
 </pre>
-```MATLAB
+```matlab
 close all;
 
 x_data=Gdata(:,1)';    %频率
