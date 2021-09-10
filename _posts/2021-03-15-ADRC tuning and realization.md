@@ -46,15 +46,7 @@ $$\begin{cases}
 u_{0}&=K_{P}(y_{s p}-z_{1})-K_{D} z_{2} \\
 u&=(u_{0}-z_{3}) / B
 \end{cases}$$
-where $y_{sp}$ is the set point of the response output. $B$ needs to be selected to weigh the stability and response speed of the closed-loop system. We use the popular parameter tuning method proposed by Gao to conduct experiments.
-
-> a) Get the desired settling time $t_s$.
-> 
-> b) Let $\omega_c=10/t_s$, $K_P=\omega_c^2$ and $K_D=2\omega_c$.
-> 
-> c) Let $\omega_o=4\omega_o$, $\beta_1=3\omega_o$, $\beta_2=3\omega_o^2$ and $\beta_3=\omega_o^3$.
-> 
-> d) Increase $B$ gradually until the dynamic performance is satisfactory.
+where $y_{sp}$ is the set point of the response output. $B$ needs to be selected to weigh the stability and response speed of the closed-loop system. 
 
 <br>
 <br>
@@ -74,7 +66,23 @@ if (u > Range_MAX)    u = Range_MAX;
 if (u < Range_MIN)    u = Range_MIN;
 ```
 思路：
-1. y定义为传感器采集到的对象输出
-2. Error定义为y与观测器状态z1的差值，不是PID中的反馈误差
-3. H定义为量纲放缩系数，用于平衡现实物理参量与电信号之间存在量纲差距
-4. H2定义为量纲放缩系数，用于平衡传感器采集到的电信号与执行器的电信号之间存在的量纲差距
+1. y定义为传感器采集到的对象输出。
+2. Error定义为y与观测器状态z1的差值，不是PID中的反馈误差。
+3. H定义为步长，可设定为嵌入式系统运行周期，eg. H=0.001，即可在数字系统内表示导数，此处可理解为<strong>欧拉法</strong>。
+4. H2定义为量纲放缩系数，用于平衡传感器采集到的电信号与执行器输出的电信号之间存在的量纲差距，需要根据实际系统计算得出。
+5. u定义为控制输入，将上述控制律模型中的两个公式进行了合并。
+6. 最后一步对控制输入u进行限幅。
+
+<br>
+<br>
+
+# 调参步骤
+We use the popular parameter tuning method proposed by Gao to conduct experiments.
+
+> a) Get the desired settling time $t_s$.
+> 
+> b) Let $\omega_c=10/t_s$, $K_P=\omega_c^2$ and $K_D=2\omega_c$.
+> 
+> c) Let $\omega_o=4\omega_o$, $\beta_1=3\omega_o$, $\beta_2=3\omega_o^2$ and $\beta_3=\omega_o^3$.
+> 
+> d) Increase $B$ gradually until the dynamic performance is satisfactory.
