@@ -50,6 +50,71 @@ end
 
 # 参数辨识
 随后采用梯度下降的方法进行系统辨识，代码如下：
+<pre class="matlab-code">
+close all;
+
+x_data=Gdata(:,1)';    %频率
+y_data=Gdata(:,2)';    %幅值
+
+%形如 y=u/ ( sqrt(x^2+w^2) )
+%形如 y=A/ ( sqrt(x^2+B^2) )
+u= 201;
+w= 63;
+%随便给个初始值
+plot(x_data,y_data,'r.');
+hold on;
+
+u_lr = 10;  %u学习率learn rate
+w_lr = 2;   %w学习率learn rate
+iteration = 10000;  %迭代次数
+loss_history = [];
+
+
+for i=1:iteration
+    
+    l_result = 0.0;
+    for n=1:length(x_data)  %均方误差
+        l_result=l_result + ( y_data(n)-( u/ ( sqrt(x_data(n)^2+w^2) ) ) )^2;
+    end
+    
+    loss_history(i,1)=l_result; %储存每次的l_result
+    loss_history(i,2)=u;        %储存每次的u
+    loss_history(i,3)=w;        %储存每次的w
+    
+    u_grade=0.0;
+    w_grade=0.0;
+    for n=1:length(x_data)
+        C=1 / ( sqrt(x_data(n)^2+w^2) );
+        u_grade = u_grade + (u*C - y_data(n))*C;
+        w_grade = w_grade - (u*C - y_data(n))*(u*w*C^3);
+    end
+    
+    u = u - u_lr*u_grade;   %向最小值移动
+    w = w - w_lr*w_grade;   %向最小值移动 
+end
+
+u
+w
+
+x_ex=0:1:x_data(1)+x_data(length(x_data))+1;
+y_ex=u./ ( sqrt(x_ex.^2+w^2) );
+
+plot(x_ex,y_ex);
+ylabel('增益');
+xlabel('频率 弧度');
+grid on;
+
+figure;
+plotx=loss_history(:,2)';
+ploty=loss_history(:,3)';
+plotz=loss_history(:,1)';
+plot3(plotx,ploty,plotz);
+xlabel('增益');
+ylabel('频率 弧度');
+zlabel('均方误差');
+
+grid on;
+</pre>
 ```MATLAB
 close all;
 
