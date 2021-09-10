@@ -25,13 +25,15 @@ tags:
     </script>
 </head>     
 
+# OLC
+OLC是一种简单易用的控制算法，具有一定的工程实践意义。本例程采用MATLAB Simulink进行仿真，包含三个S-Function：二阶控制对象、OLC控制器、NON-OLC控制器。
+
 > Compared with the conventional control design, an obvious distinction of the online-learning control (OLC) algorithm is that it together utilizes the previous control input information and the system's current state information, as if learning experience from previous control input. In contrast, the conventional control scheme does not fully use the existing information and chooses to discard the previous control input information when generating control instructions. Due to the learning strategy, the utility of adaptive- or observer-based tools can be avoided when designing a robust control law, making a simple, effective algorithm, moreover saving system resources.
 
 OLC算法由张承玺博士提出，本文主要参考其首次提出OLC算法的论文[On low-complexity control design to spacecraft attitude stabilization: An online-learning approach](https://www.sciencedirect.com/science/article/pii/S1270963820311238)。OLC和NON-OLC的控制律参考该论文，控制对象选取一般二阶对象。
 
 
-# OLC
-OLC是一种简单易用的控制算法，具有一定的工程实践意义。本例程采用MATLAB Simulink进行仿真，包含三个S-Function：二阶控制对象、OLC控制器、NON-OLC控制器。
+
 
 <br>
 <br>
