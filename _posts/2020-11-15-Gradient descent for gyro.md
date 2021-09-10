@@ -123,9 +123,7 @@ grid on;
 
 
 ![图片](/img/GradientDescent/FirstOrderDescentProcess.png)
-
 <center>一阶系统梯度下降过程</center>
 
 ![图片](/img/GradientDescent/FirstOrderResult.png)
-
 <center>一阶系统拟合结果</center>

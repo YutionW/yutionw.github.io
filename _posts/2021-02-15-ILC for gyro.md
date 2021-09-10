@@ -133,10 +133,8 @@ xlabel('k');ylabel('max err');
 
 
 ![图片](/img/ILC/一阶系统.png)
-
 <center>一阶系统运行结果</center>
 
 ![图片](/img/ILC/二阶系统.png)
-
 <center>二阶系统运行结果</center>
 
