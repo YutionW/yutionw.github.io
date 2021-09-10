@@ -31,7 +31,7 @@ OLC算法由张承玺博士提出，是一种简单易用的控制算法，具�
 > Compared with the conventional control design, an obvious distinction of the online-learning control (OLC) algorithm is that it together utilizes the previous control input information and the system's current state information, as if learning experience from previous control input. In contrast, the conventional control scheme does not fully use the existing information and chooses to discard the previous control input information when generating control instructions. Due to the learning strategy, the utility of adaptive- or observer-based tools can be avoided when designing a robust control law, making a simple, effective algorithm, moreover saving system resources.
  
 
-本文参考首次提出OLC算法的论文[On low-complexity control design to spacecraft attitude stabilization: An online-learning approach](https://www.sciencedirect.com/science/article/pii/S1270963820311238)对谐振式陀螺系统进行了实验。本次实验结果反映了OLC准确度高、噪声摆幅小的特点。
+本文参考首次提出OLC算法的论文[On low-complexity control design to spacecraft attitude stabilization: An online-learning approach](https://www.sciencedirect.com/science/article/pii/S1270963820311238)，对谐振式陀螺系统进行了实验。本次实验结果反映了OLC准确度高、噪声摆幅小的特点。
 
 <br>
 <br>
