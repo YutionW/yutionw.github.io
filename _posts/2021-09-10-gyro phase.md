@@ -86,7 +86,7 @@ Continuous-time transfer function.
 为了简化问题，直接分析<strong>无阻尼受迫振动</strong>。设如下动力学方程：
 
 $$
-\ddot{x}+\omega_{0}^{2} x=F \cos \omega t  \quad (\#)
+\ddot{x}+\omega_{0}^{2} x=F \cos \omega t
 $$
 
 设该二阶微分方程的解为：
@@ -95,7 +95,7 @@ $$
 x=A \sin \omega t+B \cos \omega t
 $$
 
-将其代入 $(\#)$可得：
+将其代入原式可得：
 
 $$
 \left(\omega_{0}^{2}-\omega^{2}\right) A \sin \omega t+\left(\omega_{0}^{2}-\omega^{2}\right) B \cos \omega t=F \cos \omega t
