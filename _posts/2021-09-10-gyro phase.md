@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Open-loop resonant gyro phase problem
+title:      Open-loop excitation resonant gyro phase problem
 subtitle:   From the perspective of control and vibration   
 date:       2021-09-10
 author:     OUC_WYC
