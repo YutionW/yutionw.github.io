@@ -7,9 +7,9 @@ author:     OUC_WYC
 header-img: img/gyro.jpg
 catalog: true
 tags:
-    - gyro
+    - Gyro
     - Control
-    - vibration
+    - Vibration
     - MATLAB
 ---
 
