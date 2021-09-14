@@ -104,9 +104,9 @@ $$
 利用待定系数法，比较等式两边系数得到：
 
 $$
-\begin{cases}
+%\begin{cases}
 A=0 \\ B=\frac{F}{\omega_{0}^{2}-\omega^{2}}
-\end{cases}
+%\end{cases}
 $$
 
 于是得到微分方程的解为：
