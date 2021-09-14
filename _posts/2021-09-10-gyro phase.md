@@ -104,14 +104,14 @@ $$
 利用待定系数法，比较等式两边系数得到：
 $$
 \begin{cases}
-A=0 \\ B=\dfrac{F}{\omega_{0}^{2}-\omega^{2}}
+A=0 \\ B=\frac{F}{\omega_{0}^{2}-\omega^{2}}
 \end{cases}
 $$
 
 于是得到微分方程的解为：
 
 $$
-x(t)=\dfrac{F}{\omega_{0}^{2}-\omega^{2}} \cos \omega t
+x(t)=\frac{F}{\omega_{0}^{2}-\omega^{2}} \cos \omega t
 $$
 
-观察上式可以看出，若$\omega_0>\omega$，微分方程的解（即陀螺输出信号）前面的系数为正，<strong>振动</strong>（陀螺输出信号）与<strong>驱动</strong>（激励信号）同相；若$\omega_0<\omega$，微分方程的解（即陀螺输出信号）前面的系数为负，<strong>振动</strong>（陀螺输出信号）与<strong>驱动</strong>（激励信号）反相。
+观察上式可以看出，若 $\omega_0>\omega$，微分方程的解（即陀螺输出信号）前面的系数为正，<strong>振动</strong>（陀螺输出信号）与<strong>驱动</strong>（激励信号）同相；若 $\omega_0<\omega$，微分方程的解（即陀螺输出信号）前面的系数为负，<strong>振动</strong>（陀螺输出信号）与<strong>驱动</strong>（激励信号）反相。
