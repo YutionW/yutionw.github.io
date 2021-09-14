@@ -71,7 +71,7 @@ Continuous-time transfer function.
 ```
 绘制图片为：
 ![图片](/img/gyrophase/phase.png)
-<center>陀螺伯德图</center>
+<center>二阶系统伯德图</center>
 
 
 观察伯德图可以看出，在共振点（谐振点）附近的相位变化较为剧烈，可以实现细微的频率变化导致同相或反相。如此即可解释<strong>激励信号</strong>和<strong>陀螺输出信号</strong>同相或反相的问题。
