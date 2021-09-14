@@ -96,10 +96,13 @@ x=A \sin \omega t+B \cos \omega t
 $$
 
 将其代入原式可得：
+<center>
 
-$$
+$
 \left(\omega_{0}^{2}-\omega^{2}\right) A \sin \omega t+\left(\omega_{0}^{2}-\omega^{2}\right) B \cos \omega t=F \cos \omega t
-$$
+$
+
+</center>
 
 利用待定系数法，比较等式两边系数得到：
 
