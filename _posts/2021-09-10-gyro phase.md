@@ -121,3 +121,40 @@ x(t)=\frac{F}{\omega_{0}^{2}-\omega^{2}} \cos \omega t
 $$
 
 观察上式可以看出，若 $\omega_0>\omega$，微分方程的解（即陀螺输出信号）前面的系数为正，<strong>振动</strong>（陀螺输出信号）与<strong>驱动</strong>（激励信号）同相；若 $\omega_0<\omega$，微分方程的解前面的系数为负，<strong>振动</strong>与<strong>驱动</strong>反相。
+
+<br>
+<br>
+
+# 阻尼
+
+由于实验用的陀螺具有超高Q值，考虑相位的剧烈变化与阻尼关系较大，采用上述MATLAB代码进一步对<strong>低Q值</strong>（高阻尼）和<strong>极低Q值</strong>（超高阻尼）的二阶系统绘制伯德图。
+
+低Q值系统：
+
+$$
+G(s)=\frac{1}{s^2+5s+628}
+$$
+
+![图片](/img/gyrophase/lowQ.png)
+<center>低Q值二阶系统伯德图</center>
+
+<br>
+
+增大阻尼（降低Q值）后，相频特性曲线明显不如高Q值的陡峭，也即相频特性收到阻尼的影响。
+
+
+<br>
+
+极低Q值系统：
+
+$$
+G(s)=\frac{1}{s^2+50s+628}
+$$
+
+![图片](/img/gyrophase/ultralowQ.png)
+<center>极低Q值二阶系统伯德图</center>
+
+<br>
+
+进一步增加阻尼，相频曲线再次变缓，幅频曲线近似一阶系统。分析原因是由于一阶项对应系数远大于二阶项对应系数。由此可见，保证较小的阻尼对于谐振式陀螺具有一定的实际意义。
+
